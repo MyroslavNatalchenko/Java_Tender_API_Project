@@ -5,6 +5,7 @@
     <file type="web" url="file://$PROJECT_DIR$/tender-client" />
     <file type="web" url="file://$PROJECT_DIR$/tender-database" />
     <file type="web" url="file://$PROJECT_DIR$/tender-updater" />
+    <file type="web" url="file://$PROJECT_DIR$/tender-web-api" />
   </component>
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />

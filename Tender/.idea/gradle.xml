@@ -32,6 +32,16 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/tender-web-api" />
+        <option name="gradleJvm" value="19" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/tender-database" />
+            <option value="$PROJECT_DIR$/tender-web-api" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>
