@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Tender.iml" filepath="$PROJECT_DIR$/Tender.iml" />
-      <module fileurl="file://$PROJECT_DIR$/tender-database/tender-database.iml" filepath="$PROJECT_DIR$/tender-database/tender-database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tender-updater/tender-updater.iml" filepath="$PROJECT_DIR$/tender-updater/tender-updater.iml" />
     </modules>
   </component>
 </project>
