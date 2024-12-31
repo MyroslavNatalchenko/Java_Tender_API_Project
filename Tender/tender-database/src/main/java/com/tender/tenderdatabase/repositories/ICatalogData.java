@@ -5,4 +5,5 @@ public interface ICatalogData {
     PurchaserRepository getPurchers();
     TypeRepository getTypes();
     AwardedRepository getAwarded();
+    SupplierRepository getSupplier();
 }

@@ -1,9 +1,11 @@
 create table awarded (offers_count integer not null, value_for_one float(53) not null, value_for_three float(53) not null, value_for_two float(53) not null, id bigint not null auto_increment, suppliers_id bigint not null, tender_id bigint, tender_src_id bigint not null, count varchar(255), date varchar(255), value varchar(255), primary key (id)) engine=InnoDB;
 create table purchaser (source_id integer not null, id bigint not null auto_increment, tender_id bigint, tender_src_id bigint not null, name varchar(255), sid varchar(255), primary key (id)) engine=InnoDB;
+create table supplier (awarded_id bigint, id bigint not null auto_increment, source_id bigint not null, name varchar(255), slug varchar(255), primary key (id)) engine=InnoDB;
 create table tender (source_id integer not null, id bigint not null auto_increment, category varchar(255), date varchar(255), deadline_date varchar(255), deadline_length_days varchar(255), sid varchar(255), source_url varchar(255), title TEXT, primary key (id)) engine=InnoDB;
 create table type (id bigint not null auto_increment, tender_id bigint, tender_src_id bigint not null, name varchar(255), slug varchar(255), source_id varchar(255), primary key (id)) engine=InnoDB;
 alter table purchaser add constraint UK2wampluhlx025yt1ns9r4sbde unique (tender_id);
 alter table type add constraint UK80c7rm205tylstkf0xj77lhx8 unique (tender_id);
 alter table awarded add constraint FK3dnnrmx6syuodat89m59phy74 foreign key (tender_id) references tender (id);
 alter table purchaser add constraint FK4khm2bepsctxlc7jyolu03v7i foreign key (tender_id) references tender (id);
+alter table supplier add constraint FKs65fy144grytsre1br1fejuur foreign key (awarded_id) references awarded (id);
 alter table type add constraint FKn4tpfyjxtilug2cxlgthtvj8r foreign key (tender_id) references tender (id);

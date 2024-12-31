@@ -1,13 +1,7 @@
 package com.tender.tenderupdater.mappers;
 
-import com.tender.tenderclient.client.data.AwardDto;
-import com.tender.tenderclient.client.data.PurchaserDto;
-import com.tender.tenderclient.client.data.TenderDto;
-import com.tender.tenderclient.client.data.TypeDto;
-import com.tender.tenderdatabase.entity.Awarded;
-import com.tender.tenderdatabase.entity.Purchaser;
-import com.tender.tenderdatabase.entity.Tender;
-import com.tender.tenderdatabase.entity.Type;
+import com.tender.tenderclient.client.data.*;
+import com.tender.tenderdatabase.entity.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,12 +10,14 @@ public class EntityMapper implements ICatalogMappers{
     private final IMapEntities<PurchaserDto, Purchaser> forPurchaser;
     private final IMapEntities<TypeDto, Type> forType;
     private final IMapEntities<AwardDto, Awarded> forAwarded;
+    private final IMapEntities<SupplierDto, Supplier> forSupplier;
 
-    public EntityMapper(IMapEntities<TenderDto, Tender> forTender, IMapEntities<PurchaserDto, Purchaser> forPurchaser, IMapEntities<TypeDto, Type> forType, IMapEntities<AwardDto, Awarded> forAwarded) {
+    public EntityMapper(IMapEntities<TenderDto, Tender> forTender, IMapEntities<PurchaserDto, Purchaser> forPurchaser, IMapEntities<TypeDto, Type> forType, IMapEntities<AwardDto, Awarded> forAwarded, IMapEntities<SupplierDto, Supplier> forSupplier) {
         this.forTender = forTender;
         this.forPurchaser = forPurchaser;
         this.forType = forType;
         this.forAwarded = forAwarded;
+        this.forSupplier = forSupplier;
     }
 
     @Override
@@ -42,5 +38,10 @@ public class EntityMapper implements ICatalogMappers{
     @Override
     public IMapEntities<AwardDto, Awarded> forAwarded() {
         return forAwarded;
+    }
+
+    @Override
+    public IMapEntities<SupplierDto, Supplier> forSupplier() {
+        return forSupplier;
     }
 }

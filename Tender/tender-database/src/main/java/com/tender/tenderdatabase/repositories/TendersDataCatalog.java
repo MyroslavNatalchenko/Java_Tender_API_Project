@@ -8,12 +8,14 @@ public class TendersDataCatalog implements ICatalogData{
     private final PurchaserRepository purchasers;
     private final TypeRepository types;
     private final AwardedRepository awarded;
+    private final SupplierRepository supplier;
 
-    public TendersDataCatalog(TenderRepository tenders, PurchaserRepository purchasers, TypeRepository types, AwardedRepository awarded) {
+    public TendersDataCatalog(TenderRepository tenders, PurchaserRepository purchasers, TypeRepository types, AwardedRepository awarded, SupplierRepository supplier) {
         this.tenders = tenders;
         this.purchasers = purchasers;
         this.types = types;
         this.awarded = awarded;
+        this.supplier = supplier;
     }
 
     public TenderRepository getTenders() {
@@ -33,5 +35,10 @@ public class TendersDataCatalog implements ICatalogData{
     @Override
     public AwardedRepository getAwarded() {
         return awarded;
+    }
+
+    @Override
+    public SupplierRepository getSupplier() {
+        return supplier;
     }
 }
