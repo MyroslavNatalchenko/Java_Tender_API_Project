@@ -2,6 +2,8 @@ package com.tender.tenderdatabase.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,9 +16,8 @@ public class Supplier {
     private String name;
     private String slug;
 
-    @ManyToOne
-    @JoinColumn(name = "awarded_id")
-    Awarded awarded;
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Awarded> awardedList=new ArrayList<>();
 
     public long getId() {
         return id;
@@ -50,12 +51,12 @@ public class Supplier {
         this.slug = slug;
     }
 
-    public Awarded getAwarded() {
-        return awarded;
+    public List<Awarded> getAwardedList() {
+        return awardedList;
     }
 
-    public void setAwarded(Awarded awarded) {
-        this.awarded = awarded;
+    public void setAwardedList(List<Awarded> awardedList) {
+        this.awardedList = awardedList;
     }
 
     @Override
@@ -63,11 +64,11 @@ public class Supplier {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Supplier supplier = (Supplier) o;
-        return id == supplier.id && source_id == supplier.source_id && Objects.equals(name, supplier.name) && Objects.equals(slug, supplier.slug) && Objects.equals(awarded, supplier.awarded);
+        return id == supplier.id && source_id == supplier.source_id && Objects.equals(name, supplier.name) && Objects.equals(slug, supplier.slug) && Objects.equals(awardedList, supplier.awardedList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, source_id, name, slug, awarded);
+        return Objects.hash(id, source_id, name, slug, awardedList);
     }
 }

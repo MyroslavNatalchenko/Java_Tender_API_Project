@@ -22,12 +22,24 @@ public class Awarded {
     private int offersCount;
     String value;
 
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public Tender getTender() {
@@ -115,11 +127,11 @@ public class Awarded {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Awarded awarded = (Awarded) o;
-        return id == awarded.id && tender_src_id == awarded.tender_src_id && Double.compare(valueForOne, awarded.valueForOne) == 0 && Double.compare(valueForTwo, awarded.valueForTwo) == 0 && Double.compare(valueForThree, awarded.valueForThree) == 0 && suppliersId == awarded.suppliersId && offersCount == awarded.offersCount && Objects.equals(tender, awarded.tender) && Objects.equals(date, awarded.date) && Objects.equals(count, awarded.count) && Objects.equals(value, awarded.value);
+        return id == awarded.id && tender_src_id == awarded.tender_src_id && Double.compare(valueForOne, awarded.valueForOne) == 0 && Double.compare(valueForTwo, awarded.valueForTwo) == 0 && Double.compare(valueForThree, awarded.valueForThree) == 0 && suppliersId == awarded.suppliersId && offersCount == awarded.offersCount && Objects.equals(tender, awarded.tender) && Objects.equals(date, awarded.date) && Objects.equals(count, awarded.count) && Objects.equals(value, awarded.value) && Objects.equals(supplier, awarded.supplier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tender, tender_src_id, date, valueForOne, valueForTwo, valueForThree, suppliersId, count, offersCount, value);
+        return Objects.hash(id, tender, tender_src_id, date, valueForOne, valueForTwo, valueForThree, suppliersId, count, offersCount, value, supplier);
     }
 }

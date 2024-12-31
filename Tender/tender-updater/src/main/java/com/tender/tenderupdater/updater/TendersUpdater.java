@@ -58,13 +58,6 @@ public class TendersUpdater implements IUpdateTenders{
                         (existing, replacement) -> existing
                 ));
 
-        Map<Long, Awarded> AwardedBySupplierId = AwardSave.stream()
-                .collect(Collectors.toMap(
-                        award -> award.getSuppliersId(),
-                        Function.identity(),
-                        (existing, replacement) -> existing
-                ));
-
         for (Purchaser purchaser : PurchaserSave) {
             Tender tender = tenderBySourceId.get(purchaser.getTender_src_id());
             purchaser.setTender(tender);
@@ -80,9 +73,13 @@ public class TendersUpdater implements IUpdateTenders{
             award.setTender(tender);
         }
 
-        for (Supplier supplier: SupplierSave){
-            Awarded award = AwardedBySupplierId.get(supplier.getSource_id());
-            supplier.setAwarded(award);
+        for (Awarded award: AwardSave){
+            for (Supplier supplier: SupplierSave){
+                if (award.getSuppliersId() == supplier.getSource_id()){
+                    supplier.getAwardedList().add(award);
+                    award.setSupplier(supplier);
+                }
+            }
         }
 
         catalog.getTenders().saveAll(TendersSave);
