@@ -7,5 +7,9 @@ import com.tender.tenderwebapi.model.TenderObj;
 import java.util.List;
 
 public interface ITenderService {
-    public TenderObj getAllTenders();
+    public List<TenderObj> getAllTenders();
+    public TenderObj getTenderById(long id);
+    public void addTender(TenderObj tenderObj);
+    public void deleteTenderById(long id);
+    public void updateTenderById(long id, TenderObj tenderObj);
 }

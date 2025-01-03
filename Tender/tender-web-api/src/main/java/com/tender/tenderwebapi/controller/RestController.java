@@ -8,8 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +22,30 @@ public class RestController {
     }
 
     @GetMapping("tenders/allTenders")
-    public ResponseEntity<TenderObj> getAllTendersObj(){
+    public ResponseEntity<List<TenderObj>> getAllTendersObj(){
         return new ResponseEntity<>(this.service.getAllTenders(), HttpStatus.OK);
+    }
+
+    @GetMapping("tenders/{id}")
+    public ResponseEntity<TenderObj> getTenderById(@PathVariable long id){
+        return new ResponseEntity<>(this.service.getTenderById(id),HttpStatus.OK);
+    }
+
+    @PostMapping("tenders/add")
+    public ResponseEntity<Object> addTender(@RequestBody TenderObj tenderObj){
+        this.service.addTender(tenderObj);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("tenders/delete/{id}")
+    public ResponseEntity<Object> deleteSchool(@PathVariable long id) {
+        this.service.deleteTenderById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("tenders/update/{id}")
+    public ResponseEntity<Object> editTender(@PathVariable long id, @RequestBody TenderObj tenderObj){
+        this.service.updateTenderById(id, tenderObj);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

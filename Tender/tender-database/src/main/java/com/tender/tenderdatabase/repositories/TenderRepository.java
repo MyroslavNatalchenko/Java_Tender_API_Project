@@ -17,4 +17,6 @@ public interface TenderRepository extends JpaRepository<Tender, Long> {
     @Query("select x from Tender x where x.sourceId in (:sourceIds)")
     List<Tender> withSourceIds(List<Long> sourceIds);
 
+    List<Tender> findAllBySourceId(long sourceId);
+
 }
