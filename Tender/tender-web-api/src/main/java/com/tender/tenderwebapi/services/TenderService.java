@@ -6,6 +6,7 @@ import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotEditTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistException;
+import com.tender.tenderwebapi.model.PurchaserObj;
 import com.tender.tenderwebapi.model.TenderObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,5 +92,30 @@ public class TenderService implements ITenderService{
             tender.setSourceUrl(tenderObj.sourceUrl());
         }
         this.repository.getTenders().save(tender);
+    }
+
+    @Override
+    public List<PurchaserObj> getAllPurchasers() {
+        return null;
+    }
+
+    @Override
+    public PurchaserObj getPurchaserById(long id) {
+        return null;
+    }
+
+    @Override
+    public void addPurchaser(PurchaserObj purchaserObj) {
+
+    }
+
+    @Override
+    public void deletePurchaserById(long id) {
+
+    }
+
+    @Override
+    public void updatePurchaserById(long id, PurchaserObj purchaserObj) {
+
     }
 }

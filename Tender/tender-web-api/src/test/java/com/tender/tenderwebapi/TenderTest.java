@@ -4,6 +4,7 @@ import com.tender.tenderdatabase.entity.Tender;
 import com.tender.tenderdatabase.repositories.ICatalogData;
 import com.tender.tenderdatabase.repositories.TenderRepository;
 import com.tender.tenderdatabase.repositories.TendersDataCatalog;
+import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistException;
 import com.tender.tenderwebapi.model.TenderObj;
 import com.tender.tenderwebapi.services.TenderService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class TenderTest {
     @Spy
-    private ICatalogData repository = new TendersDataCatalog(null, null, null, null, null);
+    private ICatalogData repository; // = new TendersDataCatalog(null, null, null, null, null);
     @Mock
     private TenderRepository tenderRepository;
     private TenderService service;
@@ -35,11 +37,40 @@ public class TenderTest {
         this.service = new TenderService(repository);
     }
 
+    // **************************
+    // ***** CREATION TESTS *****
+    // **************************
     @Test
     public void TenderCreationGood(){
         TenderObj tenderObj = new TenderObj(1,100,"2024-07-07","2024-07-24","17", "popka","service","111","aaaa");
         service.addTender(tenderObj);
+        repository.getTenders().findAllSourceIds().add(100);
 
+        Tender tender = InisializeTender(tenderObj);
+
+        when(tenderRepository.findAllBySourceId(100))
+                .thenReturn(List.of(tender));
+
+        TenderObj res = service.getTenderById(100);
+        assertEquals("2024-07-07", res.date());
+    }
+
+    @Test
+    public void TenderCreationBad(){
+        TenderObj tenderObj = new TenderObj(1,100,"2024-07-07","2024-07-24","17", "popka","service","111","aaaa");
+        TenderObj tenderObj2 = new TenderObj(1,100,"2024-07-07","2024-07-24","17", "popka","service","111","aaaa");
+        service.addTender(tenderObj);
+        repository.getTenders().findAllSourceIds().add(100);
+        Exception exception = assertThrows(TenderWithSuchIdExistException.class, () -> service.addTender(tenderObj2));
+
+        assertEquals(exception.getMessage(), "Tender with such ID already exist. Can not create");
+    }
+
+
+
+
+
+    private Tender InisializeTender(TenderObj tenderObj){
         Tender tender = new Tender();
         tender.setId(tenderObj.id());
         tender.setSourceId(tenderObj.sourceId());
@@ -50,11 +81,6 @@ public class TenderTest {
         tender.setCategory(tenderObj.category());
         tender.setSid(tenderObj.sid());
         tender.setSourceUrl(tenderObj.sourceUrl());
-
-        when(tenderRepository.findAllBySourceId(100))
-                .thenReturn(List.of(tender));
-
-        TenderObj res = service.getTenderById(100);
-        assertEquals("2024-07-07", res.date());
+        return tender;
     }
 }
