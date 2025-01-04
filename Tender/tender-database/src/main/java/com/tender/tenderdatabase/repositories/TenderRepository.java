@@ -19,4 +19,7 @@ public interface TenderRepository extends JpaRepository<Tender, Long> {
 
     List<Tender> findAllBySourceId(long sourceId);
 
+    @Query("SELECT t.sourceId FROM Tender t")
+    List<Integer> findAllSourceIds();
+
 }

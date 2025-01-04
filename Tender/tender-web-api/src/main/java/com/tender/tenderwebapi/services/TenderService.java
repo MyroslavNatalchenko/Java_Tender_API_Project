@@ -2,12 +2,16 @@ package com.tender.tenderwebapi.services;
 
 import com.tender.tenderdatabase.entity.Tender;
 import com.tender.tenderdatabase.repositories.ICatalogData;
-import com.tender.tenderdatabase.repositories.TenderRepository;
+import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
+import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotEditTenderException;
+import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
+import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistException;
 import com.tender.tenderwebapi.model.TenderObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -31,13 +35,19 @@ public class TenderService implements ITenderService{
 
     @Override
     public TenderObj getTenderById(long id) {
-        Tender tender = this.repository.getTenders().findAllBySourceId(id).get(0);
+        List<Tender> tenders = this.repository.getTenders().findAllBySourceId(id);
+        if (tenders.isEmpty()) throw new TenderNotFoundException();
+        Tender tender=tenders.get(0);
         return new TenderObj(tender.getId(),tender.getSourceId(),tender.getDate(),tender.getDeadlineDate(),tender.getDeadlineLengthDays(),tender.getTitle(),tender.getCategory(),tender.getSid(),tender.getSourceUrl());
     }
 
     @Override
     public void addTender(TenderObj tenderObj) {
         Tender tender = new Tender();
+        HashSet<Integer> sourceId = new HashSet<>(this.repository.getTenders().findAllSourceIds());
+        System.out.println(sourceId);
+        if (sourceId.contains(tenderObj.sourceId())) throw new TenderWithSuchIdExistException();
+
         tender.setSourceId(tenderObj.sourceId());
         tender.setDate(tenderObj.date());
         tender.setDeadlineDate(tenderObj.deadlineDate());
@@ -51,12 +61,17 @@ public class TenderService implements ITenderService{
 
     @Override
     public void deleteTenderById(long id) {
-        this.repository.getTenders().deleteAll(this.repository.getTenders().findAllBySourceId(id));
+        List<Tender> tenders = this.repository.getTenders().findAllBySourceId(id);
+        if (tenders.isEmpty()) throw new CanNotDeleteTenderException();
+        Tender tender=tenders.get(0);
+        this.repository.getTenders().delete(tender);
     }
 
     @Override
     public void updateTenderById(long id, TenderObj tenderObj) {
-        Tender tender = this.repository.getTenders().findAllBySourceId(id).get(0);
+        List<Tender> tenders = this.repository.getTenders().findAllBySourceId(id);
+        if (tenders.isEmpty()) throw new CanNotEditTenderException();
+        Tender tender=tenders.get(0);
         if (tenderObj.sid()!=null){
             tender.setSid(tenderObj.sid());
         }

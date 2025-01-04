@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 
 public record TenderObj (
-    long id,
+     long id,
      int sourceId,
      String date,
      String deadlineDate,
