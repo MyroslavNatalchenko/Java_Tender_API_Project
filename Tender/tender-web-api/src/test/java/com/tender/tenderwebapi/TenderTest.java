@@ -66,6 +66,32 @@ public class TenderTest {
         assertEquals(exception.getMessage(), "Tender with such ID already exist. Can not create");
     }
 
+    // **************************
+    // ****** GET ALL TEST  *****
+    // **************************
+    @Test
+    public void testGetAllTenders() {
+        // Подготовим несколько тендеров
+        TenderObj to1 = new TenderObj(
+                10, 101, "2023-01-01", "2023-01-20",
+                "19", "Title1", "Category1", "SID1", "URL1"
+        );
+        TenderObj to2 = new TenderObj(
+                11, 102, "2023-02-01", "2023-02-15",
+                "14", "Title2", "Category2", "SID2", "URL2"
+        );
+
+        Tender t1 = InisializeTender(to1);
+        Tender t2 = InisializeTender(to2);
+
+        when(tenderRepository.findAll()).thenReturn(List.of(t1, t2));
+
+        List<TenderObj> all = service.getAllTenders();
+        assertEquals(2, all.size());
+        assertEquals(101, all.get(0).sourceId());
+        assertEquals(102, all.get(1).sourceId());
+    }
+
 
 
 

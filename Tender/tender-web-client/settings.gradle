@@ -1,0 +1,6 @@
+rootProject.name = 'tender-web-client'
+
+include 'tender-web-api'
+project(':tender-web-api').projectDir = new File(settingsDir,'../tender-web-api')
+include 'tender-database'
+project(':tender-database').projectDir = new File(settingsDir,'../tender-database')

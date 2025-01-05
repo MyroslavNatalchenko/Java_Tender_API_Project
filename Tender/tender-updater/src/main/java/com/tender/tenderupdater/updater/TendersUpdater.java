@@ -93,8 +93,10 @@ public class TendersUpdater implements IUpdateTenders{
         List<Long> ids = new ArrayList<>();
         var result = client.getTenders(page);
         ids.addAll(result.tenders().stream().map(TenderDto::id).toList());
-        var sourceIdIgnore = catalog.getTenders().withSourceIds(ids);
-        sourceIdIgnore.forEach(ids::remove);
+        List<Integer> sourceIdIgnore = catalog.getTenders().findAllSourceIds();
+        for (Integer id: sourceIdIgnore){
+            ids.remove((long) id);
+        }
         return ids;
     }
 

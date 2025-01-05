@@ -1,5 +1,6 @@
 package com.tender.tenderwebapi.services;
 
+import com.tender.tenderdatabase.entity.Purchaser;
 import com.tender.tenderdatabase.entity.Tender;
 import com.tender.tenderdatabase.repositories.ICatalogData;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
@@ -96,12 +97,23 @@ public class TenderService implements ITenderService{
 
     @Override
     public List<PurchaserObj> getAllPurchasers() {
-        return null;
+        List<Purchaser> purchasers = this.repository.getPurchers().findAll();
+        List<PurchaserObj> res = new ArrayList<>();
+        for (Purchaser purchaser: purchasers){
+            res.add(new PurchaserObj(purchaser.getId(),purchaser.getTender_src_id(),purchaser.getSourceId(),purchaser.getSid(),purchaser.getName()));
+        }
+        return res;
     }
 
     @Override
     public PurchaserObj getPurchaserById(long id) {
         return null;
+    }
+
+    @Override
+    public PurchaserObj getPurchaserByTenderId(long id) {
+        Purchaser purchaser = this.repository.getPurchers().findAllByTender_src_id(id).get(0);
+        return new PurchaserObj(purchaser.getId(),purchaser.getTender_src_id(),purchaser.getSourceId(),purchaser.getSid(),purchaser.getName());
     }
 
     @Override

@@ -12,4 +12,7 @@ import java.util.List;
 @Repository
 public interface PurchaserRepository extends JpaRepository<Purchaser, Long> {
 
+    @Query("SELECT t FROM Purchaser t WHERE t.tender_src_id = :tender_src_id")
+    List<Purchaser> findAllByTender_src_id(@Param("tender_src_id") long tender_src_id);
+
 }
