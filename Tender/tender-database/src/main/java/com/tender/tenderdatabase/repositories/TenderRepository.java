@@ -1,7 +1,9 @@
 package com.tender.tenderdatabase.repositories;
 
 import com.tender.tenderdatabase.entity.Tender;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,5 +23,11 @@ public interface TenderRepository extends JpaRepository<Tender, Long> {
 
     @Query("SELECT t.sourceId FROM Tender t")
     List<Integer> findAllSourceIds();
+
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Tender t WHERE t.sourceId = :sourceId")
+    void deleteBySourceId(@Param("sourceId") int sourceId);
 
 }

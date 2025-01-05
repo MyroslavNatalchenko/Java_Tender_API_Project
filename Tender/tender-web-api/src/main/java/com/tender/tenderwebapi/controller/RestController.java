@@ -60,13 +60,8 @@ public class RestController {
         return new ResponseEntity<>(this.service.getAllPurchasers(), HttpStatus.OK);
     }
 
-    @GetMapping("tenders/purchaser/{id}")
-    public ResponseEntity<PurchaserObj> getPurchaserById(@PathVariable long id){
-        return new ResponseEntity<>(this.service.getPurchaserById(id),HttpStatus.OK);
-    }
-
     @GetMapping("tenders/PurchaserTender/{id}")
-    public ResponseEntity<PurchaserObj> getPurchaserByTenderId(@PathVariable long id){
+    public ResponseEntity<List<PurchaserObj>> getPurchaserByTenderId(@PathVariable long id){
         return new ResponseEntity<>(this.service.getPurchaserByTenderId(id),HttpStatus.OK);
     }
 
