@@ -47,8 +47,6 @@
         <option name="gradleJvm" value="19" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/tender-database" />
-            <option value="$PROJECT_DIR$/tender-web-api" />
             <option value="$PROJECT_DIR$/tender-web-client" />
           </set>
         </option>
