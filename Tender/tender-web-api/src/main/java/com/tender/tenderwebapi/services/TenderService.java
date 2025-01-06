@@ -11,6 +11,8 @@ import com.tender.tenderwebapi.model.TenderObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -75,24 +77,22 @@ public class TenderService implements ITenderService{
         List<Tender> tenders = this.repository.getTenders().findAllBySourceId(id);
         if (tenders.isEmpty()) throw new CanNotEditTenderException();
         Tender tender=tenders.get(0);
-        if (tenderObj.sid()!=null){
-            tender.setSid(tenderObj.sid());
-        }
-        if (tenderObj.category()!=null){
-            tender.setCategory(tenderObj.category());
-        }
-        if (tenderObj.date()!=null){
-            tender.setDate(tenderObj.date());
-        }
+
+        if (tenderObj.sid()!=null) tender.setSid(tenderObj.sid());
+        if (tenderObj.category()!=null) tender.setCategory(tenderObj.category());
+        if (tenderObj.date()!=null) tender.setDate(tenderObj.date());
+        if (tenderObj.sourceUrl()!=null) tender.setSourceUrl(tenderObj.sourceUrl());
+
         if (tenderObj.deadlineDate()!=null){
-            tender.setDeadlineDate(tenderObj.deadlineDate());
+            LocalDate deadline = LocalDate.parse(tenderObj.deadlineDate());
+            LocalDate startdate = LocalDate.parse(tender.getDate());
+            if (deadline.isAfter(startdate)){
+                tender.setDeadlineDate(tenderObj.deadlineDate());
+                tender.setDeadlineLengthDays(ChronoUnit.DAYS.between(startdate,deadline) + "");
+            }
+            else throw new CanNotEditTenderException();
         }
-        if (tenderObj.deadlineLengthDays()!=null){
-            tender.setDeadlineLengthDays(tenderObj.deadlineLengthDays());
-        }
-        if (tenderObj.sourceUrl()!=null){
-            tender.setSourceUrl(tenderObj.sourceUrl());
-        }
+
         this.repository.getTenders().save(tender);
     }
 

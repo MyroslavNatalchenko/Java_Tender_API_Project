@@ -8,9 +8,7 @@ import com.tender.tenderupdater.mappers.ICatalogMappers;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -41,8 +39,12 @@ public class TendersUpdater implements IUpdateTenders{
                 .collect(Collectors.toList());
 
         List<List<SupplierDto>> SupplierStart = AwardDto.stream().map(this::getSupplierFromAwarded).toList();
-        List<SupplierDto> SupplierDto = SupplierStart.stream().flatMap(List::stream).collect(Collectors.toList());
+        List<SupplierDto> SupplierDtoStart = SupplierStart.stream().flatMap(List::stream).collect(Collectors.toList());
 
+        Set<Long> seenIds = new HashSet<>();
+        List<SupplierDto> SupplierDto = SupplierDtoStart.stream()
+                .filter(supplier -> seenIds.add(supplier.id()))
+                .collect(Collectors.toList());
 
         List<Tender> TendersSave = TendersDto.stream().map(tender -> mappers.forTender().map(tender)).toList();
         List<Purchaser> PurchaserSave = PurchaserDto.stream().map(purchaser -> mappers.forPurchaser().map(purchaser)).toList();
@@ -76,7 +78,6 @@ public class TendersUpdater implements IUpdateTenders{
         for (Awarded award: AwardSave){
             for (Supplier supplier: SupplierSave){
                 if (award.getSuppliersId() == supplier.getSource_id()){
-                    supplier.getAwardedList().add(award);
                     award.setSupplier(supplier);
                 }
             }
