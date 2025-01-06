@@ -39,4 +39,11 @@ public class TenderViewService {
                 .toEntity(new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
+
+    public PurchaserObj getPurchaserByTenderId(long id){
+        ResponseEntity<PurchaserObj> response = restClient.get()
+                .uri(tenderBaseUrl + "/PurchaserTender/" + id).
+                retrieve().toEntity(new ParameterizedTypeReference<PurchaserObj>() {});
+        return response.getBody();
+    }
 }

@@ -61,7 +61,7 @@ public class RestController {
     }
 
     @GetMapping("tenders/PurchaserTender/{id}")
-    public ResponseEntity<List<PurchaserObj>> getPurchaserByTenderId(@PathVariable long id){
+    public ResponseEntity<PurchaserObj> getPurchaserByTenderId(@PathVariable long id){
         return new ResponseEntity<>(this.service.getPurchaserByTenderId(id),HttpStatus.OK);
     }
 

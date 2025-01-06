@@ -15,7 +15,7 @@ public interface ITenderService {
     public void updateTenderById(long id, TenderObj tenderObj);
 
     public List<PurchaserObj> getAllPurchasers();
-    public List<PurchaserObj> getPurchaserByTenderId(long id);
+    public PurchaserObj getPurchaserByTenderId(long id);
     public void addPurchaser(PurchaserObj purchaserObj);
     public void deletePurchaserById(long id);
     public void updatePurchaserById(long id, PurchaserObj purchaserObj);

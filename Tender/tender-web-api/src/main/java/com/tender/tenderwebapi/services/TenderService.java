@@ -2,6 +2,8 @@ package com.tender.tenderwebapi.services;
 
 import com.tender.tenderdatabase.entity.*;
 import com.tender.tenderdatabase.repositories.ICatalogData;
+import com.tender.tenderwebapi.exceptions.purchaserEXP.CanNotDeletePurchaserException;
+import com.tender.tenderwebapi.exceptions.purchaserEXP.PurchaserNotFoundException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotEditTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
@@ -48,7 +50,6 @@ public class TenderService implements ITenderService{
     public void addTender(TenderObj tenderObj) {
         Tender tender = new Tender();
         HashSet<Integer> sourceId = new HashSet<>(this.repository.getTenders().findAllSourceIds());
-        System.out.println(sourceId);
         if (sourceId.contains(tenderObj.sourceId())) throw new TenderWithSuchIdExistException();
 
         tender.setSourceId(tenderObj.sourceId());
@@ -96,6 +97,10 @@ public class TenderService implements ITenderService{
         this.repository.getTenders().save(tender);
     }
 
+    /// *************************************
+    /// *************************************
+    /// *************************************
+
     @Override
     public List<PurchaserObj> getAllPurchasers() {
         List<Purchaser> purchasers = this.repository.getPurchers().findAll();
@@ -107,23 +112,30 @@ public class TenderService implements ITenderService{
     }
 
     @Override
-    public List<PurchaserObj> getPurchaserByTenderId(long id) {
+    public PurchaserObj getPurchaserByTenderId(long id) {
         List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
-        List<PurchaserObj> res = new ArrayList<>();
-        for (Purchaser purchaser: purchasers){
-            res.add(new PurchaserObj(purchaser.getId(),purchaser.getTender_src_id(),purchaser.getSourceId(),purchaser.getSid(),purchaser.getName()));
-        }
-        return res;
+        if (purchasers.isEmpty()) throw new PurchaserNotFoundException();
+        Purchaser purchaser = purchasers.get(0);
+        return new PurchaserObj(purchaser.getId(),purchaser.getTender_src_id(),purchaser.getSourceId(),purchaser.getSid(),purchaser.getName());
     }
 
     @Override
     public void addPurchaser(PurchaserObj purchaserObj) {
-
+        Purchaser purchaser = new Purchaser();
+        purchaser.setSourceId(purchaserObj.sourceId());
+        purchaser.setName(purchaserObj.name());
+        purchaser.setSid(purchaserObj.sid());
+        purchaser.setTender_src_id(purchaserObj.tender_src_id());
+        Tender tender = this.repository.getTenders().findAllBySourceId(purchaserObj.tender_src_id()).get(0);
+        purchaser.setTender(tender);
+        this.repository.getPurchers().save(purchaser);
     }
 
     @Override
     public void deletePurchaserById(long id) {
-
+        List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
+        if (purchasers.isEmpty()) throw new CanNotDeletePurchaserException();
+        this.repository.getPurchers().deleteByTenderSrcId(id);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,6 +26,14 @@ public class TenderViewController {
         List<TenderObj> tenders = service.getAllTenders();
         model.addAttribute("tenders",tenders);
         return "viewAllTenders";
+    }
+
+    @GetMapping("/TenderDetails")
+    public String displayTenderDetails(@RequestParam("id") long id, Model model){
+        PurchaserObj purchaserObj = service.getPurchaserByTenderId(id);
+        model.addAttribute("purchaser", purchaserObj);
+        model.addAttribute("id", id);
+        return "viewTenderDetails";
     }
 
     @GetMapping("/allPurchaser")
