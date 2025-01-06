@@ -116,8 +116,16 @@ public class TenderService implements ITenderService{
     @Override
     public PurchaserObj getPurchaserByTenderId(long id) {
         List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
-        if (purchasers.isEmpty()) throw new PurchaserNotFoundException();
-        Purchaser purchaser = purchasers.get(0);
+        HashSet<Integer> sourceId = new HashSet<>(this.repository.getTenders().findAllSourceIds());
+        if (purchasers.isEmpty()) {
+            if (sourceId.contains((int)id)){
+                Purchaser purchaser = new Purchaser();
+                purchaser.setTender(this.repository.getTenders().findAllBySourceId(id).get(0));
+                purchaser.setTender_src_id(id);
+                this.repository.getPurchers().save(purchaser);
+            } else throw new TenderNotFoundException();
+        }
+        Purchaser purchaser = this.repository.getPurchers().findAllByTender_src_id(id).get(0);
         return new PurchaserObj(purchaser.getId(),purchaser.getTender_src_id(),purchaser.getSourceId(),purchaser.getSid(),purchaser.getName());
     }
 
@@ -148,6 +156,16 @@ public class TenderService implements ITenderService{
     @Override
     public List<AwardedObj> getAwardedByTenderId(long id) {
         List<Awarded> awardeds = this.repository.getAwarded().findAllByTender_src_id(id);
+        HashSet<Integer> sourceId = new HashSet<>(this.repository.getTenders().findAllSourceIds());
+        if (awardeds.isEmpty()) {
+            if (sourceId.contains((int)id)){
+                Awarded awarded = new Awarded();
+                awarded.setTender(this.repository.getTenders().findAllBySourceId(id).get(0));
+                awarded.setTender_src_id(id);
+                this.repository.getAwarded().save(awarded);
+                awardeds.add(awarded);
+            } else throw new TenderNotFoundException();
+        }
         List<AwardedObj> res = new ArrayList<>();
         for (Awarded award: awardeds){
             res.add(new AwardedObj(award.getId()
@@ -166,7 +184,18 @@ public class TenderService implements ITenderService{
 
     @Override
     public TypeObj getTypeByTenderId(long id) {
-        Type type = this.repository.getTypes().findAllByTender_src_id(id).get(0);
+        List<Type> types = this.repository.getTypes().findAllByTender_src_id(id);
+        HashSet<Integer> sourceId = new HashSet<>(this.repository.getTenders().findAllSourceIds());
+        if (types.isEmpty()) {
+            if (sourceId.contains((int)id)){
+                Type type = new Type();
+                type.setTender(this.repository.getTenders().findAllBySourceId(id).get(0));
+                type.setTender_src_id(id);
+                this.repository.getTypes().save(type);
+                types.add(type);
+            } else throw new TenderNotFoundException();
+        }
+        Type type = types.get(0);
         return new TypeObj(type.getId(),type.getTender_src_id(),type.getSourceId(),type.getName(),type.getSlug());
     }
 
