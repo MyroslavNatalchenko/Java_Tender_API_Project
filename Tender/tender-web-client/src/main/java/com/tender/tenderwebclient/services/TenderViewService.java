@@ -6,9 +6,12 @@ import com.tender.tenderwebapi.model.TenderObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.function.BodyInserters;
 
 import java.util.List;
 
@@ -30,6 +33,24 @@ public class TenderViewService {
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
         return response.getBody();
+    }
+
+    public TenderObj getTenderById(long id){
+        ResponseEntity<TenderObj> response = restClient.get()
+                .uri(tenderBaseUrl + "/" + id).retrieve()
+                .toEntity(new ParameterizedTypeReference<TenderObj>() {});
+        return response.getBody();
+    }
+
+    public void editTender(long id, TenderObj tenderObj){
+        System.out.println(id);
+        System.out.println(tenderObj);
+        restClient.put()
+                .uri(tenderBaseUrl + "/update/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(tenderObj)
+                .retrieve()
+                .toBodilessEntity();
     }
 
     public List<PurchaserObj> getAllPurchasers(){

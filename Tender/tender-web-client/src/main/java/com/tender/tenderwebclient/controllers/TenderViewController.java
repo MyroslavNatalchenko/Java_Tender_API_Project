@@ -7,8 +7,7 @@ import com.tender.tenderwebclient.services.TenderViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +25,19 @@ public class TenderViewController {
         List<TenderObj> tenders = service.getAllTenders();
         model.addAttribute("tenders",tenders);
         return "viewAllTenders";
+    }
+
+    // Update Tender
+    @GetMapping("/updateTender")
+    public String displayUpdateSchool(@RequestParam("id") long id, Model model) {
+        TenderObj tender = this.service.getTenderById(id);
+        model.addAttribute("tender", tender);
+        return "updateForm";
+    }
+    @PostMapping("/updateTender")
+    public String submitForm(@ModelAttribute TenderObj tender) {
+        this.service.editTender((long) tender.sourceId(),tender);
+        return "redirect:/allTenders";
     }
 
     @GetMapping("/TenderDetails")
