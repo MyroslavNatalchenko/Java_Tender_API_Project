@@ -1,8 +1,9 @@
 package com.tender.tenderwebclient.services;
 
-//import com.tender.tenderwebclient.models.TenderObj;
+import com.tender.tenderwebapi.model.AwardedObj;
 import com.tender.tenderwebapi.model.PurchaserObj;
 import com.tender.tenderwebapi.model.TenderObj;
+import com.tender.tenderwebapi.model.TypeObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -10,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.reactive.function.BodyInserter;
-import org.springframework.web.reactive.function.BodyInserters;
 
 import java.util.List;
 
@@ -65,6 +64,20 @@ public class TenderViewService {
         ResponseEntity<PurchaserObj> response = restClient.get()
                 .uri(tenderBaseUrl + "/PurchaserTender/" + id).
                 retrieve().toEntity(new ParameterizedTypeReference<PurchaserObj>() {});
+        return response.getBody();
+    }
+
+    public List<AwardedObj> getAwardedByTenderId(long id){
+        ResponseEntity<List<AwardedObj>> response = restClient.get()
+                .uri(tenderBaseUrl + "/AwardedTender/" + id).
+                retrieve().toEntity(new ParameterizedTypeReference<List<AwardedObj>>() {});
+        return response.getBody();
+    }
+
+    public TypeObj getTypeByTenderId(long id){
+        ResponseEntity<TypeObj> response = restClient.get()
+                .uri(tenderBaseUrl + "/TypeTender/" + id).
+                retrieve().toEntity(new ParameterizedTypeReference<TypeObj>() {});
         return response.getBody();
     }
 }

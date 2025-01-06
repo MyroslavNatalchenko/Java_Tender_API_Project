@@ -8,8 +8,10 @@ import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotEditTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistException;
+import com.tender.tenderwebapi.model.AwardedObj;
 import com.tender.tenderwebapi.model.PurchaserObj;
 import com.tender.tenderwebapi.model.TenderObj;
+import com.tender.tenderwebapi.model.TypeObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -142,4 +144,35 @@ public class TenderService implements ITenderService{
     public void updatePurchaserById(long id, PurchaserObj purchaserObj) {
 
     }
+
+    @Override
+    public List<AwardedObj> getAwardedByTenderId(long id) {
+        List<Awarded> awardeds = this.repository.getAwarded().findAllByTender_src_id(id);
+        List<AwardedObj> res = new ArrayList<>();
+        for (Awarded award: awardeds){
+            res.add(new AwardedObj(award.getId()
+                    ,award.getTender_src_id()
+                    ,award.getDate()
+                    ,award.getValueForOne()
+                    ,award.getValueForTwo()
+                    ,award.getValueForThree()
+                    ,award.getSuppliersId()
+                    ,award.getCount()
+                    ,award.getOffersCount()
+                    ,award.getValue()));
+        }
+        return res;
+    }
+
+    @Override
+    public TypeObj getTypeByTenderId(long id) {
+        Type type = this.repository.getTypes().findAllByTender_src_id(id).get(0);
+        return new TypeObj(type.getId(),type.getTender_src_id(),type.getSourceId(),type.getName(),type.getSlug());
+    }
+
+    /// *************************************
+    /// *************************************
+    /// *************************************
+
+
 }

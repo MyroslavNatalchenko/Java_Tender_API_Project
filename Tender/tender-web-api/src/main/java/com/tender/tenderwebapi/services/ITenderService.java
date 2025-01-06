@@ -1,9 +1,10 @@
 package com.tender.tenderwebapi.services;
 
+import com.tender.tenderdatabase.entity.Awarded;
+import com.tender.tenderdatabase.entity.Supplier;
 import com.tender.tenderdatabase.entity.Tender;
 import com.tender.tenderdatabase.repositories.TenderRepository;
-import com.tender.tenderwebapi.model.PurchaserObj;
-import com.tender.tenderwebapi.model.TenderObj;
+import com.tender.tenderwebapi.model.*;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public interface ITenderService {
     public void addPurchaser(PurchaserObj purchaserObj);
     public void deletePurchaserById(long id);
     public void updatePurchaserById(long id, PurchaserObj purchaserObj);
+
+    public List<AwardedObj> getAwardedByTenderId(long id);
+
+    public TypeObj getTypeByTenderId(long id);
 }

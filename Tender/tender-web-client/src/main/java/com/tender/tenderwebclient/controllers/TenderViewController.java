@@ -1,8 +1,10 @@
 package com.tender.tenderwebclient.controllers;
 
 //import com.tender.tenderwebclient.models.TenderObj;
+import com.tender.tenderwebapi.model.AwardedObj;
 import com.tender.tenderwebapi.model.PurchaserObj;
 import com.tender.tenderwebapi.model.TenderObj;
+import com.tender.tenderwebapi.model.TypeObj;
 import com.tender.tenderwebclient.services.TenderViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,11 @@ public class TenderViewController {
     @GetMapping("/TenderDetails")
     public String displayTenderDetails(@RequestParam("id") long id, Model model){
         PurchaserObj purchaserObj = service.getPurchaserByTenderId(id);
+        List<AwardedObj> awardeds = service.getAwardedByTenderId(id);
+        TypeObj type = service.getTypeByTenderId(id);
         model.addAttribute("purchaser", purchaserObj);
+        model.addAttribute("awardeds", awardeds);
+        model.addAttribute("type", type);
         model.addAttribute("id", id);
         return "viewTenderDetails";
     }

@@ -1,8 +1,10 @@
 package com.tender.tenderwebapi.controller;
 
 import com.tender.tenderdatabase.entity.Tender;
+import com.tender.tenderwebapi.model.AwardedObj;
 import com.tender.tenderwebapi.model.PurchaserObj;
 import com.tender.tenderwebapi.model.TenderObj;
+import com.tender.tenderwebapi.model.TypeObj;
 import com.tender.tenderwebapi.services.TenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,5 +83,15 @@ public class RestController {
     public ResponseEntity<Object> editPurchaser(@PathVariable long id, @RequestBody PurchaserObj purchaserObj){
         this.service.updatePurchaserById(id, purchaserObj);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("tenders/TypeTender/{id}")
+    public ResponseEntity<TypeObj> getTypeByTenderId(@PathVariable long id){
+        return new ResponseEntity<>(this.service.getTypeByTenderId(id),HttpStatus.OK);
+    }
+
+    @GetMapping("tenders/AwardedTender/{id}")
+    public ResponseEntity<List<AwardedObj>> getAwardedByTenderId(@PathVariable long id){
+        return new ResponseEntity<>(this.service.getAwardedByTenderId(id),HttpStatus.OK);
     }
 }
