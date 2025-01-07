@@ -175,6 +175,25 @@ public class TenderService implements ITenderService{
         return res;
     }
 
+
+    ///TEST
+    ///TEST
+    ///TEST
+    @Override
+    public void updateAwardedById(long id, AwardedObj awardedObj) {
+        Awarded awarded = this.repository.getAwarded().findAwardedByBDid(id).get(0);
+        awarded.setSuppliersId(awardedObj.suppliersId());
+        awarded.setSupplier(this.repository.getSupplier().findBySource_id(awardedObj.suppliersId()).get(0));
+        awarded.setDate(awardedObj.date());
+        awarded.setValueForOne(awardedObj.valueForOne());
+        awarded.setValueForTwo(awardedObj.valueForTwo());
+        awarded.setValueForThree(awardedObj.valueForThree());
+        awarded.setValue(awardedObj.value());
+        awarded.setCount(awardedObj.count());
+        awarded.setOffersCount(awardedObj.offersCount());
+        this.repository.getAwarded().save(awarded);
+    }
+
     @Override
     public TypeObj getTypeByTenderId(long id) {
         List<Type> types = this.repository.getTypes().findAllByTender_src_id(id);
@@ -192,9 +211,27 @@ public class TenderService implements ITenderService{
         return new TypeObj(type.getId(),type.getTender_src_id(),type.getSourceId(),type.getName(),type.getSlug());
     }
 
+    ///TEST
+    ///TEST
+    ///TEST
+    @Override
+    public void updateTypeById(long id, TypeObj typeObj) {
+        Type type = this.repository.getTypes().findAllByTender_src_id(id).get(0);
+        type.setSourceId(typeObj.sourceId());
+        type.setName(typeObj.name());
+        type.setSlug(typeObj.slug());
+        this.repository.getTypes().save(type);
+    }
+
     /// *************************************
     /// *************************************
     /// *************************************
 
 
+
+
+
+    public List<Integer> getTenderID(){
+        return this.repository.getTenders().findAllSourceIds();
+    }
 }

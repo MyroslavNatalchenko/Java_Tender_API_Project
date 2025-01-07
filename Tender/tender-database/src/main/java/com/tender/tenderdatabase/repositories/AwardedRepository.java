@@ -16,6 +16,9 @@ public interface AwardedRepository extends JpaRepository<Awarded, Long> {
     @Query("SELECT t FROM Awarded t WHERE t.tender_src_id = :tender_src_id")
     List<Awarded> findAllByTender_src_id(@Param("tender_src_id") long tender_src_id);
 
+    @Query("SELECT t FROM Awarded t WHERE t.id = :id")
+    List<Awarded> findAwardedByBDid(@Param("id") long id);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Awarded a WHERE a.tender_src_id = :tender_src_id")

@@ -88,4 +88,15 @@ public class RestController {
     public ResponseEntity<List<AwardedObj>> getAwardedByTenderId(@PathVariable long id){
         return new ResponseEntity<>(this.service.getAwardedByTenderId(id),HttpStatus.OK);
     }
+
+
+
+
+
+
+    ///DODATKOWE DLA CLIENTA
+    @GetMapping("tenders/TenderID")
+    public ResponseEntity<List<Integer>> getIDsTender(){
+        return new ResponseEntity<>(this.service.getTenderID(),HttpStatus.OK);
+    }
 }
