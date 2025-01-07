@@ -7,18 +7,44 @@
 </head>
 <body>
 <h1 th:text="${id}"></h1>
+
+<h1>Tender</h1>
+<table>
+    <tr>
+        <td>Date</td>
+        <td>Deadline Date</td>
+        <td>DD Length Date</td>
+        <td>Title</td>
+        <td>Category</td>
+        <td>SID</td>
+        <td>Source URL</td>
+        <td>More Information</td>
+    </tr>
+    <tr>
+        <td th:text="${tender.date}"></td>
+        <td th:text="${tender.deadlineDate}"></td>
+        <td th:text="${tender.deadlineLengthDays}"></td>
+        <td th:text="${tender.title}"></td>
+        <td th:text="${tender.category}"></td>
+        <td th:text="${tender.sid}"></td>
+        <td th:text="${tender.sourceUrl}"></td>
+        <td>
+            <a th:href="@{/updateTender(id=${tender.sourceId})}">Update Tender</a>
+        </td>
+    </tr>
+</table>
+
+
 <h1>Purchaser</h1>
 <table>
     <tr>
         <td>ID</td>
-        <td>Tender ID</td>
         <td>Source ID</td>
         <td>SID</td>
         <td>NAME</td>
     </tr>
     <tr>
         <td th:text="${purchaser.id}"></td>
-        <td th:text="${purchaser.tender_src_id}"></td>
         <td th:text="${purchaser.sourceId}"></td>
         <td th:text="${purchaser.sid}"></td>
         <td th:text="${purchaser.name}"></td>
@@ -29,14 +55,12 @@
 <table>
     <tr>
         <td>ID</td>
-        <td>Tender ID</td>
         <td>Source ID</td>
         <td>NAME</td>
         <td>SLUG</td>
     </tr>
     <tr>
         <td th:text="${type.id}"></td>
-        <td th:text="${type.tender_src_id}"></td>
         <td th:text="${type.sourceId}"></td>
         <td th:text="${type.name}"></td>
         <td th:text="${type.slug}"></td>
@@ -47,7 +71,6 @@
 <table>
     <tr>
         <td>ID</td>
-        <td>Tender ID</td>
         <td>Date</td>
         <td>Value For One</td>
         <td>Value For Two</td>
@@ -59,7 +82,6 @@
     </tr>
     <tr th:each="awarded : ${awardeds}">
         <td th:text="${awarded.id}"></td>
-        <td th:text="${awarded.tender_src_id}"></td>
         <td th:text="${awarded.date}"></td>
         <td th:text="${awarded.valueForOne}"></td>
         <td th:text="${awarded.valueForTwo}"></td>

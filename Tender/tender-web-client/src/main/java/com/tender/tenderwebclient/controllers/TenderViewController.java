@@ -44,9 +44,11 @@ public class TenderViewController {
 
     @GetMapping("/TenderDetails")
     public String displayTenderDetails(@RequestParam("id") long id, Model model){
-        PurchaserObj purchaserObj = service.getPurchaserByTenderId(id);
-        List<AwardedObj> awardeds = service.getAwardedByTenderId(id);
-        TypeObj type = service.getTypeByTenderId(id);
+        TenderObj tender = this.service.getTenderById(id);
+        PurchaserObj purchaserObj = this.service.getPurchaserByTenderId(id);
+        List<AwardedObj> awardeds = this.service.getAwardedByTenderId(id);
+        TypeObj type = this.service.getTypeByTenderId(id);
+        model.addAttribute("tender", tender);
         model.addAttribute("purchaser", purchaserObj);
         model.addAttribute("awardeds", awardeds);
         model.addAttribute("type", type);

@@ -81,12 +81,14 @@ public class TenderService implements ITenderService{
         if (tenders.isEmpty()) throw new CanNotEditTenderException();
         Tender tender=tenders.get(0);
 
-        if (tenderObj.sid()!=null) tender.setSid(tenderObj.sid());
-        if (tenderObj.category()!=null) tender.setCategory(tenderObj.category());
-        if (tenderObj.date()!=null) tender.setDate(tenderObj.date());
-        if (tenderObj.sourceUrl()!=null) tender.setSourceUrl(tenderObj.sourceUrl());
+        tender.setSid(tenderObj.sid());
+        tender.setCategory(tenderObj.category());
+        tender.setDate(tenderObj.date());
+        tender.setSourceUrl(tenderObj.sourceUrl());
+        tender.setTitle(tenderObj.title());
+        tender.setDeadlineDate(tenderObj.deadlineDate());
 
-        if (tenderObj.deadlineDate()!=null){
+        if (!tenderObj.deadlineDate().isEmpty()){
             LocalDate deadline = LocalDate.parse(tenderObj.deadlineDate());
             LocalDate startdate = LocalDate.parse(tender.getDate());
             if (deadline.isAfter(startdate)){

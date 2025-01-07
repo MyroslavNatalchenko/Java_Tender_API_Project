@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Tender</title>
+    <link th:href="@{/style_update_Tender.css}" rel="stylesheet" />
 </head>
 <body>
 <h1>Edit Tender</h1>
 <h1 th:text="${tender.sourceId}"></h1>
 
 <form action="#" th:action="@{/updateTender}" th:object="${tender}" method="post">
-    <input type="number" placeholder="Enter Source URL" th:field="*{id}">
-    <input type="number" placeholder="Enter Source URL" th:field="*{sourceId}">
-    <input type="text" placeholder="Enter Source URL" th:field="*{date}">
-    <input type="text" placeholder="Enter Source URL" th:field="*{deadlineDate}">
-    <input type="text" placeholder="Enter Source URL" th:field="*{deadlineLengthDays}">
-    <input type="text" placeholder="Enter Source URL" th:field="*{title}">
-    <input type="text" placeholder="Enter Source URL" th:field="*{category}">
-    <input type="text" placeholder="Enter Source URL" th:field="*{sid}">
+    <input type="number" th:field="*{id}" readonly>
+    <input type="number" th:field="*{sourceId}" readonly>
+    <input type="date" placeholder="Enter Date" th:field="*{date}" required>
+    <input type="date" placeholder="yyyy-DD-mm" th:field="*{deadlineDate}" required>
+    <input type="text" th:field="*{deadlineLengthDays}" readonly>
+    <input type="text" placeholder="Enter Title" th:field="*{title}">
+    <input type="text" placeholder="Enter Category" th:field="*{category}">
+    <input type="text" placeholder="Enter SID" th:field="*{sid}">
     <input type="text" placeholder="Enter Source URL" th:field="*{sourceUrl}">
 
     <input id="submit" type="submit" value="Submit" />

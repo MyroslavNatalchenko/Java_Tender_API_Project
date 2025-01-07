@@ -18,6 +18,7 @@
         <td>Category</td>
         <td>SID</td>
         <td>Source URL</td>
+        <td>More Information</td>
     </tr>
     <tr th:each="tender : ${tenders}">
         <td th:text="${tender.id}"></td>
@@ -29,6 +30,9 @@
         <td th:text="${tender.category}"></td>
         <td th:text="${tender.sid}"></td>
         <td th:text="${tender.sourceUrl}"></td>
+        <td>
+            <a th:href="@{/TenderDetails(id=${tender.sourceId})}">Tender Details</a>
+        </td>
     </tr>
 </table>
 
