@@ -42,12 +42,26 @@ public class TenderViewService {
     }
 
     public void editTender(long id, TenderObj tenderObj){
-        System.out.println(id);
-        System.out.println(tenderObj);
         restClient.put()
                 .uri(tenderBaseUrl + "/update/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(tenderObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void addTender(TenderObj tenderObj){
+        restClient.post()
+                .uri(tenderBaseUrl + "/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(tenderObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void deleteTender(long id){
+        ResponseEntity<Void> response = restClient.delete()
+                .uri(tenderBaseUrl + "/delete/" + id)
                 .retrieve()
                 .toBodilessEntity();
     }

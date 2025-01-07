@@ -132,18 +132,6 @@ public class TenderService implements ITenderService{
     }
 
     @Override
-    public void addPurchaser(PurchaserObj purchaserObj) {
-        Purchaser purchaser = new Purchaser();
-        purchaser.setSourceId(purchaserObj.sourceId());
-        purchaser.setName(purchaserObj.name());
-        purchaser.setSid(purchaserObj.sid());
-        purchaser.setTender_src_id(purchaserObj.tender_src_id());
-        Tender tender = this.repository.getTenders().findAllBySourceId(purchaserObj.tender_src_id()).get(0);
-        purchaser.setTender(tender);
-        this.repository.getPurchers().save(purchaser);
-    }
-
-    @Override
     public void deletePurchaserById(long id) {
         List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
         if (purchasers.isEmpty()) throw new CanNotDeletePurchaserException();
@@ -152,7 +140,10 @@ public class TenderService implements ITenderService{
 
     @Override
     public void updatePurchaserById(long id, PurchaserObj purchaserObj) {
-
+        Purchaser purchaser = this.repository.getPurchers().findAllByTender_src_id(id).get(0);
+        purchaser.setName(purchaserObj.name());
+        purchaser.setSid(purchaserObj.sid());
+        this.repository.getPurchers().save(purchaser);
     }
 
     @Override

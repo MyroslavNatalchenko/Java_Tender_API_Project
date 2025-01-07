@@ -67,12 +67,6 @@ public class RestController {
         return new ResponseEntity<>(this.service.getPurchaserByTenderId(id),HttpStatus.OK);
     }
 
-    @PostMapping("tenders/purchaser/add")
-    public ResponseEntity<Object> addPruchaser(@RequestBody PurchaserObj purchaserObj){
-        this.service.addPurchaser(purchaserObj);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
     @DeleteMapping("tenders/purchaser/delete/{id}")
     public ResponseEntity<Object> deletePurchaser(@PathVariable long id) {
         this.service.deletePurchaserById(id);

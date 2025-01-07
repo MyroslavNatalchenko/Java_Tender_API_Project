@@ -42,6 +42,31 @@ public class TenderViewController {
         return "redirect:/allTenders";
     }
 
+    //Add Tender
+    @GetMapping("/addTender")
+    public String displayAddSchool(Model model) {
+        model.addAttribute("tender", new TenderObj(0,0,null,null,null,null,null,null,null));
+        return "addForm";
+    }
+    @PostMapping("/addTender")
+    public String addForm(@ModelAttribute TenderObj tender) {
+        this.service.addTender(tender);
+        return "redirect:/allTenders";
+    }
+
+    //Remove Tender
+    @GetMapping("/removeTender")
+    public String displayDeleteSchool(@RequestParam("id") long id, Model model) {
+        TenderObj tender = this.service.getTenderById(id);
+        model.addAttribute("tender", tender);
+        return "deleteForm";
+    }
+    @PostMapping("/removeTender")
+    public String submitDeleteForm(@ModelAttribute TenderObj tenderObj) {
+        this.service.deleteTender(tenderObj.sourceId());
+        return "redirect:/allTenders";
+    }
+
     @GetMapping("/TenderDetails")
     public String displayTenderDetails(@RequestParam("id") long id, Model model){
         TenderObj tender = this.service.getTenderById(id);
