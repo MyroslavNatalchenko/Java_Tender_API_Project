@@ -181,17 +181,24 @@ public class TenderService implements ITenderService{
     ///TEST
     @Override
     public void updateAwardedById(long id, AwardedObj awardedObj) {
+        this.repository.getAwarded().updateAwardedById(id, awardedObj.offersCount(), awardedObj.valueForOne(), awardedObj.valueForTwo(), awardedObj.valueForThree(), awardedObj.suppliersId(), awardedObj.count(), awardedObj.date(), awardedObj.value());
         Awarded awarded = this.repository.getAwarded().findAwardedByBDid(id).get(0);
-        awarded.setSuppliersId(awardedObj.suppliersId());
-        awarded.setSupplier(this.repository.getSupplier().findBySource_id(awardedObj.suppliersId()).get(0));
-        awarded.setDate(awardedObj.date());
-        awarded.setValueForOne(awardedObj.valueForOne());
-        awarded.setValueForTwo(awardedObj.valueForTwo());
-        awarded.setValueForThree(awardedObj.valueForThree());
-        awarded.setValue(awardedObj.value());
-        awarded.setCount(awardedObj.count());
-        awarded.setOffersCount(awardedObj.offersCount());
+        awarded.setSupplier(this.repository.getSupplier().findBySource_id(awarded.getSuppliersId()).get(0));
         this.repository.getAwarded().save(awarded);
+    }
+
+    public AwardedObj getbyBdId(long id){
+        Awarded award = this.repository.getAwarded().findAwardedByBDid(id).get(0);
+        return new AwardedObj(award.getId()
+                ,award.getTender_src_id()
+                ,award.getDate()
+                ,award.getValueForOne()
+                ,award.getValueForTwo()
+                ,award.getValueForThree()
+                ,award.getSuppliersId()
+                ,award.getCount()
+                ,award.getOffersCount()
+                ,award.getValue());
     }
 
     @Override

@@ -84,9 +84,26 @@ public class RestController {
         return new ResponseEntity<>(this.service.getTypeByTenderId(id),HttpStatus.OK);
     }
 
+    @PutMapping("tenders/type/update/{id}")
+    public ResponseEntity<Object> editType(@PathVariable long id, @RequestBody TypeObj typeObj){
+        this.service.updateTypeById(id, typeObj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("tenders/AwardedTender/{id}")
     public ResponseEntity<List<AwardedObj>> getAwardedByTenderId(@PathVariable long id){
         return new ResponseEntity<>(this.service.getAwardedByTenderId(id),HttpStatus.OK);
+    }
+
+    @PutMapping("tenders/awarded/update/{id}")
+    public ResponseEntity<Object> editAwarded(@PathVariable long id, @RequestBody AwardedObj awardedObj){
+        this.service.updateAwardedById(id, awardedObj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("tenders/Awarded/{id}")
+    public ResponseEntity<AwardedObj> getAwardedById(@PathVariable long id){
+        return new ResponseEntity<>(this.service.getbyBdId(id),HttpStatus.OK);
     }
 
 

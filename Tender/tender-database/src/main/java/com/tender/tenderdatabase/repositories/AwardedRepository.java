@@ -23,4 +23,20 @@ public interface AwardedRepository extends JpaRepository<Awarded, Long> {
     @Transactional
     @Query("DELETE FROM Awarded a WHERE a.tender_src_id = :tender_src_id")
     void deleteByTenderSrcId(@Param("tender_src_id") long tenderSrcId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Awarded a SET a.offersCount = :offersCount, a.valueForOne = :valueForOne, " +
+            "a.valueForTwo = :valueForTwo, a.valueForThree = :valueForThree, " +
+            "a.suppliersId = :supplierId, a.count = :count, a.date = :date, " +
+            "a.value = :value WHERE a.id = :id")
+    void updateAwardedById(@Param("id") long id,
+                           @Param("offersCount") int offersCount,
+                           @Param("valueForOne") double valueForOne,
+                           @Param("valueForTwo") double valueForTwo,
+                           @Param("valueForThree") double valueForThree,
+                           @Param("supplierId") Long supplierId,
+                           @Param("count") String count,
+                           @Param("date") String date,
+                           @Param("value") String value);
 }
