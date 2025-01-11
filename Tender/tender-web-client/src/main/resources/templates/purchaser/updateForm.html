@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Tender</title>
+    <link th:href="@{/style_update_Tender.css}" rel="stylesheet" />
+</head>
+<body>
+<h1>Edit Tender</h1>
+<h1 th:text="${purchaser.sourceId}"></h1>
+
+<form action="#" th:action="@{/updatePurchaser}" th:object="${purchaser}" method="post">
+    <input type="number" th:field="*{id}" readonly>
+    <input type="number" placeholder="Enter Date" th:field="*{tender_src_id}" readonly>
+    <input type="number" th:field="*{sourceId}" readonly>
+    <input type="text" th:field="*{sid}" required>
+    <input type="text" placeholder="Enter Title" th:field="*{name}" required>
+
+    <input id="submit" type="submit" value="Submit" />
+</form>
+</body>
+</html>

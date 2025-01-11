@@ -87,4 +87,17 @@ public class TenderViewController {
         model.addAttribute("purchasers",purchasers);
         return "viewAllPurchasers";
     }
+
+
+    @GetMapping("/updatePurchaser")
+    public String displayUpdatePurchaser(@RequestParam("id") long id, Model model) {
+        PurchaserObj purchaser = this.service.getPurchaserByTenderId(id);
+        model.addAttribute("purchaser", purchaser);
+        return "purchaser/updateForm";
+    }
+    @PostMapping("/updatePurchaser")
+    public String submitFormPurchaser(@ModelAttribute PurchaserObj purchaser) {
+        this.service.editPurchaser(purchaser.tender_src_id(),purchaser);
+        return "redirect:/allTenders";
+    }
 }

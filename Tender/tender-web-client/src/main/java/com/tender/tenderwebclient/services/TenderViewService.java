@@ -81,6 +81,15 @@ public class TenderViewService {
         return response.getBody();
     }
 
+    public void editPurchaser(long id, PurchaserObj purchaserObj){
+        restClient.put()
+                .uri(tenderBaseUrl + "/purchaser/update/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(purchaserObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
     public List<AwardedObj> getAwardedByTenderId(long id){
         ResponseEntity<List<AwardedObj>> response = restClient.get()
                 .uri(tenderBaseUrl + "/AwardedTender/" + id).

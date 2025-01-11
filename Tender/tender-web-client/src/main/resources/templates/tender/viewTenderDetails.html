@@ -46,12 +46,16 @@
         <td>Source ID</td>
         <td>SID</td>
         <td>NAME</td>
+        <td>update</td>
     </tr>
     <tr>
         <td th:text="${purchaser.id}"></td>
         <td th:text="${purchaser.sourceId}"></td>
         <td th:text="${purchaser.sid}"></td>
         <td th:text="${purchaser.name}"></td>
+        <td>
+            <a th:href="@{/updatePurchaser(id=${purchaser.tender_src_id})}">Update Tender</a>
+        </td>
     </tr>
 </table>
 
