@@ -100,4 +100,30 @@ public class TenderViewController {
         this.service.editPurchaser(purchaser.tender_src_id(),purchaser);
         return "redirect:/allTenders";
     }
+
+    @GetMapping("/updateType")
+    public String displayUpdateType(@RequestParam("id") long id, Model model) {
+        TypeObj type = this.service.getTypeByTenderId(id);
+        model.addAttribute("type", type);
+        return "type/updateForm";
+    }
+    @PostMapping("/updateType")
+    public String submitFormType(@ModelAttribute TypeObj type) {
+        this.service.editType(type.tender_src_id(),type);
+        return "redirect:/allTenders";
+    }
+
+    @GetMapping("/updateAwarded")
+    public String displayUpdateAwarded(@RequestParam("id") long id, Model model) {
+        AwardedObj awarded = this.service.getAwardedById(id);
+        List<Long> SuppliersID = this.service.getAllSuplliersID();
+        model.addAttribute("SuppliersID", SuppliersID);
+        model.addAttribute("awarded", awarded);
+        return "awarded/updateForm";
+    }
+    @PostMapping("/updateAwarded")
+    public String submitFormAwarded(@ModelAttribute AwardedObj awarded) {
+        this.service.editAwarded(awarded.id(),awarded);
+        return "redirect:/allTenders";
+    }
 }

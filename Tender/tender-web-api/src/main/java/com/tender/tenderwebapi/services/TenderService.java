@@ -247,7 +247,7 @@ public class TenderService implements ITenderService{
     /// *************************************
     /// *************************************
 
-    public List<Integer> getTenderID(){
-        return this.repository.getTenders().findAllSourceIds();
+    public List<Long> getTenderID(){
+        return this.repository.getSupplier().findAllSourceIds();
     }
 }

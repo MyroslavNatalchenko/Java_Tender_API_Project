@@ -17,4 +17,7 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
 
     @Query("SELECT t FROM Supplier t where t.source_id = :sourceId")
     List<Supplier> findBySource_id(@Param("sourceId") Long sourceId);
+
+    @Query("SELECT t.source_id FROM Supplier t")
+    List<Long> findAllSourceIds();
 }

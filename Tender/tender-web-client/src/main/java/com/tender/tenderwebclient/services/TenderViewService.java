@@ -97,10 +97,45 @@ public class TenderViewService {
         return response.getBody();
     }
 
+    public AwardedObj getAwardedById(long id){
+        ResponseEntity<AwardedObj> response = restClient.get()
+                .uri(tenderBaseUrl + "/Awarded/" + id).
+                retrieve().toEntity(new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+    public void editAwarded(long id, AwardedObj awardedObj){
+        restClient.put()
+                .uri(tenderBaseUrl + "/awarded/update/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(awardedObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
     public TypeObj getTypeByTenderId(long id){
         ResponseEntity<TypeObj> response = restClient.get()
                 .uri(tenderBaseUrl + "/TypeTender/" + id).
                 retrieve().toEntity(new ParameterizedTypeReference<TypeObj>() {});
+        return response.getBody();
+    }
+
+    public void editType(long id, TypeObj typeObj){
+        restClient.put()
+                .uri(tenderBaseUrl + "/type/update/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(typeObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+
+
+    public List<Long> getAllSuplliersID(){
+        ResponseEntity<List<Long>> response = restClient.get()
+                .uri(tenderBaseUrl + "/SupplierID")
+                .retrieve()
+                .toEntity(new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
 }

@@ -112,8 +112,8 @@ public class RestController {
 
 
     ///DODATKOWE DLA CLIENTA
-    @GetMapping("tenders/TenderID")
-    public ResponseEntity<List<Integer>> getIDsTender(){
+    @GetMapping("tenders/SupplierID")
+    public ResponseEntity<List<Long>> getIDsTender(){
         return new ResponseEntity<>(this.service.getTenderID(),HttpStatus.OK);
     }
 }

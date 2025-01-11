@@ -66,12 +66,16 @@
         <td>Source ID</td>
         <td>NAME</td>
         <td>SLUG</td>
+        <td>Update</td>
     </tr>
     <tr>
         <td th:text="${type.id}"></td>
         <td th:text="${type.sourceId}"></td>
         <td th:text="${type.name}"></td>
         <td th:text="${type.slug}"></td>
+        <td>
+            <a th:href="@{/updateType(id=${type.tender_src_id})}">Update Tender</a>
+        </td>
     </tr>
 </table>
 
@@ -87,6 +91,7 @@
         <td>Count</td>
         <td>Offers Count</td>
         <td>Value</td>
+        <td>Update</td>
     </tr>
     <tr th:each="awarded : ${awardeds}">
         <td th:text="${awarded.id}"></td>
@@ -98,6 +103,9 @@
         <td th:text="${awarded.count}"></td>
         <td th:text="${awarded.offersCount}"></td>
         <td th:text="${awarded.value}"></td>
+        <td>
+            <a th:href="@{/updateAwarded(id=${awarded.id})}">Update Tender</a>
+        </td>
     </tr>
 </table>
 
