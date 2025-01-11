@@ -151,6 +151,7 @@ public class TenderService implements ITenderService{
         List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
         if (purchasers.isEmpty()) throw new PurchaserNotFoundException();
         Purchaser purchaser = purchasers.get(0);
+        purchaser.setSourceId(purchaserObj.sourceId());
         purchaser.setName(purchaserObj.name());
         purchaser.setSid(purchaserObj.sid());
         this.repository.getPurchers().save(purchaser);

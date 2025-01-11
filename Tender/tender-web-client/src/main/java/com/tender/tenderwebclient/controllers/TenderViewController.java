@@ -98,7 +98,7 @@ public class TenderViewController {
     @PostMapping("/updatePurchaser")
     public String submitFormPurchaser(@ModelAttribute PurchaserObj purchaser) {
         this.service.editPurchaser(purchaser.tender_src_id(),purchaser);
-        return "redirect:/allTenders";
+        return "redirect:/TenderDetails?id=" + purchaser.tender_src_id();
     }
 
     @GetMapping("/updateType")
@@ -110,7 +110,7 @@ public class TenderViewController {
     @PostMapping("/updateType")
     public String submitFormType(@ModelAttribute TypeObj type) {
         this.service.editType(type.tender_src_id(),type);
-        return "redirect:/allTenders";
+        return "redirect:/TenderDetails?id=" + type.tender_src_id();
     }
 
     @GetMapping("/updateAwarded")
@@ -124,6 +124,6 @@ public class TenderViewController {
     @PostMapping("/updateAwarded")
     public String submitFormAwarded(@ModelAttribute AwardedObj awarded) {
         this.service.editAwarded(awarded.id(),awarded);
-        return "redirect:/allTenders";
+        return "redirect:/TenderDetails?id=" + awarded.tender_src_id();
     }
 }
