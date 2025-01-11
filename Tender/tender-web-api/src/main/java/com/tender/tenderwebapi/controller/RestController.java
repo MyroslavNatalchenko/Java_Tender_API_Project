@@ -103,7 +103,7 @@ public class RestController {
 
     @GetMapping("tenders/Awarded/{id}")
     public ResponseEntity<AwardedObj> getAwardedById(@PathVariable long id){
-        return new ResponseEntity<>(this.service.getbyBdId(id),HttpStatus.OK);
+        return new ResponseEntity<>(this.service.getAwardedbyBdId(id),HttpStatus.OK);
     }
 
 

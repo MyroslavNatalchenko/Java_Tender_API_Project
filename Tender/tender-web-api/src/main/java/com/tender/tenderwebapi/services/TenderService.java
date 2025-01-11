@@ -5,7 +5,7 @@ import com.tender.tenderdatabase.repositories.ICatalogData;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.CanNotDeletePurchaserException;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.PurchaserNotFoundException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
-import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotEditTenderException;
+import com.tender.tenderwebapi.exceptions.tenderEXP.IncorrectProvidedTenderDataException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistException;
 import com.tender.tenderwebapi.model.AwardedObj;
@@ -33,6 +33,7 @@ public class TenderService implements ITenderService{
     @Override
     public List<TenderObj> getAllTenders() {
         List<Tender> tenders = this.repository.getTenders().findAll();
+        if (tenders.isEmpty()) throw new TenderNotFoundException();
         List<TenderObj> res = new ArrayList<>();
         for (Tender tender: tenders){
             res.add(new TenderObj(tender.getId(),tender.getSourceId(),tender.getDate(),tender.getDeadlineDate(),tender.getDeadlineLengthDays(),tender.getTitle(),tender.getCategory(),tender.getSid(),tender.getSourceUrl()));
@@ -57,11 +58,17 @@ public class TenderService implements ITenderService{
         tender.setSourceId(tenderObj.sourceId());
         tender.setDate(tenderObj.date());
         tender.setDeadlineDate(tenderObj.deadlineDate());
-        tender.setDeadlineLengthDays(tenderObj.deadlineLengthDays());
+        LocalDate deadline = LocalDate.parse(tenderObj.deadlineDate());
+        LocalDate startdate = LocalDate.parse(tender.getDate());
         tender.setTitle(tenderObj.title());
         tender.setCategory(tenderObj.category());
         tender.setSid(tenderObj.sid());
         tender.setSourceUrl(tenderObj.sourceUrl());
+
+        if (deadline.isAfter(startdate)){
+            tender.setDeadlineLengthDays(ChronoUnit.DAYS.between(startdate,deadline) + "");
+        } else throw new IncorrectProvidedTenderDataException();
+
         this.repository.getTenders().save(tender);
     }
 
@@ -78,7 +85,7 @@ public class TenderService implements ITenderService{
     @Override
     public void updateTenderById(long id, TenderObj tenderObj) {
         List<Tender> tenders = this.repository.getTenders().findAllBySourceId(id);
-        if (tenders.isEmpty()) throw new CanNotEditTenderException();
+        if (tenders.isEmpty()) throw new IncorrectProvidedTenderDataException();
         Tender tender=tenders.get(0);
 
         tender.setSid(tenderObj.sid());
@@ -95,19 +102,20 @@ public class TenderService implements ITenderService{
                 tender.setDeadlineDate(tenderObj.deadlineDate());
                 tender.setDeadlineLengthDays(ChronoUnit.DAYS.between(startdate,deadline) + "");
             }
-            else throw new CanNotEditTenderException();
+            else throw new IncorrectProvidedTenderDataException();
         }
 
         this.repository.getTenders().save(tender);
     }
 
-    /// *************************************
-    /// *************************************
-    /// *************************************
+    /// *******************************************
+    /// PURCHASERS PURCHASERS PURCHASERS PURCHASERS
+    /// *******************************************
 
     @Override
     public List<PurchaserObj> getAllPurchasers() {
         List<Purchaser> purchasers = this.repository.getPurchers().findAll();
+        if (purchasers.isEmpty()) throw new PurchaserNotFoundException();
         List<PurchaserObj> res = new ArrayList<>();
         for (Purchaser purchaser: purchasers){
             res.add(new PurchaserObj(purchaser.getId(),purchaser.getTender_src_id(),purchaser.getSourceId(),purchaser.getSid(),purchaser.getName()));
@@ -140,11 +148,17 @@ public class TenderService implements ITenderService{
 
     @Override
     public void updatePurchaserById(long id, PurchaserObj purchaserObj) {
-        Purchaser purchaser = this.repository.getPurchers().findAllByTender_src_id(id).get(0);
+        List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
+        if (purchasers.isEmpty()) throw new PurchaserNotFoundException();
+        Purchaser purchaser = purchasers.get(0);
         purchaser.setName(purchaserObj.name());
         purchaser.setSid(purchaserObj.sid());
         this.repository.getPurchers().save(purchaser);
     }
+
+    /// ***************************************
+    /// AWARDED AWARDED AWARDED AWARDED AWARDED
+    /// ***************************************
 
     @Override
     public List<AwardedObj> getAwardedByTenderId(long id) {
@@ -175,10 +189,6 @@ public class TenderService implements ITenderService{
         return res;
     }
 
-
-    ///TEST
-    ///TEST
-    ///TEST
     @Override
     public void updateAwardedById(long id, AwardedObj awardedObj) {
         this.repository.getAwarded().updateAwardedById(id, awardedObj.offersCount(), awardedObj.valueForOne(), awardedObj.valueForTwo(), awardedObj.valueForThree(), awardedObj.suppliersId(), awardedObj.count(), awardedObj.date(), awardedObj.value());
@@ -187,7 +197,7 @@ public class TenderService implements ITenderService{
         this.repository.getAwarded().save(awarded);
     }
 
-    public AwardedObj getbyBdId(long id){
+    public AwardedObj getAwardedbyBdId(long id){
         Awarded award = this.repository.getAwarded().findAwardedByBDid(id).get(0);
         return new AwardedObj(award.getId()
                 ,award.getTender_src_id()
@@ -200,6 +210,10 @@ public class TenderService implements ITenderService{
                 ,award.getOffersCount()
                 ,award.getValue());
     }
+
+    /// ***************************************
+    /// TYPE TYPE TYPE TYPE TYPE TYPE TYPE TYPE
+    /// ***************************************
 
     @Override
     public TypeObj getTypeByTenderId(long id) {
@@ -217,10 +231,6 @@ public class TenderService implements ITenderService{
         Type type = types.get(0);
         return new TypeObj(type.getId(),type.getTender_src_id(),type.getSourceId(),type.getName(),type.getSlug());
     }
-
-    ///TEST
-    ///TEST
-    ///TEST
     @Override
     public void updateTypeById(long id, TypeObj typeObj) {
         Type type = this.repository.getTypes().findAllByTender_src_id(id).get(0);
@@ -230,13 +240,12 @@ public class TenderService implements ITenderService{
         this.repository.getTypes().save(type);
     }
 
+
+
+
     /// *************************************
     /// *************************************
     /// *************************************
-
-
-
-
 
     public List<Integer> getTenderID(){
         return this.repository.getTenders().findAllSourceIds();

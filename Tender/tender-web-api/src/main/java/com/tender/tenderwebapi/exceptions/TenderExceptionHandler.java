@@ -1,7 +1,7 @@
 package com.tender.tenderwebapi.exceptions;
 
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
-import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotEditTenderException;
+import com.tender.tenderwebapi.exceptions.tenderEXP.IncorrectProvidedTenderDataException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistException;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,8 @@ public class TenderExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value={CanNotEditTenderException.class})
-    public ResponseEntity<Object> handleCanNotDelete(CanNotEditTenderException ex){
+    @ExceptionHandler(value={IncorrectProvidedTenderDataException.class})
+    public ResponseEntity<Object> handleCanNotDelete(IncorrectProvidedTenderDataException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
