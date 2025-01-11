@@ -34,7 +34,7 @@ public class TenderViewController {
     public String displayUpdateSchool(@RequestParam("id") long id, Model model) {
         TenderObj tender = this.service.getTenderById(id);
         model.addAttribute("tender", tender);
-        return "updateForm";
+        return "tender/updateForm";
     }
     @PostMapping("/updateTender")
     public String submitForm(@ModelAttribute TenderObj tender) {
@@ -46,7 +46,7 @@ public class TenderViewController {
     @GetMapping("/addTender")
     public String displayAddSchool(Model model) {
         model.addAttribute("tender", new TenderObj(0,0,null,null,null,null,null,null,null));
-        return "addForm";
+        return "tender/addForm";
     }
     @PostMapping("/addTender")
     public String addForm(@ModelAttribute TenderObj tender) {
@@ -59,7 +59,7 @@ public class TenderViewController {
     public String displayDeleteSchool(@RequestParam("id") long id, Model model) {
         TenderObj tender = this.service.getTenderById(id);
         model.addAttribute("tender", tender);
-        return "deleteForm";
+        return "tender/deleteForm";
     }
     @PostMapping("/removeTender")
     public String submitDeleteForm(@ModelAttribute TenderObj tenderObj) {
@@ -78,7 +78,7 @@ public class TenderViewController {
         model.addAttribute("awardeds", awardeds);
         model.addAttribute("type", type);
         model.addAttribute("id", id);
-        return "viewTenderDetails";
+        return "tender/viewTenderDetails";
     }
 
     @GetMapping("/allPurchaser")

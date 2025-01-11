@@ -18,7 +18,8 @@
         <td>Category</td>
         <td>SID</td>
         <td>Source URL</td>
-        <td>More Information</td>
+        <td>Update</td>
+        <td>Remove</td>
     </tr>
     <tr>
         <td th:text="${tender.date}"></td>
@@ -30,6 +31,9 @@
         <td th:text="${tender.sourceUrl}"></td>
         <td>
             <a th:href="@{/updateTender(id=${tender.sourceId})}">Update Tender</a>
+        </td>
+        <td>
+            <a th:href="@{/removeTender(id=${tender.sourceId})}">Remove Tender</a>
         </td>
     </tr>
 </table>
