@@ -247,6 +247,27 @@ public class TenderService implements ITenderService{
         return res;
     }
 
+    @Override
+    public void addSupplier(SupplierObj supplierObj) {
+        Supplier supplier = new Supplier();
+//        HashSet<Integer> sourceId = new HashSet<>(this.repository.getTenders().findAllSourceIds());
+//        if (sourceId.contains(tenderObj.sourceId())) throw new TenderWithSuchIdExistException();
+
+        supplier.setSource_id(supplierObj.source_id());
+        supplier.setSlug(supplierObj.slug());
+        supplier.setName(supplierObj.name());
+
+        this.repository.getSupplier().save(supplier);
+    }
+
+    @Override
+    public void updateSupplier(long id, SupplierObj supplierObj) {
+        Supplier supplier = this.repository.getSupplier().findBySource_id(id).get(0);
+        supplier.setName(supplierObj.name());
+        supplier.setSlug(supplierObj.slug());
+        this.repository.getSupplier().save(supplier);
+    }
+
 
     /// *************************************
     /// *************************************
@@ -257,5 +278,8 @@ public class TenderService implements ITenderService{
     }
     public List<Integer> getTendersID(){
         return this.repository.getTenders().findAllSourceIds();
+    }
+    public List<Integer> getPurchasersID(){
+        return this.repository.getPurchers().findAllSourceIds();
     }
 }

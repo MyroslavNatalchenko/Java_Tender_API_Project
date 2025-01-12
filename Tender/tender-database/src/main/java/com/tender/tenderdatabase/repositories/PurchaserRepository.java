@@ -21,4 +21,7 @@ public interface PurchaserRepository extends JpaRepository<Purchaser, Long> {
     @Transactional
     @Query("DELETE FROM Purchaser p WHERE p.tender_src_id = :tender_src_id")
     void deleteByTenderSrcId(@Param("tender_src_id") long tenderSrcId);
+
+    @Query("SELECT t.sourceId FROM Purchaser t")
+    List<Integer> findAllSourceIds();
 }

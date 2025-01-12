@@ -109,6 +109,18 @@ public class RestController {
         return new ResponseEntity<>(this.service.getAllSuppliers(), HttpStatus.OK);
     }
 
+    @PostMapping("tenders/supplier/add")
+    public ResponseEntity<Object> addSupplier(@RequestBody SupplierObj supplierObj){
+        this.service.addSupplier(supplierObj);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("tenders/supplier/update/{id}")
+    public ResponseEntity<Object> editSupplier(@PathVariable long id, @RequestBody SupplierObj supplierObj){
+        this.service.updateSupplier(id, supplierObj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 
@@ -121,5 +133,9 @@ public class RestController {
     @GetMapping("tenders/TenderID")
     public ResponseEntity<List<Integer>> getIDsTender(){
         return new ResponseEntity<>(this.service.getTendersID(),HttpStatus.OK);
+    }
+    @GetMapping("tenders/PurchaserID")
+    public ResponseEntity<List<Integer>> getIDsPurchaser(){
+        return new ResponseEntity<>(this.service.getPurchasersID(),HttpStatus.OK);
     }
 }

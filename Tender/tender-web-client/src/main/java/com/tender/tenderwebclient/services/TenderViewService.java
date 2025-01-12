@@ -133,6 +133,24 @@ public class TenderViewService {
         return response.getBody();
     }
 
+    public void addSupplier(SupplierObj supplierObj){
+        restClient.post()
+                .uri(tenderBaseUrl + "/supplier/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(supplierObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void editSupplier(long id, SupplierObj supplierObj){
+        restClient.put()
+                .uri(tenderBaseUrl + "/supplier/update/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(supplierObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
 
 
     public List<Long> getAllSuplliersID(){
@@ -147,6 +165,14 @@ public class TenderViewService {
     public List<Integer> getAllTenderID() {
         ResponseEntity<List<Integer>> response = restClient.get()
                 .uri(tenderBaseUrl + "/TenderID")
+                .retrieve()
+                .toEntity(new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+    public List<Integer> getAllPurchaserID() {
+        ResponseEntity<List<Integer>> response = restClient.get()
+                .uri(tenderBaseUrl + "/PurchaserID")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
         return response.getBody();

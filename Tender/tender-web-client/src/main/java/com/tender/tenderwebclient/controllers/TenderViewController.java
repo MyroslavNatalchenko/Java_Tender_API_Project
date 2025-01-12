@@ -90,6 +90,7 @@ public class TenderViewController {
     @GetMapping("/updatePurchaser")
     public String displayUpdatePurchaser(@RequestParam("id") long id, Model model) {
         PurchaserObj purchaser = this.service.getPurchaserByTenderId(id);
+        model.addAttribute("TakenIDs", this.service.getAllPurchaserID());
         model.addAttribute("purchaser", purchaser);
         return "purchaser/updateForm";
     }
@@ -130,5 +131,34 @@ public class TenderViewController {
         List<SupplierObj> suppliers = service.getAllSuppliers();
         model.addAttribute("suppliers",suppliers);
         return "viewAllSuppliers";
+    }
+
+    @GetMapping("/addSupplier")
+    public String displayAddSupplier(Model model) {
+        model.addAttribute("TakenIDs", this.service.getAllSuplliersID());
+        model.addAttribute("supplier", new SupplierObj(0,0,null,null));
+        return "supplier/addForm";
+    }
+    @PostMapping("/addSupplier")
+    public String addFormSupplier(@ModelAttribute SupplierObj supplier) {
+        this.service.addSupplier(supplier);
+        return "redirect:/allSuppliers";
+    }
+
+    @GetMapping("/updateSupplier")
+    public String displayUpdateSupplier(@RequestParam("id") long id, Model model) {
+        List<SupplierObj> suppliers = this.service.getAllSuppliers();
+        SupplierObj res = new SupplierObj(0,0,null,null);
+        for (SupplierObj supplier: suppliers){
+            if (supplier.source_id()==id)
+                res = supplier;
+        }
+        model.addAttribute("supplier", res);
+        return "supplier/updateForm";
+    }
+    @PostMapping("/updateSupplier")
+    public String submitFormSupplier(@ModelAttribute SupplierObj supplier) {
+        this.service.editSupplier(supplier.source_id(),supplier);
+        return "redirect:/allSuppliers";
     }
 }
