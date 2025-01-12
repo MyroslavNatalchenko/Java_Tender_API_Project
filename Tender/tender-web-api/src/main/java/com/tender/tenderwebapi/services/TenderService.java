@@ -8,10 +8,7 @@ import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.IncorrectProvidedTenderDataException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistException;
-import com.tender.tenderwebapi.model.AwardedObj;
-import com.tender.tenderwebapi.model.PurchaserObj;
-import com.tender.tenderwebapi.model.TenderObj;
-import com.tender.tenderwebapi.model.TypeObj;
+import com.tender.tenderwebapi.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +30,6 @@ public class TenderService implements ITenderService{
     @Override
     public List<TenderObj> getAllTenders() {
         List<Tender> tenders = this.repository.getTenders().findAll();
-        if (tenders.isEmpty()) throw new TenderNotFoundException();
         List<TenderObj> res = new ArrayList<>();
         for (Tender tender: tenders){
             res.add(new TenderObj(tender.getId(),tender.getSourceId(),tender.getDate(),tender.getDeadlineDate(),tender.getDeadlineLengthDays(),tender.getTitle(),tender.getCategory(),tender.getSid(),tender.getSourceUrl()));
@@ -241,14 +237,25 @@ public class TenderService implements ITenderService{
         this.repository.getTypes().save(type);
     }
 
-
+    @Override
+    public List<SupplierObj> getAllSuppliers() {
+        List<Supplier> suppliers = this.repository.getSupplier().findAll();
+        List<SupplierObj> res = new ArrayList<>();
+        for (Supplier supplier: suppliers){
+            res.add(new SupplierObj(supplier.getId(),supplier.getSource_id(),supplier.getName(),supplier.getSlug()));
+        }
+        return res;
+    }
 
 
     /// *************************************
     /// *************************************
     /// *************************************
 
-    public List<Long> getTenderID(){
+    public List<Long> getSuppliersID(){
         return this.repository.getSupplier().findAllSourceIds();
+    }
+    public List<Integer> getTendersID(){
+        return this.repository.getTenders().findAllSourceIds();
     }
 }

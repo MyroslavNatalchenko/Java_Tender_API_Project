@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <title>Update Tender</title>
     <link th:href="@{/style_forms.css}" rel="stylesheet" />
+    <script>
+        const takenIDs = [[${TakenIDs}]];
+        function validateSourceId() {
+            const sourceIdInput = document.getElementById("sourceId");
+            const submitButton = document.getElementById("submit");
+            const errorField = document.getElementById("error");
+            const sourceId = parseInt(sourceIdInput.value);
+
+            if (takenIDs.includes(sourceId)) {
+                errorField.textContent = "This Source ID already taken.";
+                submitButton.disabled = true;
+            } else {
+                errorField.textContent = "";
+                submitButton.disabled = false;
+            }
+        }
+    </script>
 </head>
 <body>
 <h1>Add Tender</h1>
 
 <form action="#" th:action="@{/addTender}" th:object="${tender}" method="post">
     <input type="number" th:field="*{id}" hidden="hidden">
-    <input type="number" th:field="*{sourceId}" required>
+    <input type="number" id="sourceId" th:field="*{sourceId}" required oninput="validateSourceId()">
+    <span id="error" style="color: red; font-size: small;"></span>
     <input type="date" placeholder="Enter Date" th:field="*{date}" required>
     <input type="date" placeholder="yyyy-DD-mm" th:field="*{deadlineDate}" required>
     <input type="number" th:field="*{deadlineLengthDays}" required>

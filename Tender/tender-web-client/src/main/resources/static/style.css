@@ -99,6 +99,7 @@ table tr:hover {
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
+    margin: 0 15px; /* Добавлено расстояние между ссылками */
     transition: color 0.3s ease;
 }
 

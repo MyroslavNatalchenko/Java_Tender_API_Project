@@ -33,18 +33,8 @@ public class TendersUpdater implements IUpdateTenders{
         List<TenderDto> TendersDto = sourceId.stream().map(client::getTender).toList();
         List<PurchaserDto> PurchaserDto = TendersDto.stream().map(this::getPurchaserFromTender).toList();
         List<TypeDto> TypeDto = TendersDto.stream().map(this::getTypeFromTender).toList();
-        List<List<AwardDto>> AwardDtoAll = TendersDto.stream().map(this::getAwardFromTender).toList();
-        List<AwardDto> AwardDto = AwardDtoAll.stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        List<List<SupplierDto>> SupplierStart = AwardDto.stream().map(this::getSupplierFromAwarded).toList();
-        List<SupplierDto> SupplierDtoStart = SupplierStart.stream().flatMap(List::stream).collect(Collectors.toList());
-
-        Set<Long> seenIds = new HashSet<>();
-        List<SupplierDto> SupplierDto = SupplierDtoStart.stream()
-                .filter(supplier -> seenIds.add(supplier.id()))
-                .collect(Collectors.toList());
+        List<AwardDto> AwardDto = TendersDto.stream().map(this::getAwardFromTender).toList();
+        List<SupplierDto> SupplierDto = getUniqueSuppliers(AwardDto);
 
         List<Tender> TendersSave = TendersDto.stream().map(tender -> mappers.forTender().map(tender)).toList();
         List<Purchaser> PurchaserSave = PurchaserDto.stream().map(purchaser -> mappers.forPurchaser().map(purchaser)).toList();
@@ -52,36 +42,7 @@ public class TendersUpdater implements IUpdateTenders{
         List<Awarded> AwardSave = AwardDto.stream().map(award -> mappers.forAwarded().map(award)).toList();
         List<Supplier> SupplierSave = SupplierDto.stream().map(supplier -> mappers.forSupplier().map(supplier)).toList();
 
-
-        Map<Long, Tender> tenderBySourceId = TendersSave.stream()
-                .collect(Collectors.toMap(
-                        tender -> (long) tender.getSourceId(),
-                        Function.identity(),
-                        (existing, replacement) -> existing
-                ));
-
-        for (Purchaser purchaser : PurchaserSave) {
-            Tender tender = tenderBySourceId.get(purchaser.getTender_src_id());
-            purchaser.setTender(tender);
-        }
-
-        for (Type type : TypeSave) {
-            Tender tender = tenderBySourceId.get(type.getTender_src_id());
-            type.setTender(tender);
-        }
-
-        for (Awarded award : AwardSave) {
-            Tender tender = tenderBySourceId.get(award.getTender_src_id());
-            award.setTender(tender);
-        }
-
-        for (Awarded award: AwardSave){
-            for (Supplier supplier: SupplierSave){
-                if (award.getSuppliersId() == supplier.getSource_id()){
-                    award.setSupplier(supplier);
-                }
-            }
-        }
+        setConnections(TendersSave,PurchaserSave,AwardSave,TypeSave,SupplierSave);
 
         catalog.getTenders().saveAll(TendersSave);
         catalog.getPurchers().saveAll(PurchaserSave);
@@ -111,7 +72,7 @@ public class TendersUpdater implements IUpdateTenders{
         return new TypeDto(tender.id(), res.id(), res.name(), res.slug());
     }
 
-    private List<AwardDto> getAwardFromTender(TenderDto tender){
+    private AwardDto getAwardFromTender(TenderDto tender){
         List<AwardDto> res = tender.awarded();
         List<AwardDto> res_f = new ArrayList<>();
 
@@ -119,9 +80,50 @@ public class TendersUpdater implements IUpdateTenders{
             res_f.add(new AwardDto(tender.id(), award.date(), award.valueForOne(), award.valueForTwo(), award.valueForThree(), award.suppliersId(), award.count(), award.offersCount(), award.value(), award.suppliers()));
         }
 
-        return res_f;
+        return res_f.get(0);
     }
-    private List<SupplierDto> getSupplierFromAwarded(AwardDto awarded){
-        return awarded.suppliers();
+    private SupplierDto getSupplierFromAwarded(AwardDto awarded){
+        return awarded.suppliers().get(0);
+    }
+
+    private List<SupplierDto> getUniqueSuppliers(List<AwardDto> AwardDto){
+        List<SupplierDto> SupplierDtoStart = AwardDto.stream().map(this::getSupplierFromAwarded).toList();
+        Set<Long> seenIds = new HashSet<>();
+        List<SupplierDto> SupplierDto = SupplierDtoStart.stream()
+                .filter(supplier -> seenIds.add(supplier.id()))
+                .collect(Collectors.toList());
+        return SupplierDto;
+    }
+
+    private void setConnections(List<Tender> TendersSave, List<Purchaser> PurchaserSave, List<Awarded> AwardSave, List<Type> TypeSave, List<Supplier> SupplierSave){
+        Map<Long, Tender> tenderBySourceId = TendersSave.stream()
+                .collect(Collectors.toMap(
+                        tender -> (long) tender.getSourceId(),
+                        Function.identity(),
+                        (existing, replacement) -> existing
+                ));
+
+        for (Purchaser purchaser : PurchaserSave) {
+            Tender tender = tenderBySourceId.get(purchaser.getTender_src_id());
+            purchaser.setTender(tender);
+        }
+
+        for (Type type : TypeSave) {
+            Tender tender = tenderBySourceId.get(type.getTender_src_id());
+            type.setTender(tender);
+        }
+
+        for (Awarded award : AwardSave) {
+            Tender tender = tenderBySourceId.get(award.getTender_src_id());
+            award.setTender(tender);
+        }
+
+        for (Awarded award: AwardSave){
+            for (Supplier supplier: SupplierSave){
+                if (award.getSuppliersId() == supplier.getSource_id()){
+                    award.setSupplier(supplier);
+                }
+            }
+        }
     }
 }

@@ -1,9 +1,6 @@
 package com.tender.tenderwebclient.services;
 
-import com.tender.tenderwebapi.model.AwardedObj;
-import com.tender.tenderwebapi.model.PurchaserObj;
-import com.tender.tenderwebapi.model.TenderObj;
-import com.tender.tenderwebapi.model.TypeObj;
+import com.tender.tenderwebapi.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -129,11 +126,27 @@ public class TenderViewService {
                 .toBodilessEntity();
     }
 
+    public List<SupplierObj> getAllSuppliers(){
+        ResponseEntity<List<SupplierObj>> response = restClient.get()
+                .uri(tenderBaseUrl + "/allSuppliers").
+                retrieve().toEntity(new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
 
 
     public List<Long> getAllSuplliersID(){
         ResponseEntity<List<Long>> response = restClient.get()
                 .uri(tenderBaseUrl + "/SupplierID")
+                .retrieve()
+                .toEntity(new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
+
+    public List<Integer> getAllTenderID() {
+        ResponseEntity<List<Integer>> response = restClient.get()
+                .uri(tenderBaseUrl + "/TenderID")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
         return response.getBody();

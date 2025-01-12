@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/style.css}" rel="stylesheet" />
+    <title>Suppliers</title>
+</head>
+<body>
+<nav class="navbar">
+    <a href="/allTenders" class="navbar-link">All Tenders</a>
+    <a href="/allSuppliers" class="navbar-link">All Suppliers</a>
+</nav>
+
+<h1>All Suppliers</h1>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>Source ID</td>
+        <td>Date</td>
+        <td>Deadline Date</td>
+    </tr>
+    <tr th:each="supplier : ${suppliers}">
+        <td th:text="${supplier.id}"></td>
+        <td th:text="${supplier.source_id}"></td>
+        <td th:text="${supplier.slug}"></td>
+        <td th:text="${supplier.name}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

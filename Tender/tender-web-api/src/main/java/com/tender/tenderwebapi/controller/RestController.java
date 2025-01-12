@@ -1,10 +1,7 @@
 package com.tender.tenderwebapi.controller;
 
 import com.tender.tenderdatabase.entity.Tender;
-import com.tender.tenderwebapi.model.AwardedObj;
-import com.tender.tenderwebapi.model.PurchaserObj;
-import com.tender.tenderwebapi.model.TenderObj;
-import com.tender.tenderwebapi.model.TypeObj;
+import com.tender.tenderwebapi.model.*;
 import com.tender.tenderwebapi.services.TenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -107,13 +104,22 @@ public class RestController {
     }
 
 
+    @GetMapping("tenders/allSuppliers")
+    public ResponseEntity<List<SupplierObj>> getAllSuppliers(){
+        return new ResponseEntity<>(this.service.getAllSuppliers(), HttpStatus.OK);
+    }
+
 
 
 
 
     ///DODATKOWE DLA CLIENTA
     @GetMapping("tenders/SupplierID")
-    public ResponseEntity<List<Long>> getIDsTender(){
-        return new ResponseEntity<>(this.service.getTenderID(),HttpStatus.OK);
+    public ResponseEntity<List<Long>> getIDsSupplier(){
+        return new ResponseEntity<>(this.service.getSuppliersID(),HttpStatus.OK);
+    }
+    @GetMapping("tenders/TenderID")
+    public ResponseEntity<List<Integer>> getIDsTender(){
+        return new ResponseEntity<>(this.service.getTendersID(),HttpStatus.OK);
     }
 }

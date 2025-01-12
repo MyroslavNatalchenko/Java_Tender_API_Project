@@ -1,10 +1,7 @@
 package com.tender.tenderwebclient.controllers;
 
 //import com.tender.tenderwebclient.models.TenderObj;
-import com.tender.tenderwebapi.model.AwardedObj;
-import com.tender.tenderwebapi.model.PurchaserObj;
-import com.tender.tenderwebapi.model.TenderObj;
-import com.tender.tenderwebapi.model.TypeObj;
+import com.tender.tenderwebapi.model.*;
 import com.tender.tenderwebclient.services.TenderViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +42,7 @@ public class TenderViewController {
     //Add Tender
     @GetMapping("/addTender")
     public String displayAddSchool(Model model) {
+        model.addAttribute("TakenIDs", this.service.getAllTenderID());
         model.addAttribute("tender", new TenderObj(0,0,null,null,null,null,null,null,null));
         return "tender/addForm";
     }
@@ -125,5 +123,12 @@ public class TenderViewController {
     public String submitFormAwarded(@ModelAttribute AwardedObj awarded) {
         this.service.editAwarded(awarded.id(),awarded);
         return "redirect:/TenderDetails?id=" + awarded.tender_src_id();
+    }
+
+    @GetMapping("/allSuppliers")
+    public String displayAllSuppliers(Model model){
+        List<SupplierObj> suppliers = service.getAllSuppliers();
+        model.addAttribute("suppliers",suppliers);
+        return "viewAllSuppliers";
     }
 }

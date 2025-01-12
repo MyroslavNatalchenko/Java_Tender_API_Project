@@ -1,4 +1,4 @@
-package com.tender.tenderwebclient.services;
+package com.tender.tenderwebclient.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
