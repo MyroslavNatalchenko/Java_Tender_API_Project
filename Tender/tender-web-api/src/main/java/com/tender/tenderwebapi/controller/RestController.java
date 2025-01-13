@@ -20,6 +20,8 @@ public class RestController {
         this.service = service;
     }
 
+    // TODO Разделить на несколько Controller
+
     /// ***************************************************************
     /// *** TENDERS: find all + byId, add, delete by id, edit by id ***
     /// ***************************************************************

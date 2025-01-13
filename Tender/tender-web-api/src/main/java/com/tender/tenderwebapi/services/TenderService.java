@@ -20,12 +20,22 @@ import java.util.List;
 
 @Service
 public class TenderService implements ITenderService{
+
+    //TODO Пересмотреть все Exceptions и возможно разделить на несколько разных сервисов
     private final ICatalogData repository;
 
     @Autowired
     public TenderService(ICatalogData repository) {
         this.repository = repository;
     }
+
+    /**
+    /// *****************************************
+    /// *****************************************
+    /// TENDER TENDER TENDER TENDER TENDER TENDER
+    /// *****************************************
+    /// *****************************************
+     */
 
     @Override
     public List<TenderObj> getAllTenders() {
@@ -104,9 +114,13 @@ public class TenderService implements ITenderService{
         this.repository.getTenders().save(tender);
     }
 
+    /**
+    /// *******************************************
     /// *******************************************
     /// PURCHASERS PURCHASERS PURCHASERS PURCHASERS
     /// *******************************************
+    /// *******************************************
+     */
 
     @Override
     public List<PurchaserObj> getAllPurchasers() {
@@ -153,10 +167,13 @@ public class TenderService implements ITenderService{
         this.repository.getPurchers().save(purchaser);
     }
 
+    /**
+    /// ***************************************
     /// ***************************************
     /// AWARDED AWARDED AWARDED AWARDED AWARDED
     /// ***************************************
-
+    /// ***************************************
+    */
     @Override
     public List<AwardedObj> getAwardedByTenderId(long id) {
         List<Awarded> awardeds = this.repository.getAwarded().findAllByTender_src_id(id);
@@ -208,9 +225,13 @@ public class TenderService implements ITenderService{
                 ,award.getValue());
     }
 
+    /**
+    /// ***************************************
     /// ***************************************
     /// TYPE TYPE TYPE TYPE TYPE TYPE TYPE TYPE
     /// ***************************************
+    /// ***************************************
+     */
 
     @Override
     public TypeObj getTypeByTenderId(long id) {
@@ -236,6 +257,14 @@ public class TenderService implements ITenderService{
         type.setSlug(typeObj.slug());
         this.repository.getTypes().save(type);
     }
+
+    /**
+    /// ********************************************
+    /// ********************************************
+    /// SUPPLIER SUPPLIER SUPPLIER SUPPLIER SUPPLIER
+    /// ********************************************
+    /// ********************************************
+     */
 
     @Override
     public List<SupplierObj> getAllSuppliers() {
@@ -269,9 +298,11 @@ public class TenderService implements ITenderService{
     }
 
 
+    /**
     /// *************************************
     /// *************************************
     /// *************************************
+     */
 
     public List<Long> getSuppliersID(){
         return this.repository.getSupplier().findAllSourceIds();
