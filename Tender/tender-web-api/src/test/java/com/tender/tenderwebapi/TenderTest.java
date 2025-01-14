@@ -54,7 +54,7 @@ public class TenderTest {
     }
 
     // **************************
-    // ***** CREATION TESTS *****
+    // TENDER
     // **************************
     @Test
     public void testGetAllTendersSuccess() {
@@ -62,7 +62,11 @@ public class TenderTest {
         Tender t2 = createTender(2, 102, "2023-02-01", "2023-02-10", "Title2");
         when(tenderRepository.findAll()).thenReturn(List.of(t1, t2));
 
+        // Выполнение метода
         List<TenderObj> tenders = service.getAllTenders();
+
+        // Проверки вызовов
+        verify(tenderRepository, times(1)).findAll();
         assertEquals(2, tenders.size());
     }
 
@@ -88,7 +92,11 @@ public class TenderTest {
         TenderObj tenderObj = new TenderObj(0, 100, "2023-01-01", "2023-01-10", "9", "Title", "Category", "SID", "URL");
         when(tenderRepository.findAllSourceIds()).thenReturn(new ArrayList<>());
 
+        // Выполнение метода
         service.addTender(tenderObj);
+
+        // Проверки вызовов
+        verify(tenderRepository, times(1)).findAllSourceIds();
         verify(tenderRepository, times(1)).save(any(Tender.class));
     }
 
@@ -111,10 +119,24 @@ public class TenderTest {
 
     @Test
     public void testDeleteTenderByIdSuccess() {
+        // Мок данных
         Tender t = createTender(1, 101, "2023-01-01", "2023-01-10", "Title");
-        when(tenderRepository.findAllBySourceId(101)).thenReturn(List.of(t));
+        Type type = createType(1, 101, "TypeName", "TypeSlug");
+        Purchaser purchaser = createPurchaser(1, 101, "PurchaserName");
+        Awarded awarded = createAwarded(1, 101, 1000.0, "AwardedName");
 
+        when(tenderRepository.findAllBySourceId(101)).thenReturn(List.of(t));
+        when(typeRepository.findAllByTender_src_id(101)).thenReturn(List.of(type));
+        when(purchaserRepository.findAllByTender_src_id(101)).thenReturn(List.of(purchaser));
+        when(awardedRepository.findAllByTender_src_id(101)).thenReturn(List.of(awarded));
+
+        // Выполнение метода
         service.deleteTenderById(101);
+
+        // Проверки вызовов
+        verify(typeRepository, times(1)).deleteByTenderSrcId(101);
+        verify(purchaserRepository, times(1)).deleteByTenderSrcId(101);
+        verify(awardedRepository, times(1)).deleteByTenderSrcId(101);
         verify(tenderRepository, times(1)).deleteBySourceId(101);
     }
 
@@ -132,8 +154,12 @@ public class TenderTest {
         when(tenderRepository.findAllBySourceId(101)).thenReturn(List.of(existingTender));
 
         TenderObj updatedTender = new TenderObj(1, 101, "2023-01-01", "2023-01-15", "14", "New Title", "Category", "SID", "URL");
+
+        // Выполнение метода
         service.updateTenderById(101, updatedTender);
 
+        // Проверки вызовов
+        verify(tenderRepository, times(1)).findAllBySourceId(101);
         verify(tenderRepository, times(1)).save(existingTender);
         assertEquals("New Title", existingTender.getTitle());
     }
