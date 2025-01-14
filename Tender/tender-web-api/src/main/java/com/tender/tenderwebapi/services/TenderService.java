@@ -87,9 +87,12 @@ public class TenderService implements ITenderService{
     public void deleteTenderById(long id) {
         List<Tender> tenders = this.repository.getTenders().findAllBySourceId(id);
         if (tenders.isEmpty()) throw new CanNotDeleteTenderException();
-        this.repository.getTypes().deleteByTenderSrcId(id);
-        this.repository.getAwarded().deleteByTenderSrcId(id);
-        this.repository.getPurchers().deleteByTenderSrcId(id);
+        List<Type> types = this.repository.getTypes().findAllByTender_src_id(id);
+        List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
+        List<Awarded> awards = this.repository.getAwarded().findAllByTender_src_id(id);
+        if (!types.isEmpty()) this.repository.getTypes().deleteByTenderSrcId(id);
+        if (!awards.isEmpty()) this.repository.getAwarded().deleteByTenderSrcId(id);
+        if (!purchasers.isEmpty()) this.repository.getPurchers().deleteByTenderSrcId(id);
         this.repository.getTenders().deleteBySourceId((int) id);
     }
 
