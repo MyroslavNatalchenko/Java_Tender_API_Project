@@ -19,6 +19,11 @@ public class TenderViewController {
         this.service = service;
     }
 
+    @GetMapping("")
+    public String redirect(){
+        return "redirect:/allTenders";
+    }
+
     @GetMapping("/allTenders")
     public String displayAllTenders(Model model){
         List<TenderObj> tenders = service.getAllTenders();

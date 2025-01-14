@@ -22,6 +22,8 @@ import java.util.List;
 public class TenderService implements ITenderService{
 
     //TODO Пересмотреть все Exceptions и возможно разделить на несколько разных сервисов
+
+    //TODO попробовать сделать удаление + поменять каскад типы в бд
     private final ICatalogData repository;
 
     @Autowired
