@@ -39,4 +39,7 @@ public interface AwardedRepository extends JpaRepository<Awarded, Long> {
                            @Param("count") String count,
                            @Param("date") String date,
                            @Param("value") String value);
+
+    @Query("SELECT t.id FROM Awarded t")
+    List<Long> findAllSourceIds();
 }

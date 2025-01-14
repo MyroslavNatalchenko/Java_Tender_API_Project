@@ -29,12 +29,6 @@ public class PurchaserController {
         return new ResponseEntity<>(this.service.getPurchaserByTenderId(id),HttpStatus.OK);
     }
 
-    @DeleteMapping("tenders/purchaser/delete/{id}")
-    public ResponseEntity<Object> deletePurchaser(@PathVariable long id) {
-        this.service.deletePurchaserById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PutMapping("tenders/purchaser/update/{id}")
     public ResponseEntity<Object> editPurchaser(@PathVariable long id, @RequestBody PurchaserObj purchaserObj){
         this.service.updatePurchaserById(id, purchaserObj);

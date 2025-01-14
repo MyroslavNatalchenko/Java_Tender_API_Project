@@ -2,8 +2,11 @@ package com.tender.tenderwebapi.services;
 
 import com.tender.tenderdatabase.entity.*;
 import com.tender.tenderdatabase.repositories.ICatalogData;
+import com.tender.tenderwebapi.exceptions.awardedEXP.NoAwardedWithSuchID;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.CanNotDeletePurchaserException;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.PurchaserNotFoundException;
+import com.tender.tenderwebapi.exceptions.supplier.NoSupplerWithSuchIdException;
+import com.tender.tenderwebapi.exceptions.supplier.SupplerWithSuchIdExistException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.IncorrectProvidedTenderDataException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.TenderNotFoundException;
@@ -42,6 +45,7 @@ public class TenderService implements ITenderService{
     @Override
     public List<TenderObj> getAllTenders() {
         List<Tender> tenders = this.repository.getTenders().findAll();
+        if (tenders.isEmpty()) throw new TenderNotFoundException();
         List<TenderObj> res = new ArrayList<>();
         for (Tender tender: tenders){
             res.add(new TenderObj(tender.getId(),tender.getSourceId(),tender.getDate(),tender.getDeadlineDate(),tender.getDeadlineLengthDays(),tender.getTitle(),tender.getCategory(),tender.getSid(),tender.getSourceUrl()));
@@ -72,7 +76,6 @@ public class TenderService implements ITenderService{
         tender.setCategory(tenderObj.category());
         tender.setSid(tenderObj.sid());
         tender.setSourceUrl(tenderObj.sourceUrl());
-
         if (deadline.isAfter(startdate)){
             tender.setDeadlineLengthDays(ChronoUnit.DAYS.between(startdate,deadline) + "");
         } else throw new IncorrectProvidedTenderDataException();
@@ -93,7 +96,7 @@ public class TenderService implements ITenderService{
     @Override
     public void updateTenderById(long id, TenderObj tenderObj) {
         List<Tender> tenders = this.repository.getTenders().findAllBySourceId(id);
-        if (tenders.isEmpty()) throw new IncorrectProvidedTenderDataException();
+        if (tenders.isEmpty()) throw new TenderNotFoundException();
         Tender tender=tenders.get(0);
 
         tender.setSid(tenderObj.sid());
@@ -152,13 +155,6 @@ public class TenderService implements ITenderService{
     }
 
     @Override
-    public void deletePurchaserById(long id) {
-        List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
-        if (purchasers.isEmpty()) throw new CanNotDeletePurchaserException();
-        this.repository.getPurchers().deleteByTenderSrcId(id);
-    }
-
-    @Override
     public void updatePurchaserById(long id, PurchaserObj purchaserObj) {
         List<Purchaser> purchasers = this.repository.getPurchers().findAllByTender_src_id(id);
         if (purchasers.isEmpty()) throw new PurchaserNotFoundException();
@@ -207,6 +203,8 @@ public class TenderService implements ITenderService{
 
     @Override
     public void updateAwardedById(long id, AwardedObj awardedObj) {
+        HashSet<Long> ids = new HashSet<>(this.repository.getAwarded().findAllSourceIds());
+        if (!ids.contains(id)) throw new NoAwardedWithSuchID();
         this.repository.getAwarded().updateAwardedById(id, awardedObj.offersCount(), awardedObj.valueForOne(), awardedObj.valueForTwo(), awardedObj.valueForThree(), awardedObj.suppliersId(), awardedObj.count(), awardedObj.date(), awardedObj.value());
         Awarded awarded = this.repository.getAwarded().findAwardedByBDid(id).get(0);
         awarded.setSupplier(this.repository.getSupplier().findBySource_id(awarded.getSuppliersId()).get(0));
@@ -280,9 +278,10 @@ public class TenderService implements ITenderService{
 
     @Override
     public void addSupplier(SupplierObj supplierObj) {
+        HashSet<Long> sourceId = new HashSet<>(this.repository.getSupplier().findAllSourceIds());
+        if (sourceId.contains(supplierObj.source_id())) throw new SupplerWithSuchIdExistException();
+
         Supplier supplier = new Supplier();
-//        HashSet<Integer> sourceId = new HashSet<>(this.repository.getTenders().findAllSourceIds());
-//        if (sourceId.contains(tenderObj.sourceId())) throw new TenderWithSuchIdExistException();
 
         supplier.setSource_id(supplierObj.source_id());
         supplier.setSlug(supplierObj.slug());
@@ -293,6 +292,9 @@ public class TenderService implements ITenderService{
 
     @Override
     public void updateSupplier(long id, SupplierObj supplierObj) {
+        HashSet<Long> sourceId = new HashSet<>(this.repository.getSupplier().findAllSourceIds());
+        if (!sourceId.contains(supplierObj.source_id())) throw new NoSupplerWithSuchIdException();
+
         Supplier supplier = this.repository.getSupplier().findBySource_id(id).get(0);
         supplier.setName(supplierObj.name());
         supplier.setSlug(supplierObj.slug());
