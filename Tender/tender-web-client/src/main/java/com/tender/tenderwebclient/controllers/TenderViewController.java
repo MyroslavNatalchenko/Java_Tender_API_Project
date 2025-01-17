@@ -60,7 +60,9 @@ public class TenderViewController {
     //Remove Tender
     @GetMapping("/removeTender")
     public String displayDeleteSchool(@RequestParam("id") long id, Model model) {
+        List<Integer> ids = this.service.getAllTenderID();
         TenderObj tender = this.service.getTenderById(id);
+        model.addAttribute("IDs", ids);
         model.addAttribute("tender", tender);
         return "tender/deleteForm";
     }
@@ -70,6 +72,7 @@ public class TenderViewController {
         return "redirect:/allTenders";
     }
 
+    //Tender details
     @GetMapping("/TenderDetails")
     public String displayTenderDetails(@RequestParam("id") long id, Model model){
         TenderObj tender = this.service.getTenderById(id);
@@ -82,88 +85,5 @@ public class TenderViewController {
         model.addAttribute("type", type);
         model.addAttribute("id", id);
         return "tender/viewTenderDetails";
-    }
-
-    @GetMapping("/allPurchaser")
-    public String displayAllPurchaser(Model model){
-        List<PurchaserObj> purchasers = service.getAllPurchasers();
-        model.addAttribute("purchasers",purchasers);
-        return "viewAllPurchasers";
-    }
-
-
-    @GetMapping("/updatePurchaser")
-    public String displayUpdatePurchaser(@RequestParam("id") long id, Model model) {
-        PurchaserObj purchaser = this.service.getPurchaserByTenderId(id);
-        model.addAttribute("TakenIDs", this.service.getAllPurchaserID());
-        model.addAttribute("purchaser", purchaser);
-        return "purchaser/updateForm";
-    }
-    @PostMapping("/updatePurchaser")
-    public String submitFormPurchaser(@ModelAttribute PurchaserObj purchaser) {
-        this.service.editPurchaser(purchaser.tender_src_id(),purchaser);
-        return "redirect:/TenderDetails?id=" + purchaser.tender_src_id();
-    }
-
-    @GetMapping("/updateType")
-    public String displayUpdateType(@RequestParam("id") long id, Model model) {
-        TypeObj type = this.service.getTypeByTenderId(id);
-        model.addAttribute("type", type);
-        return "type/updateForm";
-    }
-    @PostMapping("/updateType")
-    public String submitFormType(@ModelAttribute TypeObj type) {
-        this.service.editType(type.tender_src_id(),type);
-        return "redirect:/TenderDetails?id=" + type.tender_src_id();
-    }
-
-    @GetMapping("/updateAwarded")
-    public String displayUpdateAwarded(@RequestParam("id") long id, Model model) {
-        AwardedObj awarded = this.service.getAwardedById(id);
-        List<Long> SuppliersID = this.service.getAllSuplliersID();
-        model.addAttribute("SuppliersID", SuppliersID);
-        model.addAttribute("awarded", awarded);
-        return "awarded/updateForm";
-    }
-    @PostMapping("/updateAwarded")
-    public String submitFormAwarded(@ModelAttribute AwardedObj awarded) {
-        this.service.editAwarded(awarded.id(),awarded);
-        return "redirect:/TenderDetails?id=" + awarded.tender_src_id();
-    }
-
-    @GetMapping("/allSuppliers")
-    public String displayAllSuppliers(Model model){
-        List<SupplierObj> suppliers = service.getAllSuppliers();
-        model.addAttribute("suppliers",suppliers);
-        return "viewAllSuppliers";
-    }
-
-    @GetMapping("/addSupplier")
-    public String displayAddSupplier(Model model) {
-        model.addAttribute("TakenIDs", this.service.getAllSuplliersID());
-        model.addAttribute("supplier", new SupplierObj(0,0,null,null));
-        return "supplier/addForm";
-    }
-    @PostMapping("/addSupplier")
-    public String addFormSupplier(@ModelAttribute SupplierObj supplier) {
-        this.service.addSupplier(supplier);
-        return "redirect:/allSuppliers";
-    }
-
-    @GetMapping("/updateSupplier")
-    public String displayUpdateSupplier(@RequestParam("id") long id, Model model) {
-        List<SupplierObj> suppliers = this.service.getAllSuppliers();
-        SupplierObj res = new SupplierObj(0,0,null,null);
-        for (SupplierObj supplier: suppliers){
-            if (supplier.source_id()==id)
-                res = supplier;
-        }
-        model.addAttribute("supplier", res);
-        return "supplier/updateForm";
-    }
-    @PostMapping("/updateSupplier")
-    public String submitFormSupplier(@ModelAttribute SupplierObj supplier) {
-        this.service.editSupplier(supplier.source_id(),supplier);
-        return "redirect:/allSuppliers";
     }
 }

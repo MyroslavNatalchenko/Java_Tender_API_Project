@@ -12,10 +12,8 @@
             const submitButton = document.getElementById("submit");
             const errorField = document.getElementById("errorSourceId");
 
-            // Получаем значение sourceId
             const sourceId = parseInt(sourceIdInput.value);
 
-            // Проверяем, входит ли sourceId в список занятых
             if (takenIDs.includes(sourceId)) {
                 errorField.textContent = "This Source ID is already taken.";
                 submitButton.disabled = true;
@@ -30,9 +28,13 @@
 <h1>Edit Purchaser</h1>
 
 <form action="#" th:action="@{/updatePurchaser}" th:object="${purchaser}" method="post">
-    <input type="number" placeholder="ID" th:field="*{id}" readonly>
-    <input type="number" placeholder="Tender Src Id" th:field="*{tender_src_id}" readonly>
+    <label for="id">ID:</label>
+    <input type="number" id="id" placeholder="ID" th:field="*{id}" readonly>
 
+    <label for="tender_src_id">Tender Source ID:</label>
+    <input type="number" id="tender_src_id" placeholder="Tender Src Id" th:field="*{tender_src_id}" readonly>
+
+    <label for="sourceId">Source ID:</label>
     <input type="number" id="sourceId" placeholder="Src Id"
            th:field="*{sourceId}"
            th:attr="readonly=${purchaser.sourceId != 0}, min=${purchaser.sourceId == 0 ? 1 : null}"
@@ -40,10 +42,13 @@
            oninput="validateSourceId()">
     <span id="errorSourceId" style="color: red; font-size: small;"></span>
 
-    <input type="text" placeholder="SID" th:field="*{sid}" required>
-    <input type="text" placeholder="Name" th:field="*{name}" required>
+    <label for="sid">SID:</label>
+    <input type="text" id="sid" placeholder="SID" th:field="*{sid}" required>
 
-    <input id="submit" type="submit" value="Submit" />
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Name" th:field="*{name}" required>
+
+    <input id="submit" type="submit" value="Submit">
 </form>
 </body>
 </html>

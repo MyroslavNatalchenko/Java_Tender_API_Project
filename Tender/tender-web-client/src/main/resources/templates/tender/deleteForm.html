@@ -6,19 +6,36 @@
     <link th:href="@{/style_forms.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>Edit Tender</h1>
+<h1>Remove Tender</h1>
 <h1 th:text="${tender.sourceId}"></h1>
 
 <form action="#" th:action="@{/removeTender}" th:object="${tender}" method="post">
-    <input type="number" th:field="*{id}" hidden="hidden">
-    <input type="number" th:field="*{sourceId}" required>
-    <input type="date" placeholder="Enter Date" th:field="*{date}" hidden="hidden">
-    <input type="date" placeholder="yyyy-DD-mm" th:field="*{deadlineDate}" hidden="hidden">
-    <input type="number" th:field="*{deadlineLengthDays}" hidden="hidden">
-    <input type="text" placeholder="Enter Title" th:field="*{title}" hidden="hidden">
-    <input type="text" placeholder="Enter Category" th:field="*{category}" hidden="hidden">
-    <input type="number" placeholder="Enter SID" th:field="*{sid}" hidden="hidden">
-    <input type="text" placeholder="Enter Source URL" th:field="*{sourceUrl}" hidden="hidden">
+    <input type="number" id="id" th:field="*{id}" hidden="hidden">
+
+    <label for="sourceId">Source ID:</label>
+    <input type="number" id="sourceId" th:field="*{sourceId}" required readonly>
+
+    <label for="date" hidden>Start Date:</label>
+    <input type="date" id="date" placeholder="Enter Date" th:field="*{date}" hidden="hidden">
+
+    <label for="deadlineDate" hidden>Deadline Date:</label>
+    <input type="date" id="deadlineDate" placeholder="yyyy-DD-mm" th:field="*{deadlineDate}" hidden="hidden">
+
+    <label for="deadlineLengthDays" hidden>Deadline Length (Days):</label>
+    <input type="number" id="deadlineLengthDays" th:field="*{deadlineLengthDays}" hidden="hidden">
+
+    <label for="title" hidden>Title:</label>
+    <input type="text" id="title" placeholder="Enter Title" th:field="*{title}" hidden="hidden">
+
+    <label for="category" hidden>Category:</label>
+    <input type="text" id="category" placeholder="Enter Category" th:field="*{category}" hidden="hidden">
+
+    <label for="sid" hidden>SID:</label>
+    <input type="number" id="sid" placeholder="Enter SID" th:field="*{sid}" hidden="hidden">
+
+    <label for="sourceUrl" hidden>Source URL:</label>
+    <input type="text" id="sourceUrl" placeholder="Enter Source URL" th:field="*{sourceUrl}" hidden="hidden">
+
     <input id="submit" type="submit" value="Submit" />
 </form>
 </body>

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class TenderTest {
     @Spy
     private ICatalogData repository;
@@ -47,8 +49,6 @@ public class TenderTest {
         doReturn(typeRepository).when(repository).getTypes();
         doReturn(awardedRepository).when(repository).getAwarded();
         doReturn(purchaserRepository).when(repository).getPurchers();
-
-        when(tenderRepository.findAllSourceIds()).thenReturn(new ArrayList<>());
 
         this.service = new TenderService(repository);
     }

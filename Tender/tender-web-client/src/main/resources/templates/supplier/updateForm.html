@@ -2,17 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update Tender</title>
+    <title>Update Supplier</title>
     <link th:href="@{/style_forms.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>Add Supplier</h1>
+<h1>Update Supplier</h1>
 
 <form action="#" th:action="@{/updateSupplier}" th:object="${supplier}" method="post">
     <input type="number" th:field="*{id}" hidden="hidden">
+
+    <label for="sourceId">Source ID:</label>
     <input type="number" id="sourceId" th:field="*{source_id}" readonly>
-    <input type="text" th:field="*{name}">
-    <input type="text" th:field="*{slug}">
+
+    <label for="name">Supplier Name:</label>
+    <input type="text" id="name" th:field="*{name}" placeholder="Enter supplier name" required>
+
+    <label for="slug">Slug:</label>
+    <input type="text" id="slug" th:field="*{slug}" placeholder="Enter slug" required>
 
     <input id="submit" type="submit" value="Submit">
 </form>

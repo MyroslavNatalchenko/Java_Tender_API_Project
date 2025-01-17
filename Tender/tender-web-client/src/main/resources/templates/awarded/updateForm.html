@@ -9,18 +9,37 @@
 <h1>Edit Awarded</h1>
 
 <form action="#" th:action="@{/updateAwarded}" th:object="${awarded}" method="post">
-    <input type="number" placeholder="ID" th:field="*{id}" readonly>
-    <input type="number" placeholder="Tender Src ID" th:field="*{tender_src_id}" readonly>
-    <input type="date" placeholder="Date" th:field="*{date}" required>
-    <input type="number" placeholder="Value For One" th:field="*{valueForOne}" required>
-    <input type="number" placeholder="Value For Two" th:field="*{valueForTwo}" required>
-    <input type="number" placeholder="Value For Three" th:field="*{valueForThree}" required>
-    <select th:field="*{suppliersId}" required>
+    <label for="id">ID:</label>
+    <input type="number" id="id" placeholder="ID" th:field="*{id}" readonly>
+
+    <label for="tender_src_id">Tender Source ID:</label>
+    <input type="number" id="tender_src_id" placeholder="Tender Src ID" th:field="*{tender_src_id}" readonly>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" placeholder="Date" th:field="*{date}" required>
+
+    <label for="valueForOne">Value For One:</label>
+    <input type="number" id="valueForOne" placeholder="Value For One" th:field="*{valueForOne}" required>
+
+    <label for="valueForTwo">Value For Two:</label>
+    <input type="number" id="valueForTwo" placeholder="Value For Two" th:field="*{valueForTwo}" required>
+
+    <label for="valueForThree">Value For Three:</label>
+    <input type="number" id="valueForThree" placeholder="Value For Three" th:field="*{valueForThree}" required>
+
+    <label for="suppliersId">Suppliers ID:</label>
+    <select id="suppliersId" th:field="*{suppliersId}" required>
         <option th:each="id : ${SuppliersID}" th:value="${id}" th:text="${id}"></option>
     </select>
-    <input type="number" placeholder="Count" th:field="*{count}">
-    <input type="number" placeholder="Offers Count" th:field="*{offersCount}">
-    <input type="number" placeholder="Value" th:field="*{value}">
+
+    <label for="count">Count:</label>
+    <input type="number" id="count" placeholder="Count" th:field="*{count}">
+
+    <label for="offersCount">Offers Count:</label>
+    <input type="number" id="offersCount" placeholder="Offers Count" th:field="*{offersCount}">
+
+    <label for="value">Value:</label>
+    <input type="number" id="value" placeholder="Value" th:field="*{value}">
 
     <input id="submit" type="submit" value="Submit" />
 </form>
