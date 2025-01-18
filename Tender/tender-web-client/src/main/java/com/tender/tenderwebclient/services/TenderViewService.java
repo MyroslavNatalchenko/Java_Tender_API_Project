@@ -94,6 +94,13 @@ public class TenderViewService {
         return response.getBody();
     }
 
+    public List<AwardedObj> getAwardedBySupplierId(long id){
+        ResponseEntity<List<AwardedObj>> response = restClient.get()
+                .uri(tenderBaseUrl + "/AwardedSupplier/" + id).
+                retrieve().toEntity(new ParameterizedTypeReference<List<AwardedObj>>() {});
+        return response.getBody();
+    }
+
     public AwardedObj getAwardedById(long id){
         ResponseEntity<AwardedObj> response = restClient.get()
                 .uri(tenderBaseUrl + "/Awarded/" + id).
@@ -147,6 +154,13 @@ public class TenderViewService {
                 .uri(tenderBaseUrl + "/supplier/update/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(supplierObj)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void deleteSupplier(long id){
+        ResponseEntity<Void> response = restClient.delete()
+                .uri(tenderBaseUrl + "/supplier/delete/" + id)
                 .retrieve()
                 .toBodilessEntity();
     }

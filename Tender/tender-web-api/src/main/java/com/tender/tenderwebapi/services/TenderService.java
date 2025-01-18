@@ -205,6 +205,26 @@ public class TenderService implements ITenderService{
     }
 
     @Override
+    public List<AwardedObj> getAwardedBySupplier(long id) {
+        List<Awarded> awarded = this.repository.getAwarded().findAllBySupplier(id);
+        List<AwardedObj> res = new ArrayList<>();
+        if (awarded.isEmpty()) return res;
+        for (Awarded award: awarded){
+            res.add(new AwardedObj(award.getId()
+                    ,award.getTender_src_id()
+                    ,award.getDate()
+                    ,award.getValueForOne()
+                    ,award.getValueForTwo()
+                    ,award.getValueForThree()
+                    ,award.getSuppliersId()
+                    ,award.getCount()
+                    ,award.getOffersCount()
+                    ,award.getValue()));
+        }
+        return res;
+    }
+
+    @Override
     public void updateAwardedById(long id, AwardedObj awardedObj) {
         HashSet<Long> ids = new HashSet<>(this.repository.getAwarded().findAllSourceIds());
         if (!ids.contains(id)) throw new NoAwardedWithSuchID();
@@ -302,6 +322,13 @@ public class TenderService implements ITenderService{
         supplier.setName(supplierObj.name());
         supplier.setSlug(supplierObj.slug());
         this.repository.getSupplier().save(supplier);
+    }
+
+    @Override
+    public void deleteSupplier(long id) {
+        int size_awarded = this.repository.getAwarded().findAllBySupplier(id).size();
+        if (size_awarded>0) throw new CanNotDeleteTenderException();
+        this.repository.getSupplier().delete(this.repository.getSupplier().findBySource_id(id).get(0));
     }
 
 

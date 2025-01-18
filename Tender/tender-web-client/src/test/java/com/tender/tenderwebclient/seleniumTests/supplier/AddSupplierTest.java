@@ -22,12 +22,10 @@ public class AddSupplierTest {
 
     @Test
     public void testAddSupplierForm() {
-        // Arrange
         String expectedSourceId = "9999";
         String expectedName = "Test Supplier";
         String expectedSlug = "test-supplier";
 
-        // Act
         AddSupplierPage addSupplier = new AddSupplierPage(driver);
         addSupplier.open()
                 .fillSourceId(expectedSourceId)

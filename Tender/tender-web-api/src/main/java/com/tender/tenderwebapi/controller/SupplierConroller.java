@@ -35,4 +35,10 @@ public class SupplierConroller {
         this.service.updateSupplier(id, supplierObj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("tenders/supplier/delete/{id}")
+    public ResponseEntity<Object> deleteTender(@PathVariable long id) {
+        this.service.deleteSupplier(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

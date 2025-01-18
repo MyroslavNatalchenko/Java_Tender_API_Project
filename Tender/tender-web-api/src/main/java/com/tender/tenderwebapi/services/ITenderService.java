@@ -20,6 +20,7 @@ public interface ITenderService {
     public void updatePurchaserById(long id, PurchaserObj purchaserObj);
 
     public List<AwardedObj> getAwardedByTenderId(long id);
+    public List<AwardedObj> getAwardedBySupplier(long id);
     public void updateAwardedById(long id, AwardedObj awardedObj);
 
     public TypeObj getTypeByTenderId(long id);
@@ -28,4 +29,5 @@ public interface ITenderService {
     public List<SupplierObj> getAllSuppliers();
     public void addSupplier(SupplierObj supplierObj);
     public void updateSupplier(long id, SupplierObj supplierObj);
+    public void deleteSupplier(long id);
 }

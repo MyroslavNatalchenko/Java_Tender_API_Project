@@ -44,7 +44,7 @@ input[readonly] {
     cursor: not-allowed;
 }
 
-#submit {
+#submit , #back {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;

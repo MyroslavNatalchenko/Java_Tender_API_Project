@@ -24,6 +24,11 @@ public class AwardedController {
         return new ResponseEntity<>(this.service.getAwardedByTenderId(id), HttpStatus.OK);
     }
 
+    @GetMapping("tenders/AwardedSupplier/{id}")
+    public ResponseEntity<List<AwardedObj>> getAwardedBySupplierId(@PathVariable long id){
+        return new ResponseEntity<>(this.service.getAwardedBySupplier(id), HttpStatus.OK);
+    }
+
     @PutMapping("tenders/awarded/update/{id}")
     public ResponseEntity<Object> editAwarded(@PathVariable long id, @RequestBody AwardedObj awardedObj){
         this.service.updateAwardedById(id, awardedObj);

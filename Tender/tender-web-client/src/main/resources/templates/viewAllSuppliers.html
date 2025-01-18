@@ -24,6 +24,7 @@
             <td>Name</td>
             <td>Slug</td>
             <td>Edit</td>
+            <td>Delete</td>
          </tr>
     </thead>
 
@@ -35,6 +36,9 @@
             <td th:text="${supplier.slug}"></td>
             <td>
                 <a th:href="@{/updateSupplier(id=${supplier.source_id})}">Update Supplier</a>
+            </td>
+            <td>
+                <a th:href="@{/removeSupplier(id=${supplier.source_id})}">Remove Supplier</a>
             </td>
         </tr>
     </tbody>

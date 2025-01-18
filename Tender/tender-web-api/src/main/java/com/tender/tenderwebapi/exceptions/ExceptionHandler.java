@@ -3,6 +3,7 @@ package com.tender.tenderwebapi.exceptions;
 import com.tender.tenderwebapi.exceptions.awardedEXP.NoAwardedWithSuchID;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.CanNotDeletePurchaserException;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.PurchaserNotFoundException;
+import com.tender.tenderwebapi.exceptions.supplier.CanNotDeleteThisSupplier;
 import com.tender.tenderwebapi.exceptions.supplier.NoSupplerWithSuchIdException;
 import com.tender.tenderwebapi.exceptions.supplier.SupplerWithSuchIdExistException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
@@ -59,5 +60,10 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value={NoSupplerWithSuchIdException.class})
     public ResponseEntity<Object> handleCanNotEdit(NoSupplerWithSuchIdException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value={CanNotDeleteThisSupplier.class})
+    public ResponseEntity<Object> handleCanNotDelete(CanNotDeleteThisSupplier ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

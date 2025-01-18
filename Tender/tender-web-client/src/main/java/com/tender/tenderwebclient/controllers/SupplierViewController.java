@@ -1,6 +1,7 @@
 package com.tender.tenderwebclient.controllers;
 
 import com.tender.tenderwebapi.model.SupplierObj;
+import com.tender.tenderwebapi.model.TenderObj;
 import com.tender.tenderwebclient.services.TenderViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,6 +58,26 @@ public class SupplierViewController {
     @PostMapping("/updateSupplier")
     public String submitFormSupplier(@ModelAttribute SupplierObj supplier) {
         this.service.editSupplier(supplier.source_id(),supplier);
+        return "redirect:/allSuppliers";
+    }
+
+    //Remove Supplier
+    @GetMapping("/removeSupplier")
+    public String displayDeleteSupplier(@RequestParam("id") long id, Model model) {
+        int size_awarded = this.service.getAwardedBySupplierId(id).size();
+        List<SupplierObj> suppliers = this.service.getAllSuppliers();
+        SupplierObj res = new SupplierObj(0,0,null,null);
+        for (SupplierObj supplier: suppliers){
+            if (supplier.source_id()==id)
+                res = supplier;
+        }
+        model.addAttribute("supplier", res);
+        model.addAttribute("size", size_awarded);
+        return "supplier/deleteForm";
+    }
+    @PostMapping("/removeSupplier")
+    public String submitDeleteForm(@ModelAttribute SupplierObj supplierObj) {
+        this.service.deleteSupplier(supplierObj.source_id());
         return "redirect:/allSuppliers";
     }
 }
