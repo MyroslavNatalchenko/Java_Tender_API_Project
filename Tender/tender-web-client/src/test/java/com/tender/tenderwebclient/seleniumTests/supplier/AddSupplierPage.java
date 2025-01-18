@@ -48,8 +48,8 @@ public class AddSupplierPage {
         return this;
     }
 
-    public ViewAllSuppliers submitForm() {
+    public AllSuppliersPage submitForm() {
         this.submitButton.click();
-        return new ViewAllSuppliers(driver);
+        return new AllSuppliersPage(driver);
     }
 }

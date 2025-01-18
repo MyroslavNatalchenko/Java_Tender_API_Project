@@ -1,5 +1,7 @@
-package com.tender.tenderwebclient.seleniumTests.supplier;
+package com.tender.tenderwebclient.seleniumTests.supplier.tests;
 
+import com.tender.tenderwebclient.seleniumTests.supplier.AddSupplierPage;
+import com.tender.tenderwebclient.seleniumTests.supplier.AllSuppliersPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,7 @@ public class AddSupplierTest {
 
     @Test
     public void testAddSupplierForm() {
-        String expectedSourceId = "9999";
+        String expectedSourceId = "1111";
         String expectedName = "Test Supplier";
         String expectedSlug = "test-supplier";
 
@@ -31,7 +33,7 @@ public class AddSupplierTest {
                 .fillSourceId(expectedSourceId)
                 .fillName(expectedName)
                 .fillSlug(expectedSlug);
-        ViewAllSuppliers allSuppliers = addSupplier.submitForm();
+        AllSuppliersPage allSuppliers = addSupplier.submitForm();
 
         assertEquals("All Suppliers", allSuppliers.getHeader());
 
