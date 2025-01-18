@@ -86,8 +86,8 @@ public class AddTenderPage {
         return this;
     }
 
-    public ViewAllTenders submitForm() {
+    public AllTendersPage submitForm() {
         this.submitButton.click();
-        return new ViewAllTenders(driver);
+        return new AllTendersPage(driver);
     }
 }

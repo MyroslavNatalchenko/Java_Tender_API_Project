@@ -1,5 +1,7 @@
-package com.tender.tenderwebclient.seleniumTests.tender;
+package com.tender.tenderwebclient.seleniumTests.tender.tests;
 
+import com.tender.tenderwebclient.seleniumTests.tender.AddTenderPage;
+import com.tender.tenderwebclient.seleniumTests.tender.AllTendersPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +21,7 @@ public class AddTenderTest {
     public void testAddForm() {
         AddTenderPage addTender = new AddTenderPage(driver);
         addTender.open()
-                .fillSourceId("2")
+                .fillSourceId("5")
                 .fillDate("24.07.2006")
                 .fillDeadlineDate("24.08.2006")
                 .fillDeadlineLengthDays("10")
@@ -27,7 +29,7 @@ public class AddTenderTest {
                 .fillCategory("pisya")
                 .fillSid("4")
                 .fillSourceUrl("pornoooo");
-        ViewAllTenders allTenders = addTender.submitForm();
+        AllTendersPage allTenders = addTender.submitForm();
         assertEquals("All Tenders", allTenders.getHeader());
     }
 

@@ -41,7 +41,7 @@ public class TenderViewController {
     @PostMapping("/updateTender")
     public String submitForm(@ModelAttribute TenderObj tender) {
         this.service.editTender((long) tender.sourceId(),tender);
-        return "redirect:/allTenders";
+        return "redirect:/TenderDetails?id=" + tender.sourceId();
     }
 
     //Add Tender

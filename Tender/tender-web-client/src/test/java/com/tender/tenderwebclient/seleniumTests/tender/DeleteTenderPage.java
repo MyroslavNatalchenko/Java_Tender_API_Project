@@ -5,18 +5,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class ViewAllTenders {
-    private WebDriver driver;
+public class DeleteTenderPage {
+    WebDriver driver;
 
-    @FindBy(tagName = "h1")
-    private WebElement header;
+    @FindBy(id = "submit")
+    private WebElement confirmDeleteButton;
 
-    public ViewAllTenders(WebDriver driver) {
+    public DeleteTenderPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public String getHeader() {
-        return this.header.getText();
+    public AllTendersPage confirmDelete() {
+        confirmDeleteButton.click();
+        return new AllTendersPage(driver);
     }
 }
