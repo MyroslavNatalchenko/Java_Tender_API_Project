@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UpdateTenderTest {
@@ -20,23 +21,22 @@ public class UpdateTenderTest {
 
     @Test
     public void testUpdateTender() {
-        // Arrange
-        String newTitle = "Updated Title";
-        String newCategory = "Updated Category";
+        String updatedTitle = "Updated Title";
+        String updatedCategory = "Updated Category";
 
-        // Act
         AllTendersPage allTendersPage = new AllTendersPage(driver);
         allTendersPage.open();
-
         TenderDetailsPage tenderDetailsPage = allTendersPage.clickFirstTenderDetails();
-        UpdateTenderPage updateTenderPage = tenderDetailsPage.clickUpdateTender();
 
-        updateTenderPage.updateTitle(newTitle)
-                .updateCategory(newCategory)
+        UpdateTenderPage updateTenderPage = tenderDetailsPage.clickUpdateTender();
+        updateTenderPage.updateTitle(updatedTitle)
+                .updateCategory(updatedCategory)
                 .submitForm();
 
-        // Assert
-        String currentUrl = driver.getCurrentUrl();
-        assertTrue(currentUrl.contains("TenderDetails"));
+        String actualTitle = tenderDetailsPage.getTenderTitle();
+        String actualCategory = tenderDetailsPage.getTenderCategory();
+        assertEquals(updatedTitle, actualTitle);
+        assertEquals(updatedCategory, actualCategory);
     }
+
 }

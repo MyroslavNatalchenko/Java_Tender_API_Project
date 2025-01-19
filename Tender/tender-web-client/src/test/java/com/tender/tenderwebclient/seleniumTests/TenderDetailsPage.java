@@ -5,6 +5,7 @@ import com.tender.tenderwebclient.seleniumTests.purchaser.UpdatePurchaserPage;
 import com.tender.tenderwebclient.seleniumTests.tender.DeleteTenderPage;
 import com.tender.tenderwebclient.seleniumTests.tender.UpdateTenderPage;
 import com.tender.tenderwebclient.seleniumTests.type.UpdateTypePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -57,4 +58,13 @@ public class TenderDetailsPage {
         updateTypeButton.click();
         return new UpdateTypePage(driver);
     }
+
+    public String getTenderTitle() {
+        return driver.findElement(By.id("tender-title")).getText();
+    }
+
+    public String getTenderCategory() {
+        return driver.findElement(By.id("tender-category")).getText();
+    }
+
 }

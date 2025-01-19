@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 public class TenderDeleteTest {
     WebDriver driver;
 
@@ -21,11 +23,14 @@ public class TenderDeleteTest {
         AllTendersPage allTendersPage = new AllTendersPage(driver);
         allTendersPage.open();
 
-        //Pierwsza strona tender details
-        TenderDetailsPage tenderDetailsPage = allTendersPage.clickFirstTenderDetails();
+        String firstTenderSourceId = allTendersPage.getFirstTenderSourceId();
 
-        //Usuwanie Tenderu
+        TenderDetailsPage tenderDetailsPage = allTendersPage.clickFirstTenderDetails();
         DeleteTenderPage deleteTenderPage = tenderDetailsPage.clickDeleteTender();
         deleteTenderPage.confirmDelete();
+
+        allTendersPage.open();
+        assertFalse(allTendersPage.isTenderPresent(firstTenderSourceId));
     }
+
 }

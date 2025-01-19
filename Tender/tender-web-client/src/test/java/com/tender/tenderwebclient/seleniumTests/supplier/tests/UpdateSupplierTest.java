@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateSupplierTest {
     WebDriver driver;
@@ -27,20 +29,22 @@ public class UpdateSupplierTest {
 
     @Test
     public void testUpdateSupplier() {
-        // Arrange
         String updatedName = "Updated Supplier Name";
         String updatedSlug = "updated-slug";
 
-        // Act
         AllSuppliersPage allSuppliersPage = new AllSuppliersPage(driver);
         allSuppliersPage.open();
+
+        Map<String, String> lastSupplierDataBefore = allSuppliersPage.getLastSupplierData();
 
         UpdateSupplierPage updateSupplierPage = allSuppliersPage.clickLastUpdateButton();
         updateSupplierPage.updateName(updatedName)
                 .updateSlug(updatedSlug)
                 .submitForm();
 
-        // Assert
-        assertTrue(driver.getCurrentUrl().contains("allSuppliers"));
+        Map<String, String> lastSupplierDataAfter = allSuppliersPage.getLastSupplierData();
+
+        assertEquals(updatedName, lastSupplierDataAfter.get("name"));
+        assertEquals(updatedSlug, lastSupplierDataAfter.get("slug"));
     }
 }

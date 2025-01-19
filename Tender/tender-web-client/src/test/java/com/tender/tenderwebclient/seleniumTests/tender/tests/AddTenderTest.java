@@ -19,18 +19,24 @@ public class AddTenderTest {
 
     @Test
     public void testAddForm() {
-        AddTenderPage addTender = new AddTenderPage(driver);
-        addTender.open()
-                .fillSourceId("5")
-                .fillDate("24.07.2006")
-                .fillDeadlineDate("24.08.2006")
-                .fillDeadlineLengthDays("10")
-                .fillTitle("popa")
-                .fillCategory("pisya")
-                .fillSid("4")
-                .fillSourceUrl("pornoooo");
-        AllTendersPage allTenders = addTender.submitForm();
-        assertEquals("All Tenders", allTenders.getHeader());
+        String newSourceId = "11111";
+        String newTitle = "New Tender Title";
+
+        AddTenderPage addTenderPage = new AddTenderPage(driver);
+        addTenderPage.open()
+                .fillSourceId(newSourceId)
+                .fillDate("06.06.2006")
+                .fillDeadlineDate("06.07.2006")
+                .fillDeadlineLengthDays("30")
+                .fillTitle(newTitle)
+                .fillCategory("Category")
+                .fillSid("2")
+                .fillSourceUrl("https://example.com");
+        AllTendersPage allTendersPage = addTenderPage.submitForm();
+
+        String lastTenderTitle = allTendersPage.getLastTenderTitle();
+        assertEquals(newTitle, lastTenderTitle);
     }
+
 
 }

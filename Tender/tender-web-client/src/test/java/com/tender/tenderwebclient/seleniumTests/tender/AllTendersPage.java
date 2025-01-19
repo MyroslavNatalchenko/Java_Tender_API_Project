@@ -1,6 +1,7 @@
 package com.tender.tenderwebclient.seleniumTests.tender;
 
 import com.tender.tenderwebclient.seleniumTests.TenderDetailsPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,4 +38,18 @@ public class AllTendersPage {
         }
         return new TenderDetailsPage(driver);
     }
+
+    public String getFirstTenderSourceId() {
+        return driver.findElement(By.cssSelector(".tender-row .source-id")).getText();
+    }
+
+    public boolean isTenderPresent(String sourceId) {
+        return driver.findElements(By.cssSelector(".tender-row[data-id='" + sourceId + "']")).size() > 0;
+    }
+
+    public String getLastTenderTitle() {
+        List<WebElement> rows = driver.findElements(By.cssSelector(".tender-row .title"));
+        return rows.get(rows.size() - 1).getText();
+    }
+
 }

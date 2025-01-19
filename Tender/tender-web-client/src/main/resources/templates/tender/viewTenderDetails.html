@@ -26,19 +26,19 @@
         <td>Update</td>
         <td>Remove</td>
     </tr>
-    <tr>
-        <td th:text="${tender.date}"></td>
-        <td th:text="${tender.deadlineDate}"></td>
-        <td th:text="${tender.deadlineLengthDays}"></td>
-        <td th:text="${tender.title}"></td>
-        <td th:text="${tender.category}"></td>
-        <td th:text="${tender.sid}"></td>
-        <td th:text="${tender.sourceUrl}"></td>
+    <tr id="tender-details">
+        <td th:text="${tender.date}" id="tender-date"></td>
+        <td th:text="${tender.deadlineDate}" id="tender-deadline-date"></td>
+        <td th:text="${tender.deadlineLengthDays}" id="tender-deadline-length"></td>
+        <td th:text="${tender.title}" id="tender-title"></td>
+        <td th:text="${tender.category}" id="tender-category"></td>
+        <td th:text="${tender.sid}" id="tender-sid"></td>
+        <td th:text="${tender.sourceUrl}" id="tender-source-url"></td>
         <td>
-            <a th:href="@{/updateTender(id=${tender.sourceId})}">Update Tender</a>
+            <a th:href="@{/updateTender(id=${tender.sourceId})}" id="update-tender-link">Update Tender</a>
         </td>
         <td>
-            <a th:href="@{/removeTender(id=${tender.sourceId})}">Remove Tender</a>
+            <a th:href="@{/removeTender(id=${tender.sourceId})}" id="delete-tender-link">Remove Tender</a>
         </td>
     </tr>
 </table>
