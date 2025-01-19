@@ -59,7 +59,7 @@
         <td th:text="${purchaser.sid}" id="purchaser-sid"></td>
         <td th:text="${purchaser.name}" id="purchaser-name"></td>
         <td>
-            <a th:href="@{/updatePurchaser(id=${purchaser.tender_src_id})}" id="purchaser-link">Update Tender</a>
+            <a th:href="@{/updatePurchaser(id=${purchaser.tender_src_id})}" id="purchaser-link">Update Purchaser</a>
         </td>
     </tr>
 </table>
@@ -79,7 +79,7 @@
         <td th:text="${type.name}" id="type-name"></td>
         <td th:text="${type.slug}" id="type-slug"></td>
         <td>
-            <a th:href="@{/updateType(id=${type.tender_src_id})}" id="type-link">Update Tender</a>
+            <a th:href="@{/updateType(id=${type.tender_src_id})}" id="type-link">Update Type</a>
         </td>
     </tr>
 </table>
@@ -109,7 +109,7 @@
         <td th:text="${awarded.offersCount}" id="awarded-offers-count"></td>
         <td th:text="${awarded.value}" id="awarded-value"></td>
         <td>
-            <a th:href="@{/updateAwarded(id=${awarded.id})}" id="awarded-link">Update Tender</a>
+            <a th:href="@{/updateAwarded(id=${awarded.id})}" id="awarded-link">Update Awarded</a>
         </td>
     </tr>
 </table>

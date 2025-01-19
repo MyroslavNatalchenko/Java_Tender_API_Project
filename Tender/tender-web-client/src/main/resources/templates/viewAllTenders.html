@@ -40,7 +40,9 @@
             <td th:text="${tender.title}" class="title"></td>
             <td th:text="${tender.category}" class="category"></td>
             <td th:text="${tender.sid}" class="sid"></td>
-            <td th:text="${tender.sourceUrl}" class="source-url"></td>
+            <td>
+                <a th:href="${tender.sourceUrl}" th:text="${tender.sourceUrl}" class="source-url"></a>
+            </td>
             <td>
                 <a th:href="@{/TenderDetails(id=${tender.sourceId})}" class="details-link">Tender Details</a>
             </td>
