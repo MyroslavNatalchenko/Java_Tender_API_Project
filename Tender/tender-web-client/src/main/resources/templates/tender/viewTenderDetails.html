@@ -53,13 +53,13 @@
         <td>NAME</td>
         <td>update</td>
     </tr>
-    <tr>
-        <td th:text="${purchaser.id}"></td>
-        <td th:text="${purchaser.sourceId}"></td>
-        <td th:text="${purchaser.sid}"></td>
-        <td th:text="${purchaser.name}"></td>
+    <tr id="purchaser-details">
+        <td th:text="${purchaser.id}" id="purchaser-id"></td>
+        <td th:text="${purchaser.sourceId}" id="purchaser-text"></td>
+        <td th:text="${purchaser.sid}" id="purchaser-sid"></td>
+        <td th:text="${purchaser.name}" id="purchaser-name"></td>
         <td>
-            <a th:href="@{/updatePurchaser(id=${purchaser.tender_src_id})}">Update Tender</a>
+            <a th:href="@{/updatePurchaser(id=${purchaser.tender_src_id})}" id="purchaser-link">Update Tender</a>
         </td>
     </tr>
 </table>
@@ -73,13 +73,13 @@
         <td>SLUG</td>
         <td>Update</td>
     </tr>
-    <tr>
-        <td th:text="${type.id}"></td>
-        <td th:text="${type.sourceId}"></td>
-        <td th:text="${type.name}"></td>
-        <td th:text="${type.slug}"></td>
+    <tr id="type-details">
+        <td th:text="${type.id}" id="type-id"></td>
+        <td th:text="${type.sourceId}" id="type-sourceId"></td>
+        <td th:text="${type.name}" id="type-name"></td>
+        <td th:text="${type.slug}" id="type-slug"></td>
         <td>
-            <a th:href="@{/updateType(id=${type.tender_src_id})}">Update Tender</a>
+            <a th:href="@{/updateType(id=${type.tender_src_id})}" id="type-link">Update Tender</a>
         </td>
     </tr>
 </table>
@@ -98,18 +98,18 @@
         <td>Value</td>
         <td>Update</td>
     </tr>
-    <tr th:each="awarded : ${awardeds}">
-        <td th:text="${awarded.id}"></td>
-        <td th:text="${awarded.date}"></td>
-        <td th:text="${awarded.valueForOne}"></td>
-        <td th:text="${awarded.valueForTwo}"></td>
-        <td th:text="${awarded.valueForThree}"></td>
-        <td th:text="${awarded.suppliersId}"></td>
-        <td th:text="${awarded.count}"></td>
-        <td th:text="${awarded.offersCount}"></td>
-        <td th:text="${awarded.value}"></td>
+    <tr th:each="awarded : ${awardeds}" id="awarded-details">
+        <td th:text="${awarded.id}" id="awarded-id"></td>
+        <td th:text="${awarded.date}" id="awarded-date"></td>
+        <td th:text="${awarded.valueForOne}" id="awarded-value-for-one"></td>
+        <td th:text="${awarded.valueForTwo}" id="awarded-value-for-two"></td>
+        <td th:text="${awarded.valueForThree}" id="awarded-value-for-three"></td>
+        <td th:text="${awarded.suppliersId}" id="awarded-suppliersId"></td>
+        <td th:text="${awarded.count}" id="awarded-count"></td>
+        <td th:text="${awarded.offersCount}" id="awarded-offers-count"></td>
+        <td th:text="${awarded.value}" id="awarded-value"></td>
         <td>
-            <a th:href="@{/updateAwarded(id=${awarded.id})}">Update Tender</a>
+            <a th:href="@{/updateAwarded(id=${awarded.id})}" id="awarded-link">Update Tender</a>
         </td>
     </tr>
 </table>

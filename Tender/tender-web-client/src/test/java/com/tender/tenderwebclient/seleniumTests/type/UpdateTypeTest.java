@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UpdateTypeTest {
@@ -16,13 +17,6 @@ public class UpdateTypeTest {
     @BeforeEach
     public void setUp() {
         this.driver = new ChromeDriver();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        if (this.driver != null) {
-            this.driver.quit();
-        }
     }
 
     @Test
@@ -40,7 +34,11 @@ public class UpdateTypeTest {
                 .updateSlug(updatedSlug)
                 .submitForm();
 
-        assertTrue(driver.getCurrentUrl().contains("TenderDetails"));
+        String actualName = tenderDetailsPage.getTypeName();
+        String actualSlug = tenderDetailsPage.getTypeSlug();
+        assertEquals(updatedName, actualName);
+        assertEquals(updatedSlug, actualSlug);
     }
+
 }
 

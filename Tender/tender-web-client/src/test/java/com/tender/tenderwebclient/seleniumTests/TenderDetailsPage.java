@@ -67,4 +67,28 @@ public class TenderDetailsPage {
         return driver.findElement(By.id("tender-category")).getText();
     }
 
+    public String getTypeName() {
+        return driver.findElement(By.id("type-name")).getText();
+    }
+
+    public String getTypeSlug() {
+        return driver.findElement(By.id("type-slug")).getText();
+    }
+
+    public String getAwardedValueForOne() {
+        return driver.findElement(By.id("awarded-value-for-one")).getText();
+    }
+
+    public String getAwardedValueForTwo() {
+        return driver.findElement(By.id("awarded-value-for-two")).getText();
+    }
+
+    public String getPurchaserSID() {
+        return driver.findElement(By.id("purchaser-sid")).getText();
+    }
+
+    public String getPurchaserName() {
+        return driver.findElement(By.id("purchaser-name")).getText();
+    }
+
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UpdateAwardedTest {
@@ -18,17 +19,10 @@ public class UpdateAwardedTest {
         this.driver = new ChromeDriver();
     }
 
-    @AfterEach
-    public void tearDown() {
-        if (this.driver != null) {
-            this.driver.quit();
-        }
-    }
-
     @Test
     public void testUpdateAwarded() {
-        String updatedValueOne = "1000";
-        String updatedValueTwo = "2000";
+        String updatedValueOne = "1000.0";
+        String updatedValueTwo = "2000.0";
 
         AllTendersPage allTendersPage = new AllTendersPage(driver);
         allTendersPage.open();
@@ -40,6 +34,10 @@ public class UpdateAwardedTest {
                 .updateValueForTwo(updatedValueTwo)
                 .submitForm();
 
-        assertTrue(driver.getCurrentUrl().contains("TenderDetails"));
+        String actualValueOne = tenderDetailsPage.getAwardedValueForOne();
+        String actualValueTwo = tenderDetailsPage.getAwardedValueForTwo();
+        assertEquals(updatedValueOne, actualValueOne);
+        assertEquals(updatedValueTwo, actualValueTwo);
     }
+
 }
