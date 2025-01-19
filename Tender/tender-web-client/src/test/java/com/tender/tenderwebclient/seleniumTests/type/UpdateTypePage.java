@@ -1,4 +1,4 @@
-package com.tender.tenderwebclient.seleniumTests.tender;
+package com.tender.tenderwebclient.seleniumTests.type;
 
 import com.tender.tenderwebclient.seleniumTests.TenderDetailsPage;
 import org.openqa.selenium.WebDriver;
@@ -6,32 +6,32 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class UpdateTenderPage {
+public class UpdateTypePage {
     WebDriver driver;
 
-    @FindBy(id = "title")
-    private WebElement titleInput;
+    @FindBy(id = "name")
+    private WebElement nameInput;
 
-    @FindBy(id = "category")
-    private WebElement categoryInput;
+    @FindBy(id = "slug")
+    private WebElement slugInput;
 
     @FindBy(id = "submit")
     private WebElement submitButton;
 
-    public UpdateTenderPage(WebDriver driver) {
+    public UpdateTypePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public UpdateTenderPage updateTitle(String title) {
-        titleInput.clear();
-        titleInput.sendKeys(title);
+    public UpdateTypePage updateName(String name) {
+        nameInput.clear();
+        nameInput.sendKeys(name);
         return this;
     }
 
-    public UpdateTenderPage updateCategory(String category) {
-        categoryInput.clear();
-        categoryInput.sendKeys(category);
+    public UpdateTypePage updateSlug(String slug) {
+        slugInput.clear();
+        slugInput.sendKeys(slug);
         return this;
     }
 

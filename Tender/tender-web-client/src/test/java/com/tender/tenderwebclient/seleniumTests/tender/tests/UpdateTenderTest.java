@@ -1,9 +1,8 @@
 package com.tender.tenderwebclient.seleniumTests.tender.tests;
 
 import com.tender.tenderwebclient.seleniumTests.tender.AllTendersPage;
-import com.tender.tenderwebclient.seleniumTests.tender.TenderDetailsPage;
+import com.tender.tenderwebclient.seleniumTests.TenderDetailsPage;
 import com.tender.tenderwebclient.seleniumTests.tender.UpdateTenderPage;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
