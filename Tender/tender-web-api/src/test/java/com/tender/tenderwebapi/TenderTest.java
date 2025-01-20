@@ -4,6 +4,7 @@ import com.tender.tenderdatabase.entity.*;
 import com.tender.tenderdatabase.repositories.*;
 import com.tender.tenderwebapi.controller.PurchaserController;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.PurchaserNotFoundException;
+import com.tender.tenderwebapi.exceptions.supplier.NoSupplerWithSuchIdException;
 import com.tender.tenderwebapi.exceptions.supplier.SupplerWithSuchIdExistException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.CanNotDeleteTenderException;
 import com.tender.tenderwebapi.exceptions.tenderEXP.IncorrectProvidedTenderDataException;
@@ -173,6 +174,16 @@ public class TenderTest {
         assertEquals("No Tender with such ID", exception.getMessage());
     }
 
+    @Test
+    public void testGetTendersIDSuccess() {
+        when(tenderRepository.findAllSourceIds()).thenReturn(List.of(101, 102, 103));
+
+        List<Integer> ids = service.getTendersID();
+        assertEquals(3, ids.size());
+        assertEquals(101, ids.get(0));
+    }
+
+
     // **************************
     // *** PURCHASER TESTS ******
     // **************************
@@ -204,6 +215,28 @@ public class TenderTest {
         Exception exception = assertThrows(TenderNotFoundException.class, () -> service.getPurchaserByTenderId(101));
         assertEquals("No Tender with such ID", exception.getMessage());
     }
+
+    @Test
+    public void testUpdatePurchaserByIdSuccess() {
+        Purchaser existingPurchaser = createPurchaser(1, 101, "Old Name");
+        when(purchaserRepository.findAllByTender_src_id(101)).thenReturn(List.of(existingPurchaser));
+
+        PurchaserObj updatedPurchaser = new PurchaserObj(1, 101, 11111, "SID", "New Name");
+        service.updatePurchaserById(101, updatedPurchaser);
+
+        verify(purchaserRepository, times(1)).save(existingPurchaser);
+        assertEquals("New Name", existingPurchaser.getName());
+    }
+
+    @Test
+    public void testUpdatePurchaserByIdNotFound() {
+        when(purchaserRepository.findAllByTender_src_id(101)).thenReturn(new ArrayList<>());
+
+        PurchaserObj updatedPurchaser = new PurchaserObj(1, 101, 11111, "SID", "Name");
+        Exception exception = assertThrows(PurchaserNotFoundException.class, () -> service.updatePurchaserById(101, updatedPurchaser));
+        assertEquals("No Purchaser with such Tender ID", exception.getMessage());
+    }
+
 
     // **************************
     // ***** TYPE TESTS *********
@@ -248,6 +281,18 @@ public class TenderTest {
         assertEquals("No Tender with such ID", exception.getMessage());
     }
 
+    @Test
+    public void testGetAwardedByBdIdSuccess() {
+        Awarded award = createAwarded(1, 101, 1500.0, "AwardName");
+        when(awardedRepository.findAwardedByBDid(1L)).thenReturn(List.of(award));
+
+        AwardedObj awardedObj = service.getAwardedbyBdId(1L);
+
+        assertEquals(1, awardedObj.id());
+        assertEquals(101, awardedObj.tender_src_id());
+        assertEquals("1500.0", awardedObj.value());
+    }
+
     // **************************
     // **** SUPPLIER TESTS ******
     // **************************
@@ -280,6 +325,50 @@ public class TenderTest {
         Exception exception = assertThrows(SupplerWithSuchIdExistException.class, () -> service.addSupplier(supplierObj));
         assertEquals("Supplier with such ID already exist. Can not create", exception.getMessage());
     }
+
+    @Test
+    public void testUpdateSupplierSuccess() {
+        Supplier existingSupplier = createSupplier(1, "Old Supplier", "Old Slug");
+        when(supplierRepository.findBySource_id(101L)).thenReturn(List.of(existingSupplier));
+        when(supplierRepository.findAllSourceIds()).thenReturn(List.of(101L));
+
+        SupplierObj updatedSupplier = new SupplierObj(1, 101L, "New Supplier", "New Slug");
+        service.updateSupplier(101L, updatedSupplier);
+
+        verify(supplierRepository, times(1)).save(existingSupplier);
+        assertEquals("New Supplier", existingSupplier.getName());
+        assertEquals("New Slug", existingSupplier.getSlug());
+    }
+
+    @Test
+    public void testUpdateSupplierNotFound() {
+        when(supplierRepository.findAllSourceIds()).thenReturn(new ArrayList<>());
+
+        SupplierObj updatedSupplier = new SupplierObj(1, 101L, "Supplier", "Slug");
+        Exception exception = assertThrows(NoSupplerWithSuchIdException.class, () -> service.updateSupplier(101L, updatedSupplier));
+        assertEquals("No Supplier with such ID", exception.getMessage());
+    }
+
+    @Test
+    public void testDeleteSupplierSuccess() {
+        Supplier existingSupplier = createSupplier(1, "Supplier", "Slug");
+        when(supplierRepository.findBySource_id(101L)).thenReturn(List.of(existingSupplier));
+        when(awardedRepository.findAllBySupplier(101L)).thenReturn(new ArrayList<>());
+
+        service.deleteSupplier(101L);
+
+        verify(supplierRepository, times(1)).delete(existingSupplier);
+    }
+
+    @Test
+    public void testDeleteSupplierWithAwarded() {
+        when(awardedRepository.findAllBySupplier(101L)).thenReturn(List.of(new Awarded()));
+
+        Exception exception = assertThrows(CanNotDeleteTenderException.class, () -> service.deleteSupplier(101L));
+        assertEquals("Can not delete Tender. ID is incorrect", exception.getMessage());
+    }
+
+
 
     // **************************
     // *** HELPER METHODS *******

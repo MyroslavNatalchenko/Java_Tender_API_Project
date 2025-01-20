@@ -3,7 +3,6 @@ package com.tender.tenderwebapi.services;
 import com.tender.tenderdatabase.entity.*;
 import com.tender.tenderdatabase.repositories.ICatalogData;
 import com.tender.tenderwebapi.exceptions.awardedEXP.NoAwardedWithSuchID;
-import com.tender.tenderwebapi.exceptions.purchaserEXP.CanNotDeletePurchaserException;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.PurchaserNotFoundException;
 import com.tender.tenderwebapi.exceptions.supplier.NoSupplerWithSuchIdException;
 import com.tender.tenderwebapi.exceptions.supplier.SupplerWithSuchIdExistException;
@@ -23,10 +22,6 @@ import java.util.List;
 
 @Service
 public class TenderService implements ITenderService{
-
-    //TODO Пересмотреть все Exceptions и возможно разделить на несколько разных сервисов
-
-    //TODO попробовать сделать удаление + поменять каскад типы в бд
     private final ICatalogData repository;
 
     @Autowired

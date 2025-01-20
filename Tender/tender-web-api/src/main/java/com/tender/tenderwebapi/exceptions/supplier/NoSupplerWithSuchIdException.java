@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class NoSupplerWithSuchIdException extends RuntimeException{
     public NoSupplerWithSuchIdException(){
-        super("No Purchaser with such Tender ID");
+        super("No Supplier with such ID");
     }
 }
