@@ -13,56 +13,58 @@ import com.tender.tenderwebapi.exceptions.tenderEXP.TenderWithSuchIdExistExcepti
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+
 @ControllerAdvice
-public class ExceptionHandler extends ResponseEntityExceptionHandler {
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={CanNotDeleteTenderException.class})
+public class ExceptionHandlerExp extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(value={CanNotDeleteTenderException.class})
     public ResponseEntity<Object> handleNotFound(CanNotDeleteTenderException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={TenderNotFoundException.class})
+    @ExceptionHandler(value={TenderNotFoundException.class})
     public ResponseEntity<Object> handleCanNotEdit(TenderNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={IncorrectProvidedTenderDataException.class})
+    @ExceptionHandler(value={IncorrectProvidedTenderDataException.class})
     public ResponseEntity<Object> handleCanNotDelete(IncorrectProvidedTenderDataException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={TenderWithSuchIdExistException.class})
+    @ExceptionHandler(value={TenderWithSuchIdExistException.class})
     public ResponseEntity<Object> handleCanNotCreate(TenderWithSuchIdExistException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={CanNotDeletePurchaserException.class})
+    @ExceptionHandler(value={CanNotDeletePurchaserException.class})
     public ResponseEntity<Object> handleNotFound(CanNotDeletePurchaserException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={PurchaserNotFoundException.class})
+    @ExceptionHandler(value={PurchaserNotFoundException.class})
     public ResponseEntity<Object> handleCanNotEdit(PurchaserNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={NoAwardedWithSuchID.class})
+    @ExceptionHandler(value={NoAwardedWithSuchID.class})
     public ResponseEntity<Object> handleNotFound(NoAwardedWithSuchID ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={SupplerWithSuchIdExistException.class})
+    @ExceptionHandler(value={SupplerWithSuchIdExistException.class})
     public ResponseEntity<Object> handleCanNotCreate(SupplerWithSuchIdExistException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={NoSupplerWithSuchIdException.class})
+    @ExceptionHandler(value={NoSupplerWithSuchIdException.class})
     public ResponseEntity<Object> handleCanNotEdit(NoSupplerWithSuchIdException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value={CanNotDeleteThisSupplier.class})
+    @ExceptionHandler(value={CanNotDeleteThisSupplier.class})
     public ResponseEntity<Object> handleCanNotDelete(CanNotDeleteThisSupplier ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }

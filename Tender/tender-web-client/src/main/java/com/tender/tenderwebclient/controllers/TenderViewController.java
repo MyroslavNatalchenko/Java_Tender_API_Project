@@ -25,10 +25,15 @@ public class TenderViewController {
     }
 
     @GetMapping("/allTenders")
-    public String displayAllTenders(Model model){
-        List<TenderObj> tenders = service.getAllTenders();
-        model.addAttribute("tenders",tenders);
-        return "viewAllTenders";
+    public String displayAllTenders(Model model) {
+        try {
+            List<TenderObj> tenders = service.getAllTenders();
+            model.addAttribute("tenders", tenders);
+            return "viewAllTenders";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", "Error");
+            return "errorPage";
+        }
     }
 
     // Update Tender
@@ -75,15 +80,20 @@ public class TenderViewController {
     //Tender details
     @GetMapping("/TenderDetails")
     public String displayTenderDetails(@RequestParam("id") long id, Model model){
-        TenderObj tender = this.service.getTenderById(id);
-        PurchaserObj purchaserObj = this.service.getPurchaserByTenderId(id);
-        List<AwardedObj> awardeds = this.service.getAwardedByTenderId(id);
-        TypeObj type = this.service.getTypeByTenderId(id);
-        model.addAttribute("tender", tender);
-        model.addAttribute("purchaser", purchaserObj);
-        model.addAttribute("awardeds", awardeds);
-        model.addAttribute("type", type);
-        model.addAttribute("id", id);
-        return "tender/viewTenderDetails";
+        try {
+            TenderObj tender = this.service.getTenderById(id);
+            PurchaserObj purchaserObj = this.service.getPurchaserByTenderId(id);
+            List<AwardedObj> awardeds = this.service.getAwardedByTenderId(id);
+            TypeObj type = this.service.getTypeByTenderId(id);
+            model.addAttribute("tender", tender);
+            model.addAttribute("purchaser", purchaserObj);
+            model.addAttribute("awardeds", awardeds);
+            model.addAttribute("type", type);
+            model.addAttribute("id", id);
+            return "tender/viewTenderDetails";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", "Error");
+            return "errorPage";
+        }
     }
 }

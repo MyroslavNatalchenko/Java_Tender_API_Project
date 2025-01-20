@@ -21,7 +21,7 @@ public class UpdateAwardedTest {
 
     @Test
     public void testUpdateAwarded() {
-        String updatedValueOne = "1000.0";
+        String updatedValueOne = "1000.5";
         String updatedValueTwo = "2000.0";
 
         AllTendersPage allTendersPage = new AllTendersPage(driver);

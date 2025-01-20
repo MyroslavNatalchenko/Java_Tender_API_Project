@@ -28,6 +28,9 @@ public class TenderViewService {
                 .uri(tenderBaseUrl + "/allTenders")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 
@@ -35,6 +38,9 @@ public class TenderViewService {
         ResponseEntity<TenderObj> response = restClient.get()
                 .uri(tenderBaseUrl + "/" + id).retrieve()
                 .toEntity(new ParameterizedTypeReference<TenderObj>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 

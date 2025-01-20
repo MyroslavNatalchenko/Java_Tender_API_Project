@@ -19,7 +19,7 @@ public class AddTenderTest {
 
     @Test
     public void testAddForm() {
-        String newSourceId = "11111";
+        String newSourceId = "11111111";
         String newTitle = "New Tender Title";
 
         AddTenderPage addTenderPage = new AddTenderPage(driver);
