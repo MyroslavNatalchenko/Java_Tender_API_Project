@@ -3,6 +3,7 @@ package com.tender.tenderwebclient.seleniumTests.tender.tests;
 import com.tender.tenderwebclient.seleniumTests.tender.AllTendersPage;
 import com.tender.tenderwebclient.seleniumTests.TenderDetailsPage;
 import com.tender.tenderwebclient.seleniumTests.tender.UpdateTenderPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +20,13 @@ public class UpdateTenderTest {
         this.driver = new ChromeDriver();
     }
 
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
+    }
+
     @Test
     public void testUpdateTender() {
         String updatedTitle = "Updated Title";
@@ -31,6 +39,7 @@ public class UpdateTenderTest {
         UpdateTenderPage updateTenderPage = tenderDetailsPage.clickUpdateTender();
         updateTenderPage.updateTitle(updatedTitle)
                 .updateCategory(updatedCategory)
+                .updateDeadlineDate("24.07.2024")
                 .submitForm();
 
         String actualTitle = tenderDetailsPage.getTenderTitle();

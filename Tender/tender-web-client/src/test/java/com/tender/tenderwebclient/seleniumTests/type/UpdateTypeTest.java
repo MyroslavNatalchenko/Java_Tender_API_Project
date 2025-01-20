@@ -19,6 +19,13 @@ public class UpdateTypeTest {
         this.driver = new ChromeDriver();
     }
 
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
+    }
+
     @Test
     public void testUpdateType() {
         String updatedName = "Updated Type Name";

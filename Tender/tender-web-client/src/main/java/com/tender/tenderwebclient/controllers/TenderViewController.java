@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 public class TenderViewController {
+    // TODO Допиши все возможные случаи получения ошибки
     private TenderViewService service;
 
     @Autowired

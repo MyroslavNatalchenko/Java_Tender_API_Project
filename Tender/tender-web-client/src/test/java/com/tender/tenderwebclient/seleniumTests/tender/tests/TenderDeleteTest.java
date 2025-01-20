@@ -3,6 +3,7 @@ package com.tender.tenderwebclient.seleniumTests.tender.tests;
 import com.tender.tenderwebclient.seleniumTests.tender.AllTendersPage;
 import com.tender.tenderwebclient.seleniumTests.tender.DeleteTenderPage;
 import com.tender.tenderwebclient.seleniumTests.TenderDetailsPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +17,13 @@ public class TenderDeleteTest {
     @BeforeEach
     public void setUp() {
         this.driver = new ChromeDriver();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
     }
 
     @Test

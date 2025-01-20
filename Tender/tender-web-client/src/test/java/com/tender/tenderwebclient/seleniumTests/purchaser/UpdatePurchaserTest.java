@@ -19,6 +19,13 @@ public class UpdatePurchaserTest {
         this.driver = new ChromeDriver();
     }
 
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
+    }
+
     @Test
     public void testUpdatePurchaser() {
         String updatedSID = "Updated SID";

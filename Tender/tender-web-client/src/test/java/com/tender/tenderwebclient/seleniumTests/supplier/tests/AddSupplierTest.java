@@ -22,6 +22,13 @@ public class AddSupplierTest {
         this.driver = new ChromeDriver();
     }
 
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
+    }
+
     @Test
     public void testAddSupplierForm() {
         String expectedSourceId = "1111";

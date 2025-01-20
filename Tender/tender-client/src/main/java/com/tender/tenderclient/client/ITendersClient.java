@@ -12,7 +12,7 @@ public interface ITendersClient {
      */
     PagedTenderDto getTenders(int page);
     TenderDto getTender(long id);
-    PurchaserDto getPurchaser(long id);
-    TypeDto getType(long id);
-    List<AwardDto> getAward(long id);
+//    PurchaserDto getPurchaser(long id);
+//    TypeDto getType(long id);
+//    List<AwardDto> getAward(long id);
 }

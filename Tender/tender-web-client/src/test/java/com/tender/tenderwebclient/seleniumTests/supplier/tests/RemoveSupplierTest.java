@@ -20,12 +20,12 @@ public class RemoveSupplierTest {
         this.driver = new ChromeDriver();
     }
 
-//    @AfterEach
-//    public void tearDown() {
-//        if (this.driver != null) {
-//            this.driver.quit();
-//        }
-//    }
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
+    }
 
     @Test
     public void testRemoveSupplier() {

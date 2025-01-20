@@ -2,6 +2,7 @@ package com.tender.tenderwebclient.seleniumTests.tender.tests;
 
 import com.tender.tenderwebclient.seleniumTests.tender.AddTenderPage;
 import com.tender.tenderwebclient.seleniumTests.tender.AllTendersPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -17,9 +18,16 @@ public class AddTenderTest {
         this.driver = new ChromeDriver();
     }
 
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
+    }
+
     @Test
     public void testAddForm() {
-        String newSourceId = "11111111";
+        String newSourceId = "111111111";
         String newTitle = "New Tender Title";
 
         AddTenderPage addTenderPage = new AddTenderPage(driver);
