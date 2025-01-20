@@ -74,6 +74,9 @@ public class TenderViewService {
                 .uri(tenderBaseUrl + "/allPurchaser")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 
@@ -81,6 +84,9 @@ public class TenderViewService {
         ResponseEntity<PurchaserObj> response = restClient.get()
                 .uri(tenderBaseUrl + "/PurchaserTender/" + id).
                 retrieve().toEntity(new ParameterizedTypeReference<PurchaserObj>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 
@@ -97,6 +103,9 @@ public class TenderViewService {
         ResponseEntity<List<AwardedObj>> response = restClient.get()
                 .uri(tenderBaseUrl + "/AwardedTender/" + id).
                 retrieve().toEntity(new ParameterizedTypeReference<List<AwardedObj>>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 
@@ -104,6 +113,9 @@ public class TenderViewService {
         ResponseEntity<List<AwardedObj>> response = restClient.get()
                 .uri(tenderBaseUrl + "/AwardedSupplier/" + id).
                 retrieve().toEntity(new ParameterizedTypeReference<List<AwardedObj>>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 
@@ -111,6 +123,9 @@ public class TenderViewService {
         ResponseEntity<AwardedObj> response = restClient.get()
                 .uri(tenderBaseUrl + "/Awarded/" + id).
                 retrieve().toEntity(new ParameterizedTypeReference<>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 
@@ -127,6 +142,9 @@ public class TenderViewService {
         ResponseEntity<TypeObj> response = restClient.get()
                 .uri(tenderBaseUrl + "/TypeTender/" + id).
                 retrieve().toEntity(new ParameterizedTypeReference<TypeObj>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 
@@ -143,6 +161,9 @@ public class TenderViewService {
         ResponseEntity<List<SupplierObj>> response = restClient.get()
                 .uri(tenderBaseUrl + "/allSuppliers").
                 retrieve().toEntity(new ParameterizedTypeReference<>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
         return response.getBody();
     }
 

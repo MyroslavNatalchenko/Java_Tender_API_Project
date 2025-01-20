@@ -32,7 +32,7 @@ public class TenderViewController {
             model.addAttribute("tenders", tenders);
             return "viewAllTenders";
         } catch (RuntimeException e) {
-            model.addAttribute("errorMessage", "Error");
+            model.addAttribute("errorMessage", "No Tenders");
             return "errorPage";
         }
     }
@@ -40,9 +40,14 @@ public class TenderViewController {
     // Update Tender
     @GetMapping("/updateTender")
     public String displayUpdateSchool(@RequestParam("id") long id, Model model) {
-        TenderObj tender = this.service.getTenderById(id);
-        model.addAttribute("tender", tender);
-        return "tender/updateForm";
+        try {
+            TenderObj tender = this.service.getTenderById(id);
+            model.addAttribute("tender", tender);
+            return "tender/updateForm";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Tender with Such Id to edit");
+            return "errorPage";
+        }
     }
     @PostMapping("/updateTender")
     public String submitForm(@ModelAttribute TenderObj tender) {
@@ -66,11 +71,16 @@ public class TenderViewController {
     //Remove Tender
     @GetMapping("/removeTender")
     public String displayDeleteSchool(@RequestParam("id") long id, Model model) {
-        List<Integer> ids = this.service.getAllTenderID();
-        TenderObj tender = this.service.getTenderById(id);
-        model.addAttribute("IDs", ids);
-        model.addAttribute("tender", tender);
-        return "tender/deleteForm";
+        try {
+            List<Integer> ids = this.service.getAllTenderID();
+            TenderObj tender = this.service.getTenderById(id);
+            model.addAttribute("IDs", ids);
+            model.addAttribute("tender", tender);
+            return "tender/deleteForm";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Tender with Such Id to Delete");
+            return "errorPage";
+        }
     }
     @PostMapping("/removeTender")
     public String submitDeleteForm(@ModelAttribute TenderObj tenderObj) {
@@ -93,7 +103,7 @@ public class TenderViewController {
             model.addAttribute("id", id);
             return "tender/viewTenderDetails";
         } catch (RuntimeException e) {
-            model.addAttribute("errorMessage", "Error");
+            model.addAttribute("errorMessage", "No Tender with Such Id or There is mistake in data");
             return "errorPage";
         }
     }

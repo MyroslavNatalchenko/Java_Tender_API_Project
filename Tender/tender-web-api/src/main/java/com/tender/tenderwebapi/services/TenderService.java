@@ -230,7 +230,9 @@ public class TenderService implements ITenderService{
     }
 
     public AwardedObj getAwardedbyBdId(long id){
-        Awarded award = this.repository.getAwarded().findAwardedByBDid(id).get(0);
+        List<Awarded> awards = this.repository.getAwarded().findAwardedByBDid(id);
+        if (awards.isEmpty()) throw new NoAwardedWithSuchID(); //TODO test bdid
+        Awarded award = awards.get(0);
         return new AwardedObj(award.getId()
                 ,award.getTender_src_id()
                 ,award.getDate()
@@ -287,6 +289,7 @@ public class TenderService implements ITenderService{
     @Override
     public List<SupplierObj> getAllSuppliers() {
         List<Supplier> suppliers = this.repository.getSupplier().findAll();
+        if (suppliers.isEmpty()) throw new SupplerWithSuchIdExistException(); //TODO отестировать
         List<SupplierObj> res = new ArrayList<>();
         for (Supplier supplier: suppliers){
             res.add(new SupplierObj(supplier.getId(),supplier.getSource_id(),supplier.getName(),supplier.getSlug()));
