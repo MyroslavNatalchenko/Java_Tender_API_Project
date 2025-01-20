@@ -13,10 +13,10 @@ import java.util.List;
 
 @Component
 public class TenderViewService {
+    @Autowired
     private RestClient restClient;
     private String tenderBaseUrl = "http://localhost:8080/tenders";
 
-    @Autowired
     public TenderViewService(RestClient restClient,
                              @Value("${tender.base-url}") String tenderBaseUrl) {
         this.restClient = restClient;
@@ -191,8 +191,6 @@ public class TenderViewService {
                 .retrieve()
                 .toBodilessEntity();
     }
-
-
 
     public List<Long> getAllSuplliersID(){
         ResponseEntity<List<Long>> response = restClient.get()
