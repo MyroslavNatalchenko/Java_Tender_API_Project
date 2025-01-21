@@ -340,7 +340,7 @@ public class TenderTest {
     @Test
     public void testGetSupplierByIdSuccess() {
         Supplier supplier = createSupplier(1, "Supplier", "Slug");
-        when(supplierRepository.findSuppliersBySourceId(101L)).thenReturn(List.of(supplier));
+        when(supplierRepository.findBySource_id(101L)).thenReturn(List.of(supplier));
 
         SupplierObj supplierObj = service.getSupplierById(101L);
         assertEquals(1, supplierObj.id());

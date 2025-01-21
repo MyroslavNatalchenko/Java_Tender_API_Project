@@ -27,18 +27,18 @@ public class TenderDeleteTest {
     }
 
     @Test
-    public void testDeleteTender() {
+    public void testDeleteLastTender() {
         AllTendersPage allTendersPage = new AllTendersPage(driver);
         allTendersPage.open();
 
-        String firstTenderSourceId = allTendersPage.getFirstTenderSourceId();
+        String lastTenderSourceId = allTendersPage.getLastTenderSourceId();
 
-        TenderDetailsPage tenderDetailsPage = allTendersPage.clickFirstTenderDetails();
+        TenderDetailsPage tenderDetailsPage = allTendersPage.clickLastTenderDetails();
+
         DeleteTenderPage deleteTenderPage = tenderDetailsPage.clickDeleteTender();
         deleteTenderPage.confirmDelete();
 
         allTendersPage.open();
-        assertFalse(allTendersPage.isTenderPresent(firstTenderSourceId));
+        assertFalse(allTendersPage.isTenderPresent(lastTenderSourceId));
     }
-
 }

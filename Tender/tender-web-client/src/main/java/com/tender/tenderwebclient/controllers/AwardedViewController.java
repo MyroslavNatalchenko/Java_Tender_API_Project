@@ -23,11 +23,16 @@ public class AwardedViewController {
 
     @GetMapping("/updateAwarded")
     public String displayUpdateAwarded(@RequestParam("id") long id, Model model) {
-        AwardedObj awarded = this.service.getAwardedById(id);
-        List<Long> SuppliersID = this.service.getAllSuplliersID();
-        model.addAttribute("SuppliersID", SuppliersID);
-        model.addAttribute("awarded", awarded);
-        return "awarded/updateForm";
+        try {
+            AwardedObj awarded = this.service.getAwardedById(id);
+            List<Long> SuppliersID = this.service.getAllSuplliersID();
+            model.addAttribute("SuppliersID", SuppliersID);
+            model.addAttribute("awarded", awarded);
+            return "awarded/updateForm";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Awarded with such ID to Update");
+            return "errorPage";
+        }
     }
     @PostMapping("/updateAwarded")
     public String submitFormAwarded(@ModelAttribute AwardedObj awarded) {

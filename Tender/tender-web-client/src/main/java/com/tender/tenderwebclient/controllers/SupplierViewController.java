@@ -25,9 +25,14 @@ public class SupplierViewController {
     //View All Suppliers
     @GetMapping("/allSuppliers")
     public String displayAllSuppliers(Model model){
-        List<SupplierObj> suppliers = service.getAllSuppliers();
-        model.addAttribute("suppliers",suppliers);
-        return "viewAllSuppliers";
+        try{
+            List<SupplierObj> suppliers = service.getAllSuppliers();
+            model.addAttribute("suppliers",suppliers);
+            return "viewAllSuppliers";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Suppliers");
+            return "errorPage";
+        }
     }
 
     //Add Supplier
@@ -46,9 +51,14 @@ public class SupplierViewController {
     //Update Supplier
     @GetMapping("/updateSupplier")
     public String displayUpdateSupplier(@RequestParam("id") long id, Model model) {
-        SupplierObj supplier = this.service.getSupplierById(id);
-        model.addAttribute("supplier", supplier);
-        return "supplier/updateForm";
+        try {
+            SupplierObj supplier = this.service.getSupplierById(id);
+            model.addAttribute("supplier", supplier);
+            return "supplier/updateForm";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Supplier with such ID to Update");
+            return "errorPage";
+        }
     }
     @PostMapping("/updateSupplier")
     public String submitFormSupplier(@ModelAttribute SupplierObj supplier) {
@@ -59,11 +69,16 @@ public class SupplierViewController {
     //Remove Supplier
     @GetMapping("/removeSupplier")
     public String displayDeleteSupplier(@RequestParam("id") long id, Model model) {
-        int size_awarded = this.service.getAwardedBySupplierId(id).size();
-        SupplierObj supplier = this.service.getSupplierById(id);
-        model.addAttribute("supplier", supplier);
-        model.addAttribute("size", size_awarded);
-        return "supplier/deleteForm";
+        try {
+            int size_awarded = this.service.getAwardedBySupplierId(id).size();
+            SupplierObj supplier = this.service.getSupplierById(id);
+            model.addAttribute("supplier", supplier);
+            model.addAttribute("size", size_awarded);
+            return "supplier/deleteForm";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Supplier with such ID to Delete");
+            return "errorPage";
+        }
     }
     @PostMapping("/removeSupplier")
     public String submitDeleteForm(@ModelAttribute SupplierObj supplierObj) {

@@ -24,19 +24,29 @@ public class PurchaserViewController {
     //All Purchasers view
     @GetMapping("/allPurchaser")
     public String displayAllPurchaser(Model model){
-        List<PurchaserObj> purchasers = service.getAllPurchasers();
-        model.addAttribute("purchasers",purchasers);
-        return "viewAllPurchasers";
+        try {
+            List<PurchaserObj> purchasers = service.getAllPurchasers();
+            model.addAttribute("purchasers",purchasers);
+            return "viewAllPurchasers";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Purchasers");
+            return "errorPage";
+        }
     }
 
 
     //Update Purchaser
     @GetMapping("/updatePurchaser")
     public String displayUpdatePurchaser(@RequestParam("id") long id, Model model) {
-        PurchaserObj purchaser = this.service.getPurchaserByTenderId(id);
-        model.addAttribute("TakenIDs", this.service.getAllPurchaserID());
-        model.addAttribute("purchaser", purchaser);
-        return "purchaser/updateForm";
+        try {
+            PurchaserObj purchaser = this.service.getPurchaserByTenderId(id);
+            model.addAttribute("TakenIDs", this.service.getAllPurchaserID());
+            model.addAttribute("purchaser", purchaser);
+            return "purchaser/updateForm";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Purchaser with such ID to Update");
+            return "errorPage";
+        }
     }
     @PostMapping("/updatePurchaser")
     public String submitFormPurchaser(@ModelAttribute PurchaserObj purchaser) {

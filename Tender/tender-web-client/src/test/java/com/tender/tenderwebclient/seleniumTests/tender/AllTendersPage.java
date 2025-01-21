@@ -39,8 +39,17 @@ public class AllTendersPage {
         return new TenderDetailsPage(driver);
     }
 
-    public String getFirstTenderSourceId() {
-        return driver.findElement(By.cssSelector(".tender-row .source-id")).getText();
+    public TenderDetailsPage clickLastTenderDetails() {
+        List<WebElement> detailsLinks = driver.findElements(By.cssSelector(".tender-row .details-link"));
+        if (!detailsLinks.isEmpty()) {
+            detailsLinks.get(detailsLinks.size() - 1).click();
+        }
+        return new TenderDetailsPage(driver);
+    }
+
+    public String getLastTenderSourceId() {
+        List<WebElement> sourceIdElements = driver.findElements(By.cssSelector(".tender-row .source-id"));
+        return sourceIdElements.get(sourceIdElements.size() - 1).getText();
     }
 
     public boolean isTenderPresent(String sourceId) {

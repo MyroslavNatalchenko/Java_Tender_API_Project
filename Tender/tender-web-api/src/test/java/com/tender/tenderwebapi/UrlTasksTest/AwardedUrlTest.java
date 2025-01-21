@@ -48,10 +48,10 @@ public class AwardedUrlTest {
     @Test
     @Order(3)
     public void updateAwarded() {
-        long awardedId = 5;
+        long awardedId = 10;
         String updatedAwarded = """
                 {
-                    "id": 5,
+                    "id": 10,
                     "tender_src_id": 831317,
                     "date": "2025-01-20",
                     "valueForOne": 100.5,

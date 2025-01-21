@@ -18,9 +18,14 @@ public class TypeViewController {
 
     @GetMapping("/updateType")
     public String displayUpdateType(@RequestParam("id") long id, Model model) {
-        TypeObj type = this.service.getTypeByTenderId(id);
-        model.addAttribute("type", type);
-        return "type/updateForm";
+        try {
+            TypeObj type = this.service.getTypeByTenderId(id);
+            model.addAttribute("type", type);
+            return "type/updateForm";
+        } catch (RuntimeException e){
+            model.addAttribute("errorMessage", "No Type with such ID to Update");
+            return "errorPage";
+        }
     }
     @PostMapping("/updateType")
     public String submitFormType(@ModelAttribute TypeObj type) {
