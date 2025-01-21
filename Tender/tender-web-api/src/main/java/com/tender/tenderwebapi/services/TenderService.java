@@ -298,6 +298,14 @@ public class TenderService implements ITenderService{
     }
 
     @Override
+    public SupplierObj getSupplierById(long id) { //TODO отестировать
+        List<Supplier> suppliers = this.repository.getSupplier().findBySource_id(id);
+        if (suppliers.isEmpty()) throw new NoSupplerWithSuchIdException();
+        Supplier supplier = suppliers.get(0);
+        return new SupplierObj(supplier.getId(),supplier.getSource_id(),supplier.getName(),supplier.getSlug());
+    }
+
+    @Override
     public void addSupplier(SupplierObj supplierObj) {
         HashSet<Long> sourceId = new HashSet<>(this.repository.getSupplier().findAllSourceIds());
         if (sourceId.contains(supplierObj.source_id())) throw new SupplerWithSuchIdExistException();

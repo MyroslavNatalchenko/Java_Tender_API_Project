@@ -27,6 +27,7 @@ public interface ITenderService {
     public void updateTypeById(long id, TypeObj typeObj);
 
     public List<SupplierObj> getAllSuppliers();
+    public SupplierObj getSupplierById(long id);
     public void addSupplier(SupplierObj supplierObj);
     public void updateSupplier(long id, SupplierObj supplierObj);
     public void deleteSupplier(long id);

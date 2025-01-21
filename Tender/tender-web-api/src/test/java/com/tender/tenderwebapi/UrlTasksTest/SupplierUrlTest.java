@@ -94,4 +94,17 @@ public class SupplierUrlTest {
                 .statusCode(200)
                 .body("find { it.source_id == 3001 }", nullValue());
     }
+
+    @Test
+    @Order(6)
+    public void getSupplierById() {
+        long supplierId = 210823;
+
+        RestAssured
+                .get("/tenders/supplier/" + supplierId)
+                .then()
+                .statusCode(200)
+                .body("source_id", is(210823))
+                .body("name", is("James Gaffigan"));
+    }
 }

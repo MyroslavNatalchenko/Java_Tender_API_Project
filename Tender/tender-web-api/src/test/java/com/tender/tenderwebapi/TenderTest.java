@@ -3,6 +3,7 @@ package com.tender.tenderwebapi;
 import com.tender.tenderdatabase.entity.*;
 import com.tender.tenderdatabase.repositories.*;
 import com.tender.tenderwebapi.controller.PurchaserController;
+import com.tender.tenderwebapi.exceptions.awardedEXP.NoAwardedWithSuchID;
 import com.tender.tenderwebapi.exceptions.purchaserEXP.PurchaserNotFoundException;
 import com.tender.tenderwebapi.exceptions.supplier.NoSupplerWithSuchIdException;
 import com.tender.tenderwebapi.exceptions.supplier.SupplerWithSuchIdExistException;
@@ -282,6 +283,26 @@ public class TenderTest {
     }
 
     @Test
+    public void testGetAwardedbyBdIdSuccess() {
+        Awarded award = createAwarded(1, 101, 1500.0, "AwardName");
+        when(awardedRepository.findAwardedByBDid(1L)).thenReturn(List.of(award));
+
+        AwardedObj awardedObj = service.getAwardedbyBdId(1L);
+
+        assertEquals(1, awardedObj.id());
+        assertEquals(101, awardedObj.tender_src_id());
+        assertEquals("1500.0", awardedObj.value());
+    }
+
+    @Test
+    public void testGetAwardedbyBdIdNotFound() {
+        when(awardedRepository.findAwardedByBDid(1L)).thenReturn(new ArrayList<>());
+
+        Exception exception = assertThrows(NoAwardedWithSuchID.class, () -> service.getAwardedbyBdId(1L));
+        assertEquals("No Awarded with such ID", exception.getMessage());
+    }
+
+    @Test
     public void testGetAwardedByBdIdSuccess() {
         Awarded award = createAwarded(1, 101, 1500.0, "AwardName");
         when(awardedRepository.findAwardedByBDid(1L)).thenReturn(List.of(award));
@@ -307,6 +328,33 @@ public class TenderTest {
         assertEquals(2, suppliers.size());
         assertEquals("Supplier1", suppliers.get(0).name());
     }
+
+    @Test
+    public void testGetAllSuppliersEmpty() {
+        when(supplierRepository.findAll()).thenReturn(new ArrayList<>());
+
+        Exception exception = assertThrows(SupplerWithSuchIdExistException.class, () -> service.getAllSuppliers());
+        assertEquals("Supplier with such ID already exist. Can not create", exception.getMessage());
+    }
+
+    @Test
+    public void testGetSupplierByIdSuccess() {
+        Supplier supplier = createSupplier(1, "Supplier", "Slug");
+        when(supplierRepository.findSuppliersBySourceId(101L)).thenReturn(List.of(supplier));
+
+        SupplierObj supplierObj = service.getSupplierById(101L);
+        assertEquals(1, supplierObj.id());
+        assertEquals("Supplier", supplierObj.name());
+    }
+
+    @Test
+    public void testGetSupplierByIdNotFound() {
+        when(supplierRepository.findSuppliersBySourceId(101L)).thenReturn(new ArrayList<>());
+
+        Exception exception = assertThrows(NoSupplerWithSuchIdException.class, () -> service.getSupplierById(101L));
+        assertEquals("No Supplier with such ID", exception.getMessage());
+    }
+
 
     @Test
     public void testAddSupplierSuccess() {

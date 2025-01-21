@@ -86,13 +86,21 @@ public class TendersUpdater implements IUpdateTenders{
         return awarded.suppliers().get(0);
     }
 
-    private List<SupplierDto> getUniqueSuppliers(List<AwardDto> AwardDto){
-        List<SupplierDto> SupplierDtoStart = AwardDto.stream().map(this::getSupplierFromAwarded).toList();
+    private List<SupplierDto> getUniqueSuppliers(List<AwardDto> awardDtoList) {
+        // Получаем идентификаторы существующих поставщиков из репозитория
+        List<Long> existingSupplierIds = catalog.getSupplier().findAllSourceIds();
+
+        // Извлекаем всех поставщиков из списка AwardDto
+        List<SupplierDto> allSuppliers = awardDtoList.stream()
+                .map(this::getSupplierFromAwarded)
+                .filter(supplier -> !existingSupplierIds.contains(supplier.id())) // Фильтруем только новые поставщики
+                .collect(Collectors.toList());
+
+        // Убираем дубликаты из списка новых поставщиков
         Set<Long> seenIds = new HashSet<>();
-        List<SupplierDto> SupplierDto = SupplierDtoStart.stream()
+        return allSuppliers.stream()
                 .filter(supplier -> seenIds.add(supplier.id()))
                 .collect(Collectors.toList());
-        return SupplierDto;
     }
 
     private void setConnections(List<Tender> TendersSave, List<Purchaser> PurchaserSave, List<Awarded> AwardSave, List<Type> TypeSave, List<Supplier> SupplierSave){

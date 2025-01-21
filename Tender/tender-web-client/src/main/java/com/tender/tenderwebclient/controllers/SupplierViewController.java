@@ -46,13 +46,8 @@ public class SupplierViewController {
     //Update Supplier
     @GetMapping("/updateSupplier")
     public String displayUpdateSupplier(@RequestParam("id") long id, Model model) {
-        List<SupplierObj> suppliers = this.service.getAllSuppliers();
-        SupplierObj res = new SupplierObj(0,0,null,null);
-        for (SupplierObj supplier: suppliers){
-            if (supplier.source_id()==id)
-                res = supplier;
-        }
-        model.addAttribute("supplier", res);
+        SupplierObj supplier = this.service.getSupplierById(id);
+        model.addAttribute("supplier", supplier);
         return "supplier/updateForm";
     }
     @PostMapping("/updateSupplier")
@@ -65,13 +60,8 @@ public class SupplierViewController {
     @GetMapping("/removeSupplier")
     public String displayDeleteSupplier(@RequestParam("id") long id, Model model) {
         int size_awarded = this.service.getAwardedBySupplierId(id).size();
-        List<SupplierObj> suppliers = this.service.getAllSuppliers();
-        SupplierObj res = new SupplierObj(0,0,null,null);
-        for (SupplierObj supplier: suppliers){
-            if (supplier.source_id()==id)
-                res = supplier;
-        }
-        model.addAttribute("supplier", res);
+        SupplierObj supplier = this.service.getSupplierById(id);
+        model.addAttribute("supplier", supplier);
         model.addAttribute("size", size_awarded);
         return "supplier/deleteForm";
     }

@@ -1,6 +1,7 @@
 package com.tender.tenderwebapi.controller;
 
 import com.tender.tenderwebapi.model.SupplierObj;
+import com.tender.tenderwebapi.model.TenderObj;
 import com.tender.tenderwebapi.services.TenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,11 @@ public class SupplierConroller {
     @GetMapping("tenders/allSuppliers")
     public ResponseEntity<List<SupplierObj>> getAllSuppliers(){
         return new ResponseEntity<>(this.service.getAllSuppliers(), HttpStatus.OK);
+    }
+
+    @GetMapping("tenders/supplier/{id}")
+    public ResponseEntity<SupplierObj> getSupplierById(@PathVariable long id){
+        return new ResponseEntity<>(this.service.getSupplierById(id),HttpStatus.OK);
     }
 
     @PostMapping("tenders/supplier/add")

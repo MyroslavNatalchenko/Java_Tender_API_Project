@@ -167,6 +167,16 @@ public class TenderViewService {
         return response.getBody();
     }
 
+    public SupplierObj getSupplierById(long id){
+        ResponseEntity<SupplierObj> response = restClient.get()
+                .uri(tenderBaseUrl + "/supplier/" + id).
+                retrieve().toEntity(new ParameterizedTypeReference<>() {});
+        if (response.getStatusCode().isError()) {
+            throw new RuntimeException();
+        }
+        return response.getBody();
+    }
+
     public void addSupplier(SupplierObj supplierObj){
         restClient.post()
                 .uri(tenderBaseUrl + "/supplier/add")
