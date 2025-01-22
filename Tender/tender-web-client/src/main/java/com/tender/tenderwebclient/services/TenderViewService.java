@@ -12,7 +12,7 @@ import org.springframework.web.client.RestClient;
 import java.util.List;
 
 @Component
-public class TenderViewService {
+public class TenderViewService implements ITenderView{
     @Autowired
     private RestClient restClient;
     private String tenderBaseUrl = "http://localhost:8080/tenders";
